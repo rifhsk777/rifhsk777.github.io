@@ -1,282 +1,185 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07100c">
   <title>RANK VS BOT MAX 75 | RIFHSK</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="background-overlay"></div>  <header class="topbar">
-    <a href="#dashboard" class="brand" data-page="dashboard">
+  <div class="background-overlay"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#dashboard" data-page="dashboard">
       <span class="brand-mark">R</span>
-      <span class="brand-text">RIFH<span>SK</span><small>RANK VS BOT MAX 75</small></span>
-    </a><button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+      <span>
+        <strong>RIFHSK</strong>
+        <small>RANK VS BOT MAX 75</small>
+      </span>
+    </a>
 
-<nav id="navigation">
-  <button class="nav-btn active" data-page="dashboard">Dashboard</button>
-  <button class="nav-btn" data-page="order">Buat Pesanan</button>
-  <button class="nav-btn" data-page="history">Riwayat</button>
-  <button class="nav-btn" data-page="help">Bantuan</button>
-</nav>
+    <button class="menu-toggle" id="menuToggle" type="button">☰</button>
 
-  </header>  <main class="container">
-    <section class="hero">
-      <div class="online-badge"><span></span> SERVICE ONLINE</div>
-      <p class="hero-kicker">YOUR MATCH, YOUR RANK</p>
-      <h1>RANK VS BOT<br><span>MAX 75</span></h1>
-      <p class="hero-description">
-        Layanan joki match dengan pemesanan praktis, informasi harga transparan,
-        dan konfirmasi langsung melalui WhatsApp.
-      </p>
-      <button class="primary-btn" data-page="order">＋ Buat Pesanan</button>
-    </section><!-- DASHBOARD -->
-<section id="dashboard" class="page active">
-  <div class="section-heading">
-    <div>
-      <span class="eyebrow">OVERVIEW</span>
-      <h2>Dashboard</h2>
-      <p class="muted">Informasi layanan dan paket tersedia.</p>
-    </div>
-    <span class="status-pill"><span></span> Sistem Aktif</span>
-  </div>
+    <nav class="nav" id="mainNav">
+      <button class="nav-link active" data-page="dashboard" type="button">Dashboard</button>
+      <button class="nav-link" data-page="order" type="button">Pesan Jasa</button>
+      <button class="nav-link" data-page="payment" type="button">Pembayaran</button>
+      <button class="nav-link" data-page="history" type="button">Riwayat</button>
+    </nav>
+  </header>
 
-  <div class="stats-grid">
-    <article class="glass stat-card">
-      <div class="stat-icon">▤</div>
-      <div><p>Total Pesanan</p><h3 id="statOrders">0</h3></div>
-      <small>Riwayat pada perangkat ini</small>
-    </article>
-
-    <article class="glass stat-card">
-      <div class="stat-icon">⚔</div>
-      <div><p>Total Match</p><h3 id="statMatches">0</h3></div>
-      <small>Total match dari riwayat tersimpan</small>
-    </article>
-
-    <article class="glass stat-card">
-      <div class="stat-icon">✦</div>
-      <div><p>Paket Tersedia</p><h3>02</h3></div>
-      <small>FLEXIBLE dan NO FLEXIBLE</small>
-    </article>
-  </div>
-
-  <div class="section-heading package-heading">
-    <div>
-      <span class="eyebrow">PILIH LAYANAN</span>
-      <h2>Paket Tersedia</h2>
-    </div>
-  </div>
-
-  <div class="package-grid">
-    <article class="glass package-card">
-      <div class="package-top">
-        <span class="package-icon">⚡</span>
-        <span class="package-tag">FLEKSIBEL</span>
-      </div>
-      <h3>FLEXIBLE</h3>
-      <p class="muted">Paket fleksibel untuk kebutuhan match kamu.</p>
-      <div class="price">Rp2.500 <small>/ match</small></div>
-      <div class="package-detail">✓ Maksimal 5 match per pesanan</div>
-      <button class="outline-btn full-btn" data-package="flexible">
-        Pilih Paket <span>→</span>
-      </button>
-    </article>
-
-    <article class="glass package-card featured">
-      <div class="package-top">
-        <span class="package-icon">◆</span>
-        <span class="package-tag">POPULAR</span>
-      </div>
-      <h3>NO FLEXIBLE</h3>
-      <p class="muted">Pilihan paket tanpa fleksibilitas.</p>
-      <div class="price">Rp3.500 <small>/ match</small></div>
-      <div class="package-detail">✓ Maksimal 5 match per pesanan</div>
-      <button class="primary-btn full-btn" data-package="no-flexible">
-        Pilih Paket <span>→</span>
-      </button>
-    </article>
-  </div>
-
-  <div class="glass notice">
-    <span class="notice-icon">ⓘ</span>
-    <div>
-      <strong>Informasi Penting</strong>
-      <p>Periksa data pesanan sebelum melanjutkan. QRIS ditampilkan setelah pesanan dibuat. Konfirmasi pembayaran dilakukan melalui admin WhatsApp.</p>
-    </div>
-  </div>
-</section>
-
-<!-- BUAT PESANAN -->
-<section id="order" class="page">
-  <div class="section-heading">
-    <div>
-      <span class="eyebrow">ORDER SERVICE</span>
-      <h2>Buat Pesanan</h2>
-      <p class="muted">Isi informasi berikut dengan benar.</p>
-    </div>
-  </div>
-
-  <div class="order-layout">
-    <form id="orderForm" class="glass form-card">
-      <label for="gameId">ID Game <span>*</span></label>
-      <input id="gameId" type="text" placeholder="Masukkan ID game" maxlength="50" required>
-
-      <label for="nickname">Nickname <span>*</span></label>
-      <input id="nickname" type="text" placeholder="Masukkan nickname" maxlength="50" required>
-
-      <label for="customerWa">Nomor WhatsApp Kamu <span>*</span></label>
-      <input id="customerWa" type="tel" placeholder="Contoh: 081234567890" maxlength="20" required>
-
-      <label for="package">Pilih Paket <span>*</span></label>
-      <select id="package" required>
-        <option value="flexible">FLEXIBLE — Rp2.500/match</option>
-        <option value="no-flexible">NO FLEXIBLE — Rp3.500/match</option>
-      </select>
-
-      <label for="matches">Jumlah Match <span>*</span></label>
-      <input id="matches" type="number" min="1" max="5" step="1" value="1" required>
-      <small class="field-hint">Minimal 1 dan maksimal 5 match.</small>
-
-      <label for="notes">Catatan <small>(opsional)</small></label>
-      <textarea id="notes" rows="3" maxlength="300" placeholder="Catatan tambahan jika ada..."></textarea>
-
-      <div class="total-box">
-        <span>Total Pembayaran</span>
-        <strong id="totalPrice">Rp2.500</strong>
-      </div>
-
-      <button class="primary-btn full-btn" type="submit">
-        Buat Pesanan &amp; Lihat QRIS →
-      </button>
-      <p class="tiny-note">Pastikan ID game dan nomor WhatsApp sudah benar.</p>
-    </form>
-
-    <aside class="glass summary-card">
-      <span class="eyebrow">ORDER SUMMARY</span>
-      <h3>Ringkasan Pesanan</h3>
-      <div class="summary-row"><span>Paket</span><strong id="summaryPackage">FLEXIBLE</strong></div>
-      <div class="summary-row"><span>Harga per match</span><strong id="summaryPrice">Rp2.500</strong></div>
-      <div class="summary-row"><span>Jumlah match</span><strong id="summaryMatches">1 match</strong></div>
-      <div class="summary-divider"></div>
-      <p class="muted tiny">QRIS muncul setelah pesanan dibuat. Simpan kode pesanan untuk memudahkan konfirmasi.</p>
-      <button type="button" class="outline-btn full-btn" data-page="help">Butuh Bantuan?</button>
-    </aside>
-  </div>
-
-  <!-- QRIS hanya muncul setelah order dibuat -->
-  <div id="qrisPanel" class="glass qris-panel hidden">
-    <div class="section-heading">
-      <div>
-        <span class="eyebrow">PAYMENT</span>
-        <h2>Pesanan Berhasil Dibuat</h2>
-        <p class="muted">Selesaikan pembayaran menggunakan QRIS berikut.</p>
-      </div>
-      <span class="status-pill">Menunggu Pembayaran</span>
-    </div>
-
-    <div class="payment-layout">
-      <div class="qris-image-wrap">
-        <img src="qris.jpg" alt="QRIS pembayaran" id="qrisImage">
-        <p class="tiny-note">Pastikan nominal pembayaran sesuai.</p>
-        <a href="qris.jpg" download="QRIS-RANK-VS-BOT.jpg" class="outline-btn full-btn">
-          ↓ Unduh QRIS
-        </a>
-      </div>
-
-      <div class="payment-details">
-        <span class="eyebrow">DETAIL PESANAN</span>
-        <div id="newOrderCode" class="order-code">RIF-XXXXXX</div>
-
-        <div class="total-box">
-          <span>Total yang harus dibayar</span>
-          <strong id="paymentTotal">Rp2.500</strong>
+  <main class="container">
+    <section class="page active" id="page-dashboard">
+      <div class="hero glass">
+        <div>
+          <span class="eyebrow">● LAYANAN ONLINE</span>
+          <h1>RANK VS BOT<br><span>MAX 75</span></h1>
+          <p>Pesan layanan dengan mudah. Pilih paket, isi data, dan lanjutkan konfirmasi melalui WhatsApp.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-page="order" type="button">Pesan Sekarang →</button>
+            <button class="btn btn-ghost" data-page="payment" type="button">Pembayaran</button>
+          </div>
         </div>
 
-        <button id="copyTotalBtn" type="button" class="outline-btn full-btn">
-          Salin Nominal
-        </button>
-        <button id="sendOrderBtn" type="button" class="primary-btn full-btn">
-          Kirim Pesanan ke WhatsApp ↗
-        </button>
-
-        <p class="tiny-note">
-          Pembayaran tidak diverifikasi otomatis. Kirim bukti pembayaran kepada admin.
-        </p>
+        <div class="hero-logo">
+          <img src="logo.jpg" alt="Logo RIFHSK"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+          <div class="logo-fallback">RIF<br>HSK</div>
+          <span class="logo-caption">OFFICIAL SERVICE</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- RIWAYAT -->
-<section id="history" class="page">
-  <div class="section-heading">
-    <div>
-      <span class="eyebrow">ORDER MANAGEMENT</span>
-      <h2>Riwayat Pesanan</h2>
-      <p class="muted">Pesanan yang tersimpan pada perangkat ini.</p>
-    </div>
-    <button id="clearHistoryBtn" class="danger-btn" type="button">Hapus Semua</button>
-  </div>
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">PILIH LAYANAN</span>
+          <h2>Paket tersedia</h2>
+        </div>
+      </div>
 
-  <div id="historyList" class="history-list"></div>
+      <div class="package-grid">
+        <article class="package-card glass">
+          <span class="package-tag">PAKET 01</span>
+          <h3>Basic</h3>
+          <p class="muted">Paket layanan dasar.</p>
+          <div class="price">Rp10.000</div>
+          <button class="btn btn-primary full" data-package="Basic" type="button">Pilih Paket</button>
+        </article>
 
-  <div id="emptyHistory" class="glass empty-state">
-    <span>▤</span>
-    <h3>Belum Ada Pesanan</h3>
-    <p>Pesanan yang kamu buat akan muncul di sini.</p>
-    <button class="primary-btn" data-page="order">Buat Pesanan</button>
-  </div>
-</section>
+        <article class="package-card glass featured">
+          <span class="package-tag">PALING DIPILIH</span>
+          <h3>Pro</h3>
+          <p class="muted">Paket layanan pilihan.</p>
+          <div class="price">Rp25.000</div>
+          <button class="btn btn-primary full" data-package="Pro" type="button">Pilih Paket</button>
+        </article>
 
-<!-- BANTUAN -->
-<section id="help" class="page">
-  <div class="section-heading">
-    <div>
-      <span class="eyebrow">HELP CENTER</span>
-      <h2>Bantuan &amp; FAQ</h2>
-      <p class="muted">Panduan menggunakan layanan.</p>
-    </div>
-  </div>
+        <article class="package-card glass">
+          <span class="package-tag">PAKET 03</span>
+          <h3>Max 75</h3>
+          <p class="muted">Paket maksimal.</p>
+          <div class="price">Rp50.000</div>
+          <button class="btn btn-primary full" data-package="Max 75" type="button">Pilih Paket</button>
+        </article>
+      </div>
+    </section>
 
-  <div class="faq-list">
-    <details class="glass" open>
-      <summary>Bagaimana cara membuat pesanan?</summary>
-      <p>Pilih paket, isi ID game, nickname, nomor WhatsApp, dan jumlah match. Periksa total, lalu tekan tombol buat pesanan.</p>
-    </details>
+    <section class="page" id="page-order">
+      <div class="section-heading">
+        <h2>Buat pesanan</h2>
+        <button class="btn btn-ghost" data-page="dashboard" type="button">← Kembali</button>
+      </div>
 
-    <details class="glass">
-      <summary>Di mana QRIS pembayaran?</summary>
-      <p>QRIS akan muncul setelah pesanan berhasil dibuat. Kamu juga bisa mengunduh gambar QRIS tersebut.</p>
-    </details>
+      <div class="form-layout">
+        <form class="glass form-card" id="orderForm">
+          <label for="customerName">Nama pelanggan</label>
+          <input id="customerName" required maxlength="80" placeholder="Nama kamu">
 
-    <details class="glass">
-      <summary>Bagaimana cara konfirmasi pembayaran?</summary>
-      <p>Tekan tombol kirim pesanan ke WhatsApp dan hubungi admin. Sertakan bukti pembayaran untuk diperiksa.</p>
-    </details>
+          <label for="customerWa">Nomor WhatsApp</label>
+          <input id="customerWa" type="tel" inputmode="tel" required placeholder="08xxxxxxxxxx">
 
-    <details class="glass">
-      <summary>Apakah riwayat tersimpan di semua perangkat?</summary>
-      <p>Tidak. Riwayat tersimpan di browser pada perangkat ini. Data browser yang dihapus dapat menghilangkan riwayat.</p>
-    </details>
-  </div>
+          <label for="gameId">ID / detail pesanan</label>
+          <input id="gameId" required maxlength="150" placeholder="Masukkan ID atau detail">
 
-  <div class="glass contact-card">
-    <div>
-      <span class="eyebrow">NEED ASSISTANCE?</span>
-      <h3>Hubungi Admin</h3>
-      <p class="muted">Hubungi admin jika ada kendala pesanan atau pembayaran.</p>
-    </div>
-    <a class="primary-btn" href="https://wa.me/6285725209623" target="_blank" rel="noopener">
-      WhatsApp Admin ↗
-    </a>
-  </div>
-</section>
+          <label for="packageSelect">Pilih paket</label>
+          <select id="packageSelect" required>
+            <option value="">-- Pilih paket --</option>
+            <option value="Basic">Basic — Rp10.000</option>
+            <option value="Pro">Pro — Rp25.000</option>
+            <option value="Max 75">Max 75 — Rp50.000</option>
+          </select>
 
-<footer>
-  <span>© 2026 <strong>RIFHSK</strong> · RANK VS BOT MAX 75</span>
-  <span>GAMING SERVICE <i></i></span>
-</footer>
+          <label for="orderNote">Catatan tambahan</label>
+          <textarea id="orderNote" rows="3" placeholder="Opsional"></textarea>
 
-  </main>  <div id="toast" class="toast" role="status" aria-live="polite"></div>  <script src="script.js"></script></body>
+          <button class="btn btn-primary full" type="submit">Kirim Pesanan ke WhatsApp ↗</button>
+          <p class="muted">Periksa detail pesanan sebelum mengirim pesan WhatsApp.</p>
+        </form>
+
+        <aside class="glass summary-card">
+          <span class="eyebrow">RINGKASAN</span>
+          <h3>Pesanan kamu</h3>
+          <div class="summary-row">
+            <span>Paket</span><strong id="summaryPackage">Belum dipilih</strong>
+          </div>
+          <div class="summary-row">
+            <span>Total</span><strong id="summaryPrice">Rp0</strong>
+          </div>
+          <div class="summary-row">
+            <span>Status</span><strong class="pending">Menunggu konfirmasi</strong>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="page-payment">
+      <div class="section-heading">
+        <h2>Pembayaran QRIS</h2>
+        <button class="btn btn-ghost" data-page="dashboard" type="button">← Kembali</button>
+      </div>
+
+      <div class="payment-layout">
+        <div class="glass payment-card">
+          <span class="eyebrow">QRIS</span>
+          <h3>Scan untuk membayar</h3>
+          <div class="qris-frame">
+            <img src="qris.jpg" alt="QRIS pembayaran"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+            <div class="qris-fallback">Letakkan file<br><b>qris.jpg</b><br>di folder website</div>
+          </div>
+          <p class="muted">Pastikan nama penerima dan nominal benar sebelum membayar.</p>
+        </div>
+
+        <div class="glass payment-info">
+          <h3>Langkah pembayaran</h3>
+          <ol>
+            <li>Buat pesanan terlebih dahulu.</li>
+            <li>Scan kode QRIS.</li>
+            <li>Simpan bukti pembayaran.</li>
+            <li>Kirim bukti ke admin WhatsApp.</li>
+          </ol>
+          <button class="btn btn-primary full" data-page="order" type="button">Buat Pesanan</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-history">
+      <div class="section-heading">
+        <h2>Riwayat pesanan</h2>
+        <button class="btn btn-primary" data-page="order" type="button">+ Pesanan Baru</button>
+      </div>
+      <div class="glass history-card">
+        <div id="historyList"></div>
+        <button class="btn btn-ghost" id="clearHistory" type="button">Hapus Riwayat</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> RIFHSK</span>
+    <span>RANK VS BOT MAX 75</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
 </html>
