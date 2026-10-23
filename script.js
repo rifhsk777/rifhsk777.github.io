@@ -1,80 +1,98 @@
-/*
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("orderForm");
+  const service = document.getElementById("service");
+  const qty = document.getElementById("qty");
+  const totalPrice = document.getElementById("totalPrice");
+  const totalDescription = document.getElementById("totalDescription");
 
-* RANK VS BOT BY RIFHSK
-* Periksa nomor admin sebelum website dipublikasikan.
-  */
-  const WHATSAPP_ADMIN = "628572092623";
+  // Nomor WhatsApp admin yang sudah diperbaiki
+  const WHATSAPP_ADMIN = "6285725209623";
 
-const form = document.getElementById("orderForm");
-const service = document.getElementById("service");
-const qty = document.getElementById("qty");
-const totalPrice = document.getElementById("totalPrice");
-const totalDescription = document.getElementById("totalDescription");
+  // Pastikan elemen HTML tersedia
+  if (!form || !service || !qty || !totalPrice || !totalDescription) {
+    console.error("Elemen form atau total pembayaran tidak ditemukan.");
+    return;
+  }
 
-function getPricePerMatch() {
-return service.value === "FLEXIBLE" ? 2500 : 3500;
-}
+  // Harga setiap match
+  function getPricePerMatch() {
+    return service.value === "FLEXIBLE" ? 2500 : 3500;
+  }
 
-function formatRupiah(value) {
-return new Intl.NumberFormat("id-ID", {
-style: "currency",
-currency: "IDR",
-maximumFractionDigits: 0
-}).format(value);
-}
+  // Format rupiah
+  function formatRupiah(value) {
+    return "Rp" + value.toLocaleString("id-ID");
+  }
 
-function updateTotal() {
-const quantity = Number(qty.value);
-const total = getPricePerMatch() * quantity;
+  // Perbarui total otomatis
+  function updateTotal() {
+    const jumlah = Number(qty.value) || 1;
+    const harga = getPricePerMatch();
+    const total = jumlah * harga;
 
-totalPrice.textContent = formatRupiah(total);
-totalDescription.textContent =
-"${service.value} · ${quantity} MATCH";
-}
+    totalPrice.textContent = formatRupiah(total);
+    totalDescription.textContent =
+      service.value + " · " + jumlah + " MATCH";
+  }
 
-service.addEventListener("change", updateTotal);
-qty.addEventListener("change", updateTotal);
+  // Perbarui ketika layanan atau jumlah berubah
+  service.addEventListener("change", updateTotal);
+  qty.addEventListener("change", updateTotal);
+  qty.addEventListener("input", updateTotal);
 
-form.addEventListener("submit", function(event) {
-event.preventDefault();
+  // Kirim pesanan ke WhatsApp
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-const nickname = document.getElementById("nickname").value.trim();
-const gameid = document.getElementById("gameid").value.trim();
-const scheduleValue = document.getElementById("schedule").value;
-const notes = document.getElementById("notes").value.trim() || "-";
+    const nickname = document.getElementById("nickname").value.trim();
+    const gameid = document.getElementById("gameid").value.trim();
+    const scheduleValue = document.getElementById("schedule").value;
+    const notes =
+      document.getElementById("notes").value.trim() || "-";
 
-const date = new Date(scheduleValue);
-const schedule = Number.isNaN(date.getTime())
-? scheduleValue
-: new Intl.DateTimeFormat("id-ID", {
-dateStyle: "long",
-timeStyle: "short"
-}).format(date);
+    if (!nickname || !gameid || !scheduleValue) {
+      alert("Lengkapi nickname, Game ID, dan jadwal terlebih dahulu!");
+      return;
+    }
 
-const quantity = Number(qty.value);
-const total = getPricePerMatch() * quantity;
+    const tanggal = new Date(scheduleValue);
 
-const message = [
-"HALO ADMIN RIFHSK YANG PALING GANTENG!",
-"",
-"SAYA INGIN MELAKUKAN PEMESANAN :",
-"",
-"NICKNAME : ${nickname}",
-"ID GAME : ${gameid}",
-"LAYANAN : ${service.value}",
-"JUMLAH : ${quantity} MATCH",
-"JADWAL : ${schedule}",
-"CATATAN : ${notes}",
-"TOTAL PEMBAYARAN : ${formatRupiah(total)}",
-"",
-"MOHON KONFIRMASI PESANAN SAYA.",
-"TERIMA KASIH."
-].join("\n");
+    const jadwal = Number.isNaN(tanggal.getTime())
+      ? scheduleValue
+      : new Intl.DateTimeFormat("id-ID", {
+          dateStyle: "long",
+          timeStyle: "short"
+        }).format(tanggal);
 
-const whatsappURL =
-"https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent(message)}";
+    const jumlah = Number(qty.value) || 1;
+    const total = jumlah * getPricePerMatch();
 
-window.open(whatsappURL, "_blank", "noopener,noreferrer");
+    const message = [
+      "HALO ADMIN RIFHSK YANG PALING GANTENG!",
+      "",
+      "SAYA INGIN MELAKUKAN PEMESANAN :",
+      "",
+      "NICKNAME : " + nickname,
+      "ID GAME : " + gameid,
+      "LAYANAN : " + service.value,
+      "JUMLAH : " + jumlah + " MATCH",
+      "JADWAL : " + jadwal,
+      "CATATAN : " + notes,
+      "TOTAL PEMBAYARAN : " + formatRupiah(total),
+      "",
+      "MOHON KONFIRMASI PESANAN SAYA.",
+      "TERIMA KASIH."
+    ].join("\n");
+
+    const url =
+      "https://wa.me/" +
+      WHATSAPP_ADMIN +
+      "?text=" +
+      encodeURIComponent(message);
+
+    window.open(url, "_blank");
+  });
+
+  // Tampilkan total saat halaman pertama kali dibuka
+  updateTotal();
 });
-
-updateTotal();
