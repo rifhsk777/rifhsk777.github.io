@@ -2,197 +2,108 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="AMANAH DAN TERPERCAYA NO 1 DI INDONESIA."
-  >
-
-  <meta name="theme-color" content="#10091f">
-
-  <title>RANK VS BOT MAX BINTANG 75</title>
-
-  <!-- File CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100719">
+  <title>RANK VS BOT BY RIFHSK</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <header class="topbar">
     <a href="#" class="brand">
-      <img
-        src="./logo.png"
-        alt="Logo RIFHSK"
-        class="logo"
-        onerror="this.style.display='none'"
-      >
-
-      <div class="brand-text">
-        <span class="brand-title">RIFHSK IS HERE</span>
-        <span class="brand-subtitle">FVCK</span>
+      <img src="./logo.png" class="logo" alt="Logo RIFHSK"
+           onerror="this.hidden=true">
+      <div>
+        <strong>RANK VS BOT</strong>
+        <small>BY RIFHSK</small>
       </div>
     </a>
 
-    <a
-      href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-      class="channel-button"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a class="channel" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+       target="_blank" rel="noopener noreferrer">
       WhatsApp Channel ↗
     </a>
   </header>
 
   <main class="container">
-
-    <!-- HERO -->
     <section class="hero">
-      <div class="hero-badge">
-        ⚡ RIFHSK SERVICE
-      </div>
-
-      <h1>
-        RANK VS BOT
-        <span>MAX BINTANG 75</span>
-      </h1>
-
-      <p>
-        AMANAH DAN TERPERCAYA NO 1 DI INDONESIA.
-      </p>
+      <span class="badge">⚡ RIFHSK SERVICE</span>
+      <h1>RANK VS BOT <span>BY RIFHSK</span></h1>
+      <p>Pilih layanan, isi pesanan, dan hubungi admin melalui WhatsApp.</p>
     </section>
 
-    <!-- DAFTAR HARGA -->
-    <section class="price-section">
+    <section class="section">
       <div class="section-heading">
-        <span class="section-label">DAFTAR HARGA</span>
+        <span class="eyebrow">DAFTAR HARGA</span>
         <h2>Pilih Layanan</h2>
-        <p>Harga dihitung berdasarkan jumlah match.</p>
+        <p>Harga dihitung per match.</p>
       </div>
 
       <div class="price-grid">
-
         <article class="price-card">
-          <div class="price-icon">⚡</div>
-
+          <div class="icon">⚡</div>
           <h3>FLEXIBLE</h3>
-
-          <div class="price">
-            Rp2.500
-            <span>/ match</span>
-          </div>
-
+          <div class="price">Rp2.500 <small>/ match</small></div>
           <p>Rp2.500 untuk setiap match.</p>
-
-          <button
-            type="button"
-            class="select-service"
-            data-service="FLEXIBLE"
-          >
+          <button type="button" class="choose" data-service="FLEXIBLE">
             Pilih Flexible
           </button>
         </article>
 
-        <article class="price-card featured">
-          <div class="popular-badge">PILIHAN LAYANAN</div>
-
-          <div class="price-icon">🔥</div>
-
+        <article class="price-card">
+          <div class="icon">🔥</div>
           <h3>NO FLEXIBLE</h3>
-
-          <div class="price">
-            Rp3.500
-            <span>/ match</span>
-          </div>
-
+          <div class="price">Rp3.500 <small>/ match</small></div>
           <p>Rp3.500 untuk setiap match.</p>
-
-          <button
-            type="button"
-            class="select-service"
-            data-service="NO FLEXIBLE"
-          >
+          <button type="button" class="choose" data-service="NO FLEXIBLE">
             Pilih No Flexible
           </button>
         </article>
-
       </div>
     </section>
 
-    <!-- FORM DAN PEMBAYARAN -->
-    <section class="order-section">
-
+    <section class="section" id="order">
       <div class="section-heading">
-        <span class="section-label">ORDER SERVICE</span>
+        <span class="eyebrow">ORDER SERVICE</span>
         <h2>Formulir Pemesanan</h2>
-        <p>Lengkapi informasi pesanan sebelum mengirim ke WhatsApp admin.</p>
+        <p>Pastikan semua data sudah benar.</p>
       </div>
 
-      <div class="order-grid">
-
-        <!-- FORM ORDER -->
-        <div class="panel form-panel">
-
+      <div class="content-grid">
+        <section class="panel">
           <div class="panel-heading">
-            <div class="panel-icon">📝</div>
-
+            <span class="panel-icon">📝</span>
             <div>
               <h3>Detail Pesanan</h3>
-              <p>Masukkan data pesanan kamu.</p>
+              <p>Lengkapi formulir di bawah.</p>
             </div>
           </div>
 
           <form id="orderForm">
-
-            <div class="form-group">
+            <div class="field">
               <label for="nickname">Nickname Game</label>
-
-              <input
-                type="text"
-                id="nickname"
-                name="nickname"
-                placeholder="Masukkan nickname game"
-                maxlength="60"
-                autocomplete="nickname"
-                required
-              >
+              <input id="nickname" name="nickname" type="text"
+                     maxlength="60" placeholder="Masukkan nickname"
+                     required>
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label for="gameid">ID Game</label>
-
-              <input
-                type="text"
-                id="gameid"
-                name="gameid"
-                placeholder="Masukkan ID game"
-                maxlength="60"
-                required
-              >
+              <input id="gameid" name="gameid" type="text"
+                     maxlength="60" placeholder="Masukkan ID game"
+                     required>
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label for="service">Pilih Layanan</label>
-
-              <select
-                id="service"
-                name="service"
-                required
-              >
-                <option value="FLEXIBLE">
-                  FLEXIBLE — Rp2.500/match
-                </option>
-
-                <option value="NO FLEXIBLE">
-                  NO FLEXIBLE — Rp3.500/match
-                </option>
+              <select id="service" name="service" required>
+                <option value="FLEXIBLE">FLEXIBLE — Rp2.500/match</option>
+                <option value="NO FLEXIBLE">NO FLEXIBLE — Rp3.500/match</option>
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label for="qty">Jumlah Match</label>
-
               <select id="qty" name="qty" required>
                 <option value="1">1 Match</option>
                 <option value="2">2 Match</option>
@@ -202,176 +113,83 @@
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label for="schedule">Jadwal Pengerjaan</label>
-
-              <input
-                type="datetime-local"
-                id="schedule"
-                name="schedule"
-                required
-              >
+              <input id="schedule" name="schedule"
+                     type="datetime-local" required>
             </div>
 
-            <div class="form-group">
-              <label for="notes">Catatan Tambahan</label>
-
-              <textarea
-                id="notes"
-                name="notes"
-                rows="3"
-                maxlength="500"
-                placeholder="Opsional: tulis catatan tambahan"
-              ></textarea>
+            <div class="field">
+              <label for="notes">Catatan Tambahan (opsional)</label>
+              <textarea id="notes" name="notes" rows="3"
+                        maxlength="500"
+                        placeholder="Tulis catatan jika ada"></textarea>
             </div>
 
-            <!-- TOTAL PEMBAYARAN -->
-            <div class="total-box">
-              <div class="total-info">
-                <span class="total-label">TOTAL PEMBAYARAN</span>
-
-                <small id="totalDescription">
-                  FLEXIBLE · 1 MATCH
-                </small>
+            <div class="total-box" aria-live="polite">
+              <div>
+                <strong>TOTAL PEMBAYARAN</strong>
+                <small id="totalDescription">FLEXIBLE · 1 MATCH</small>
               </div>
-
-              <output id="totalPrice" aria-live="polite">
-                Rp2.500
-              </output>
+              <output id="totalPrice">Rp2.500</output>
             </div>
 
-            <button
-              type="submit"
-              class="submit-button"
-              id="submitButton"
-            >
+            <button class="submit-button" type="submit">
               Pesan Sekarang via WhatsApp ↗
             </button>
 
-            <p class="form-note">
-              Pastikan nickname, ID game, layanan, dan jadwal sudah benar.
-            </p>
-
+            <p class="hint">Pesanan akan dikirim ke WhatsApp admin.</p>
+            <p id="formError" class="error" role="alert" hidden></p>
           </form>
-        </div>
+        </section>
 
-        <!-- PANEL PEMBAYARAN -->
-        <aside class="panel payment-panel">
-
+        <aside class="panel">
           <div class="panel-heading">
-            <div class="panel-icon">💳</div>
-
+            <span class="panel-icon">💳</span>
             <div>
               <h3>Pembayaran QRIS</h3>
-              <p>Scan QRIS untuk melakukan pembayaran.</p>
+              <p>Scan kode QRIS untuk membayar.</p>
             </div>
           </div>
 
-          <div class="qris-container">
-
-            <!-- Letakkan file qris.jpg di folder yang sama -->
-            <img
-              src="./qris.jpg"
-              alt="QRIS pembayaran RIFHSK"
-              id="qrisImage"
-              class="qris-image"
-              onerror="this.style.display='none'; document.getElementById('qrisPlaceholder').style.display='flex';"
-            >
-
-            <div
-              id="qrisPlaceholder"
-              class="qris-placeholder"
-              style="display: none;"
-            >
-              <span class="qris-placeholder-icon">▦</span>
-
-              <strong>QRIS Belum Dipasang</strong>
-
-              <p>
-                Upload gambar QRIS kamu dengan nama
-                <b>qris.jpg</b> ke folder website.
-              </p>
+          <div class="qris-frame">
+            <img id="qrisImage" src="./qris.jpg"
+                 alt="QRIS pembayaran RIFHSK">
+            <div id="qrisPlaceholder" hidden>
+              <div class="qr-icon">▦</div>
+              <strong>QRIS belum dipasang</strong>
+              <p>Upload QRIS milikmu dengan nama <b>qris.jpg</b>.</p>
             </div>
-
           </div>
 
-          <div class="payment-instructions">
-            <h4>Cara Pembayaran</h4>
+          <h4 class="instructions-title">Cara Pembayaran</h4>
+          <ol class="instructions">
+            <li>Pilih layanan dan jumlah match.</li>
+            <li>Periksa total pembayaran.</li>
+            <li>Scan QRIS menggunakan aplikasi pembayaran.</li>
+            <li>Simpan bukti pembayaran.</li>
+            <li>Kirim pesanan ke WhatsApp admin.</li>
+          </ol>
 
-            <ol>
-              <li>Pilih layanan dan jumlah match.</li>
-              <li>Periksa total pembayaran.</li>
-              <li>Scan QRIS menggunakan aplikasi pembayaran.</li>
-              <li>Simpan bukti pembayaran.</li>
-              <li>Kirim pesanan melalui WhatsApp admin.</li>
-            </ol>
-          </div>
-
-          <a
-            href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-            class="channel-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="channel channel-bottom"
+             href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+             target="_blank" rel="noopener noreferrer">
             Gabung WhatsApp Channel ↗
           </a>
 
           <p class="payment-note">
-            Pastikan nama penerima dan nominal pembayaran sesuai sebelum
-            menyelesaikan transaksi.
+            Pastikan nama penerima dan nominal pembayaran benar.
           </p>
-
         </aside>
-
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
-      <div class="footer-brand">RANK VS BOT BY RIFHSK</div>
-
-      <p>
-        © <span id="currentYear"></span> RIFHSK.
-        All rights reserved.
-      </p>
-
-      <p class="footer-caption">
-        Website layanan pemesanan.
-      </p>
+      <strong>RANK VS BOT BY RIFHSK</strong>
+      <p>© <span id="year"></span> RIFHSK. All rights reserved.</p>
     </footer>
-
   </main>
 
-  <!-- File JavaScript harus dimuat setelah elemen HTML -->
-  <script src="./script.js"></script>
-
-  <!-- Tombol harga dan tahun -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const serviceSelect = document.getElementById("service");
-      const buttons = document.querySelectorAll(".select-service");
-      const currentYear = document.getElementById("currentYear");
-
-      if (currentYear) {
-        currentYear.textContent = new Date().getFullYear();
-      }
-
-      buttons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          serviceSelect.value = button.dataset.service;
-
-          serviceSelect.dispatchEvent(
-            new Event("change", { bubbles: true })
-          );
-
-          document.getElementById("orderForm").scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        });
-      });
-    });
-  </script>
-
+  <script src="./script.js" defer></script>
 </body>
 </html>
