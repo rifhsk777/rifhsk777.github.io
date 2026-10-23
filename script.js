@@ -1,48 +1,85 @@
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("orderForm");
   const service = document.getElementById("service");
   const qty = document.getElementById("qty");
   const totalPrice = document.getElementById("totalPrice");
   const totalDescription = document.getElementById("totalDescription");
+  const formError = document.getElementById("formError");
 
-  // Nomor WhatsApp admin yang sudah diperbaiki
+  // Nomor admin: format internasional tanpa tanda +.
+  // Pastikan nomor ini benar dan terdaftar di WhatsApp.
   const WHATSAPP_ADMIN = "6285725209623";
 
-  // Pastikan elemen HTML tersedia
+  const year = document.getElementById("year");
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // Tampilkan placeholder jika gambar QRIS belum tersedia.
+  const qrisImage = document.getElementById("qrisImage");
+  const qrisPlaceholder = document.getElementById("qrisPlaceholder");
+
+  function showQrisPlaceholder() {
+    if (qrisImage) qrisImage.hidden = true;
+    if (qrisPlaceholder) qrisPlaceholder.hidden = false;
+  }
+
+  if (qrisImage && qrisPlaceholder) {
+    qrisImage.addEventListener("error", showQrisPlaceholder);
+
+    if (qrisImage.complete && qrisImage.naturalWidth === 0) {
+      showQrisPlaceholder();
+    }
+  }
+
   if (!form || !service || !qty || !totalPrice || !totalDescription) {
-    console.error("Elemen form atau total pembayaran tidak ditemukan.");
+    console.error("Elemen form tidak ditemukan. Periksa index.html.");
     return;
   }
 
-  // Harga setiap match
   function getPricePerMatch() {
     return service.value === "FLEXIBLE" ? 2500 : 3500;
   }
 
-  // Format rupiah
   function formatRupiah(value) {
-    return "Rp" + value.toLocaleString("id-ID");
+    return "Rp" + Number(value).toLocaleString("id-ID");
   }
 
-  // Perbarui total otomatis
   function updateTotal() {
     const jumlah = Number(qty.value) || 1;
-    const harga = getPricePerMatch();
-    const total = jumlah * harga;
+    const total = jumlah * getPricePerMatch();
 
     totalPrice.textContent = formatRupiah(total);
     totalDescription.textContent =
       service.value + " · " + jumlah + " MATCH";
   }
 
-  // Perbarui ketika layanan atau jumlah berubah
   service.addEventListener("change", updateTotal);
   qty.addEventListener("change", updateTotal);
   qty.addEventListener("input", updateTotal);
 
-  // Kirim pesanan ke WhatsApp
+  // Tombol pilihan pada kartu harga.
+  document.querySelectorAll(".choose").forEach(function (button) {
+    button.addEventListener("click", function () {
+      service.value = button.dataset.service;
+      updateTotal();
+
+      document.getElementById("order").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  });
+
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+
+    if (formError) {
+      formError.hidden = true;
+      formError.textContent = "";
+    }
 
     const nickname = document.getElementById("nickname").value.trim();
     const gameid = document.getElementById("gameid").value.trim();
@@ -51,26 +88,34 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("notes").value.trim() || "-";
 
     if (!nickname || !gameid || !scheduleValue) {
-      alert("Lengkapi nickname, Game ID, dan jadwal terlebih dahulu!");
+      showError("Lengkapi nickname, ID Game, dan jadwal terlebih dahulu.");
       return;
     }
 
-    const tanggal = new Date(scheduleValue);
+    const date = new Date(scheduleValue);
 
-    const jadwal = Number.isNaN(tanggal.getTime())
-      ? scheduleValue
-      : new Intl.DateTimeFormat("id-ID", {
-          dateStyle: "long",
-          timeStyle: "short"
-        }).format(tanggal);
+    if (Number.isNaN(date.getTime())) {
+      showError("Jadwal tidak valid. Silakan pilih tanggal dan waktu kembali.");
+      return;
+    }
+
+    if (date.getTime() < Date.now()) {
+      showError("Jadwal tidak boleh berada di masa lalu.");
+      return;
+    }
 
     const jumlah = Number(qty.value) || 1;
     const total = jumlah * getPricePerMatch();
 
+    const jadwal = new Intl.DateTimeFormat("id-ID", {
+      dateStyle: "long",
+      timeStyle: "short"
+    }).format(date);
+
     const message = [
       "HALO ADMIN RIFHSK YANG PALING GANTENG!",
       "",
-      "SAYA INGIN MELAKUKAN PEMESANAN :",
+      "SAYA INGIN MELAKUKAN PEMESANAN:",
       "",
       "NICKNAME : " + nickname,
       "ID GAME : " + gameid,
@@ -90,9 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
       "?text=" +
       encodeURIComponent(message);
 
-    window.open(url, "_blank");
+    window.location.href = url;
   });
 
-  // Tampilkan total saat halaman pertama kali dibuka
+  function showError(message) {
+    if (formError) {
+      formError.textContent = message;
+      formError.hidden = false;
+    } else {
+      alert(message);
+    }
+  }
+
   updateTotal();
 });
