@@ -2,200 +2,111 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100719">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RANK VS BOT BY RIFHSK</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="topbar">
-  <a href="#" class="brand">
-    <img src="./logo.png" class="logo" alt="Logo RIFHSK">
+  <header class="topbar">
     <div>
-      <strong>RANK VS BOT</strong>
-      <small>BY RIFHSK</small>
+      <div id="clock">Memuat waktu...</div>
+      <div id="date"></div>
     </div>
-  </a>
-
-  <div class="header-right">
-    <div class="clock-box">
-      <span class="clock-dot"></span>
-      <time id="liveClock">00:00:00</time>
-      <small id="liveDate">Memuat tanggal...</small>
-    </div>
-
-    <a class="channel"
+    <a class="channel-btn"
        href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-       target="_blank" rel="noopener noreferrer">
-      WhatsApp ↗
+       target="_blank" rel="noopener">
+      WhatsApp Channel
     </a>
-  </div>
-</header>
+  </header>
 
-<main class="container">
+  <main class="container">
+    <section class="hero card">
+      <img src="logo.png" alt="Logo RIFHSK" class="logo">
+      <h1>RANK VS BOT</h1>
+      <p class="subtitle">BY RIFHSK</p>
+      <p class="description">Layanan Rank Match Mobile Legends</p>
+    </section>
 
-  <section class="hero">
-    <span class="badge">⚡ RIFHSK SERVICE</span>
-    <h1>RANK VS BOT <span>BY RIFHSK</span></h1>
-    <p>Pilih layanan, lengkapi pesanan, dan hubungi admin melalui WhatsApp.</p>
-  </section>
-
-  <section class="section">
-    <div class="section-heading">
-      <span class="eyebrow">DAFTAR HARGA</span>
+    <section class="card">
       <h2>Pilih Layanan</h2>
-      <p>Harga dihitung per match.</p>
-    </div>
 
-    <div class="price-grid">
-      <article class="price-card">
-        <div class="icon">⚡</div>
-        <h3>FLEXIBLE</h3>
-        <div class="price">Rp2.500 <small>/ match</small></div>
-        <p>Rp2.500 untuk setiap match.</p>
-        <button type="button" class="choose" data-service="FLEXIBLE">
-          Pilih Flexible
+      <div class="price-list">
+        <button class="price-card active"
+                type="button"
+                data-service="FLEXIBLE"
+                data-price="2500">
+          <span>FLEXIBLE</span>
+          <strong>Rp2.500</strong>
+          <small>Per match</small>
         </button>
-      </article>
 
-      <article class="price-card">
-        <div class="icon">🔥</div>
-        <h3>NO FLEXIBLE</h3>
-        <div class="price">Rp3.500 <small>/ match</small></div>
-        <p>Rp3.500 untuk setiap match.</p>
-        <button type="button" class="choose" data-service="NO FLEXIBLE">
-          Pilih No Flexible
+        <button class="price-card"
+                type="button"
+                data-service="NO FLEXIBLE"
+                data-price="3500">
+          <span>NO FLEXIBLE</span>
+          <strong>Rp3.500</strong>
+          <small>Per match</small>
         </button>
-      </article>
-    </div>
+      </div>
 
-    <p class="selected-service">
-      Layanan dipilih: <strong id="selectedService">FLEXIBLE</strong>
-    </p>
-  </section>
+      <form id="orderForm">
+        <label for="nickname">Nickname Game</label>
+        <input id="nickname" type="text"
+               placeholder="Masukkan nickname"
+               maxlength="40" required>
 
-  <section class="section" id="order">
-    <div class="section-heading">
-      <span class="eyebrow">ORDER SERVICE</span>
-      <h2>Formulir Pemesanan</h2>
-      <p>Isi data game kamu dengan benar.</p>
-    </div>
+        <label for="gameId">ID Game</label>
+        <input id="gameId" type="text"
+               placeholder="Contoh: 123456789 (1234)"
+               maxlength="30" required>
 
-    <div class="content-grid">
-      <section class="panel">
-        <div class="panel-heading">
-          <span class="panel-icon">📝</span>
-          <div>
-            <h3>Detail Pesanan</h3>
-            <p>Lengkapi formulir di bawah.</p>
-          </div>
+        <label for="quantity">Jumlah Match</label>
+        <select id="quantity" required>
+          <option value="1">1 Match</option>
+          <option value="2">2 Match</option>
+          <option value="3">3 Match</option>
+          <option value="4">4 Match</option>
+          <option value="5">5 Match</option>
+        </select>
+
+        <label for="notes">Catatan (opsional)</label>
+        <textarea id="notes" rows="3"
+                  maxlength="300"
+                  placeholder="Tambahkan catatan pesanan"></textarea>
+
+        <div class="total-box">
+          <span>Total Pembayaran</span>
+          <strong id="total">Rp2.500</strong>
         </div>
 
-        <form id="orderForm">
-          <div class="field">
-            <label for="nickname">Nickname Game</label>
-            <input id="nickname" name="nickname" type="text"
-                   maxlength="60" placeholder="Masukkan nickname"
-                   required>
-          </div>
+        <button type="submit" class="order-btn">
+          Pesan Sekarang via WhatsApp
+        </button>
+      </form>
+    </section>
 
-          <div class="field">
-            <label for="gameid">ID Game</label>
-            <input id="gameid" name="gameid" type="text"
-                   maxlength="60" placeholder="Masukkan ID game"
-                   required>
-          </div>
+    <section class="card payment">
+      <h2>Pembayaran QRIS</h2>
+      <p>Scan QRIS berikut untuk melakukan pembayaran.</p>
+      <img src="qris.jpg" alt="QRIS Pembayaran" class="qris">
 
-          <div class="field">
-            <label for="qty">Jumlah Match</label>
-            <select id="qty" name="qty" required>
-              <option value="1">1 Match</option>
-              <option value="2">2 Match</option>
-              <option value="3">3 Match</option>
-              <option value="4">4 Match</option>
-              <option value="5">5 Match</option>
-            </select>
-          </div>
+      <a href="qris.jpg" download="QRIS-RIFHSK.jpg"
+         class="download-btn">
+        Download QRIS
+      </a>
 
-          <div class="field">
-            <label for="notes">Catatan Tambahan (opsional)</label>
-            <textarea id="notes" name="notes" rows="3"
-                      maxlength="500"
-                      placeholder="Tulis catatan jika ada"></textarea>
-          </div>
+      <p class="warning">
+        Pastikan nominal pembayaran sesuai total pesanan.
+      </p>
+    </section>
 
-          <div class="total-box" aria-live="polite">
-            <div>
-              <strong>TOTAL PEMBAYARAN</strong>
-              <small id="totalDescription">FLEXIBLE · 1 MATCH</small>
-            </div>
-            <output id="totalPrice">Rp2.500</output>
-          </div>
+    <footer>
+      © <span id="year"></span> RANK VS BOT BY RIFHSK
+    </footer>
+  </main>
 
-          <button class="submit-button" type="submit">
-            Pesan Sekarang via WhatsApp ↗
-          </button>
-
-          <p class="hint">Pesanan akan dikirim ke WhatsApp admin.</p>
-          <p id="formError" class="error" role="alert" hidden></p>
-        </form>
-      </section>
-
-      <aside class="panel">
-        <div class="panel-heading">
-          <span class="panel-icon">💳</span>
-          <div>
-            <h3>Pembayaran QRIS</h3>
-            <p>Scan kode QRIS untuk membayar.</p>
-          </div>
-        </div>
-
-        <div class="qris-frame">
-          <img id="qrisImage" src="./qris.jpg"
-               alt="QRIS pembayaran RIFHSK">
-
-          <div id="qrisPlaceholder" hidden>
-            <div class="qr-icon">▦</div>
-            <strong>QRIS belum tersedia</strong>
-            <p>Upload gambar dengan nama <b>qris.jpg</b>.</p>
-          </div>
-        </div>
-
-        <a id="downloadQris" class="download-button"
-           href="./qris.jpg" download="QRIS-RIFHSK.jpg">
-          ⬇ Unduh QRIS Pembayaran
-        </a>
-
-        <h4 class="instructions-title">Cara Pembayaran</h4>
-        <ol class="instructions">
-          <li>Pilih layanan pada daftar harga.</li>
-          <li>Pilih jumlah match dan periksa total.</li>
-          <li>Scan QRIS atau unduh gambar QRIS.</li>
-          <li>Simpan bukti pembayaran.</li>
-          <li>Kirim pesanan melalui WhatsApp admin.</li>
-        </ol>
-
-        <a class="channel channel-bottom"
-           href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-           target="_blank" rel="noopener noreferrer">
-          Gabung WhatsApp Channel ↗
-        </a>
-
-        <p class="payment-note">
-          Pastikan nama penerima dan nominal pembayaran benar.
-        </p>
-      </aside>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <strong>RANK VS BOT BY RIFHSK</strong>
-    <p>© <span id="year"></span> RIFHSK. All rights reserved.</p>
-  </footer>
-
-</main>
-
-<script src="./script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
