@@ -2,68 +2,98 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("orderForm");
-  const service = document.getElementById("service");
   const qty = document.getElementById("qty");
   const totalPrice = document.getElementById("totalPrice");
   const totalDescription = document.getElementById("totalDescription");
+  const selectedService = document.getElementById("selectedService");
   const formError = document.getElementById("formError");
 
-  // Nomor admin: format internasional tanpa tanda +.
-  // Pastikan nomor ini benar dan terdaftar di WhatsApp.
+  // Nomor WhatsApp admin
   const WHATSAPP_ADMIN = "6285725209623";
 
-  const year = document.getElementById("year");
-  if (year) {
-    year.textContent = new Date().getFullYear();
+  // Layanan default
+  let currentService = "FLEXIBLE";
+
+  // Tahun footer
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  // JAM DIGITAL LANGSUNG
+  function updateClock() {
+    const now = new Date();
+
+    document.getElementById("liveClock").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(now);
+
+    document.getElementById("liveDate").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      }).format(now);
   }
 
-  // Tampilkan placeholder jika gambar QRIS belum tersedia.
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // QRIS
   const qrisImage = document.getElementById("qrisImage");
   const qrisPlaceholder = document.getElementById("qrisPlaceholder");
+  const downloadQris = document.getElementById("downloadQris");
 
   function showQrisPlaceholder() {
-    if (qrisImage) qrisImage.hidden = true;
-    if (qrisPlaceholder) qrisPlaceholder.hidden = false;
+    qrisImage.hidden = true;
+    qrisPlaceholder.hidden = false;
+    downloadQris.hidden = true;
   }
 
-  if (qrisImage && qrisPlaceholder) {
-    qrisImage.addEventListener("error", showQrisPlaceholder);
+  qrisImage.addEventListener("error", showQrisPlaceholder);
 
-    if (qrisImage.complete && qrisImage.naturalWidth === 0) {
-      showQrisPlaceholder();
-    }
+  if (qrisImage.complete && qrisImage.naturalWidth === 0) {
+    showQrisPlaceholder();
   }
 
-  if (!form || !service || !qty || !totalPrice || !totalDescription) {
-    console.error("Elemen form tidak ditemukan. Periksa index.html.");
-    return;
-  }
-
+  // Harga per match
   function getPricePerMatch() {
-    return service.value === "FLEXIBLE" ? 2500 : 3500;
+    return currentService === "FLEXIBLE" ? 2500 : 3500;
   }
 
   function formatRupiah(value) {
     return "Rp" + Number(value).toLocaleString("id-ID");
   }
 
+  // Perbarui total
   function updateTotal() {
     const jumlah = Number(qty.value) || 1;
     const total = jumlah * getPricePerMatch();
 
     totalPrice.textContent = formatRupiah(total);
     totalDescription.textContent =
-      service.value + " · " + jumlah + " MATCH";
+      currentService + " · " + jumlah + " MATCH";
+
+    selectedService.textContent = currentService;
+
+    document.querySelectorAll(".price-card").forEach(function (card) {
+      const button = card.querySelector(".choose");
+      card.classList.toggle(
+        "selected",
+        button.dataset.service === currentService
+      );
+    });
   }
 
-  service.addEventListener("change", updateTotal);
-  qty.addEventListener("change", updateTotal);
-  qty.addEventListener("input", updateTotal);
-
-  // Tombol pilihan pada kartu harga.
+  // Pilih layanan melalui kartu harga
   document.querySelectorAll(".choose").forEach(function (button) {
     button.addEventListener("click", function () {
-      service.value = button.dataset.service;
+      currentService = button.dataset.service;
       updateTotal();
 
       document.getElementById("order").scrollIntoView({
@@ -73,44 +103,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  qty.addEventListener("change", updateTotal);
+  qty.addEventListener("input", updateTotal);
+
+  // Formulir WhatsApp
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    if (formError) {
-      formError.hidden = true;
-      formError.textContent = "";
-    }
+    formError.hidden = true;
+    formError.textContent = "";
 
-    const nickname = document.getElementById("nickname").value.trim();
-    const gameid = document.getElementById("gameid").value.trim();
-    const scheduleValue = document.getElementById("schedule").value;
+    const nickname =
+      document.getElementById("nickname").value.trim();
+
+    const gameid =
+      document.getElementById("gameid").value.trim();
+
     const notes =
       document.getElementById("notes").value.trim() || "-";
 
-    if (!nickname || !gameid || !scheduleValue) {
-      showError("Lengkapi nickname, ID Game, dan jadwal terlebih dahulu.");
-      return;
-    }
-
-    const date = new Date(scheduleValue);
-
-    if (Number.isNaN(date.getTime())) {
-      showError("Jadwal tidak valid. Silakan pilih tanggal dan waktu kembali.");
-      return;
-    }
-
-    if (date.getTime() < Date.now()) {
-      showError("Jadwal tidak boleh berada di masa lalu.");
+    if (!nickname || !gameid) {
+      showError("Nickname dan ID Game wajib diisi.");
       return;
     }
 
     const jumlah = Number(qty.value) || 1;
     const total = jumlah * getPricePerMatch();
-
-    const jadwal = new Intl.DateTimeFormat("id-ID", {
-      dateStyle: "long",
-      timeStyle: "short"
-    }).format(date);
 
     const message = [
       "HALO ADMIN RIFHSK YANG PALING GANTENG!",
@@ -119,9 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
       "",
       "NICKNAME : " + nickname,
       "ID GAME : " + gameid,
-      "LAYANAN : " + service.value,
+      "LAYANAN : " + currentService,
       "JUMLAH : " + jumlah + " MATCH",
-      "JADWAL : " + jadwal,
       "CATATAN : " + notes,
       "TOTAL PEMBAYARAN : " + formatRupiah(total),
       "",
@@ -139,12 +156,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function showError(message) {
-    if (formError) {
-      formError.textContent = message;
-      formError.hidden = false;
-    } else {
-      alert(message);
-    }
+    formError.textContent = message;
+    formError.hidden = false;
   }
 
   updateTotal();
