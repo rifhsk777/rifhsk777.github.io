@@ -1,508 +1,559 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080b18">
-<title>JOKIFLEX | Joki Gendong VS Bot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090914">
+  <meta name="description" content="RANK VS BOT - Layanan pemesanan match gaming.">
+  <title>RANK VS BOT</title>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+  <style>
+    :root {
+      --bg: #090914;
+      --panel: #131326;
+      --purple: #8b5cf6;
+      --purple-light: #a78bfa;
+      --text: #f5f3ff;
+      --muted: #aaa7c0;
+      --green: #16a34a;
+      --border: #30264b;
+    }
 
-body{
-  background:#080b18;
-  color:#fff;
-  font-family:Arial,sans-serif;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-header{
-  padding:20px;
-  text-align:center;
-  background:#10152b;
-  border-bottom:1px solid #292f50;
-}
+    body {
+      background:
+        radial-gradient(ellipse at top, #241342 0%, transparent 48%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
 
-.logo{
-  font-size:25px;
-  font-weight:900;
-  color:#a855f7;
-}
+    .container {
+      width: min(100% - 28px, 760px);
+      margin: auto;
+    }
 
-.logo span{color:white}
+    header {
+      padding: 35px 0 25px;
+      text-align: center;
+    }
 
-.hero{
-  text-align:center;
-  padding:45px 18px;
-  background:radial-gradient(circle at top,#30205c,#080b18 72%);
-}
+    .logo {
+      display: inline-block;
+      padding: 7px 15px;
+      margin-bottom: 14px;
+      border: 1px solid #6d45b5;
+      border-radius: 30px;
+      background: #21143a;
+      color: var(--purple-light);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
 
-.status{
-  display:inline-block;
-  padding:8px 15px;
-  color:#4ade80;
-  border:1px solid #22c55e;
-  border-radius:30px;
-  font-size:12px;
-  margin-bottom:20px;
-}
+    header h1 {
+      font-size: clamp(30px, 8vw, 48px);
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+    }
 
-.hero h1{
-  font-size:clamp(30px,7vw,45px);
-  line-height:1.2;
-}
+    header h1 span {
+      color: var(--purple-light);
+    }
 
-.hero h1 span{color:#a855f7}
+    header p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-.hero p{
-  color:#adb6d0;
-  line-height:1.8;
-  margin-top:15px;
-}
+    .badge {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 6px 12px;
+      border: 1px solid #245640;
+      border-radius: 20px;
+      background: #10251e;
+      color: #4ade80;
+      font-size: 11px;
+      font-weight: bold;
+    }
 
-.container{
-  width:100%;
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
+    .panel {
+      margin-bottom: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(19, 19, 38, 0.94);
+      box-shadow: 0 10px 35px #00000020;
+    }
 
-.heading{
-  text-align:center;
-  margin:15px 0 25px;
-}
+    .panel h2 {
+      margin-bottom: 5px;
+      font-size: 19px;
+    }
 
-.heading p{
-  margin-top:10px;
-  color:#9da7c3;
-  font-size:14px;
-}
+    .subtitle {
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
 
-.packages{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:15px;
-}
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
 
-.card{
-  background:#12172b;
-  padding:22px;
-  border:1px solid #2a3152;
-  border-radius:16px;
-}
+    .price-card {
+      padding: 17px 13px;
+      border: 1px solid #443264;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #211538, #151326);
+    }
 
-.card:hover{border-color:#a855f7}
+    .price-card h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
 
-.tag{
-  color:#c084fc;
-  font-size:12px;
-  font-weight:bold;
-}
+    .price {
+      color: var(--purple-light);
+      font-size: 24px;
+      font-weight: 900;
+    }
 
-.card h3{
-  margin:13px 0;
-  font-size:20px;
-}
+    .price-card p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
 
-.price{
-  color:#fff;
-  font-size:29px;
-  font-weight:bold;
-  margin:15px 0;
-}
+    .package {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #443264;
+      color: #e9d5ff;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-.price small{
-  color:#a4aec9;
-  font-size:12px;
-  font-weight:normal;
-}
+    .field {
+      margin-bottom: 16px;
+    }
 
-ul{
-  list-style:none;
-  margin-bottom:20px;
-  color:#d4d9e9;
-  font-size:14px;
-  line-height:2;
-}
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #e9e4ff;
+    }
 
-li:before{
-  content:"✓ ";
-  color:#4ade80;
-}
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #39334f;
+      border-radius: 10px;
+      outline: none;
+      background: #0c0c1b;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
 
-button,.button{
-  display:block;
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:9px;
-  background:linear-gradient(90deg,#9333ea,#6366f1);
-  color:white;
-  text-align:center;
-  font-size:14px;
-  font-weight:bold;
-  text-decoration:none;
-  cursor:pointer;
-}
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px #8b5cf620;
+    }
 
-button:hover,.button:hover{opacity:.85}
+    select option {
+      background: #131326;
+    }
 
-.section{
-  background:#12172b;
-  border:1px solid #2a3152;
-  padding:22px;
-  border-radius:16px;
-  margin-top:25px;
-}
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
 
-.section h2{
-  font-size:22px;
-  margin-bottom:18px;
-}
+    .total-box {
+      margin: 20px 0;
+      padding: 17px;
+      border: 1px solid #6843a5;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #281749, #17132a);
+    }
 
-label{
-  display:block;
-  margin:15px 0 8px;
-  color:#cbd2e7;
-  font-size:14px;
-}
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
 
-input,select,textarea{
-  display:block;
-  width:100%;
-  padding:13px;
-  background:#090d1c;
-  border:1px solid #343c60;
-  border-radius:9px;
-  color:white;
-  font-size:15px;
-  outline:none;
-}
+    .total-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-input:focus,select:focus,textarea:focus{
-  border-color:#a855f7;
-}
+    #total {
+      color: var(--purple-light);
+      font-size: 27px;
+      font-weight: 900;
+    }
 
-.total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:16px;
-  margin:20px 0;
-  background:#090d1c;
-  border-radius:10px;
-}
+    .discount-note {
+      margin-top: 5px;
+      color: #86efac;
+      font-size: 11px;
+    }
 
-.total strong{
-  color:#4ade80;
-  font-size:23px;
-}
+    .button {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 11px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
 
-.qris{
-  text-align:center;
-}
+    .button:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
 
-.qris p{
-  color:#adb6d0;
-  line-height:1.7;
-  font-size:14px;
-}
+    .primary {
+      background: linear-gradient(100deg, #7c3aed, #a855f7);
+      color: white;
+    }
 
-.qris img{
-  display:block;
-  width:100%;
-  max-width:320px;
-  height:auto;
-  margin:20px auto;
-  padding:8px;
-  background:white;
-  border-radius:12px;
-}
+    .whatsapp {
+      background: var(--green);
+      color: white;
+    }
 
-.telegram{background:#168bd0}
+    .channel-panel {
+      text-align: center;
+      border-color: #245640;
+      background: linear-gradient(145deg, #10251e, #111827);
+    }
 
-.note{
-  font-size:12px;
-  color:#9da7c3;
-  line-height:1.8;
-  margin-top:15px;
-}
+    .channel-icon {
+      margin-bottom: 8px;
+      font-size: 36px;
+    }
 
-footer{
-  padding:25px 15px;
-  margin-top:30px;
-  border-top:1px solid #242a43;
-  color:#7e89a8;
-  text-align:center;
-  font-size:12px;
-  line-height:1.8;
-}
+    .channel-panel p {
+      margin: 10px 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-@media(max-width:520px){
-  .packages{grid-template-columns:1fr}
-  .card{padding:20px}
-  .container{padding:15px}
-}
-</style>
+    .qris-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: white;
+      text-align: center;
+    }
+
+    .qris-box img {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin: auto;
+      object-fit: contain;
+    }
+
+    .qris-placeholder {
+      padding: 35px 10px;
+      color: #444;
+      font-size: 13px;
+    }
+
+    .qris-help {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .small-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 20px 0 35px;
+      color: #77738f;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    @media (max-width: 420px) {
+      .panel {
+        padding: 17px;
+      }
+
+      .price-grid {
+        gap: 8px;
+      }
+
+      .price-card {
+        padding: 13px 10px;
+      }
+
+      .price {
+        font-size: 21px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header class="container">
+    <div class="logo">GAMING SERVICE</div>
+    <h1>RANK <span>VS BOT</span></h1>
+    <p>Layanan pemesanan match gaming dengan mudah.</p>
+    <div class="badge">● PEMESANAN MELALUI WHATSAPP</div>
+  </header>
 
-<header>
-  <div class="logo">JOKI<span>FLEX</span> ⚡</div>
-</header>
+  <main class="container">
 
-<section class="hero">
-  <div class="status">● OPEN ORDER</div>
-  <h1>JOKI GENDONG<br><span>VS BOT</span></h1>
-  <p>
-    Pilih paket joki sesuai kebutuhanmu.<br>
-    Isi pesanan dan hubungi admin melalui Telegram.
-  </p>
-</section>
+    <section class="panel">
+      <h2>💎 Daftar Harga</h2>
+      <p class="subtitle">Pilih layanan sesuai kebutuhan kamu.</p>
 
-<main class="container">
+      <div class="price-grid">
+        <div class="price-card">
+          <h3>⚡ FLEX</h3>
+          <div class="price">Rp3.000</div>
+          <p>Per match untuk 1–4 match</p>
+          <div class="package">Paket 5 match: Rp13.000</div>
+        </div>
 
-  <div class="heading">
-    <h2>🔥 DAFTAR PAKET</h2>
-    <p>Pilih paket, harga otomatis sesuai pilihanmu.</p>
-  </div>
+        <div class="price-card">
+          <h3>🔥 NO FLEX</h3>
+          <div class="price">Rp5.000</div>
+          <p>Per match untuk 1–4 match</p>
+          <div class="package">Paket 5 match: Rp23.000</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="packages">
+    <section class="panel">
+      <h2>📝 Form Pemesanan</h2>
+      <p class="subtitle">Isi data dengan benar sebelum mengirim pesanan.</p>
 
-    <article class="card">
-      <div class="tag">PAKET FLEX</div>
-      <h3>⚡ Flex 1 Match</h3>
-      <div class="price">Rp3.000 <small>/ match</small></div>
-      <ul>
-        <li>1 match</li>
-        <li>Mode Flex</li>
-        <li>Konfirmasi jadwal</li>
-      </ul>
-      <button onclick="pilih('flex1')">PILIH PAKET</button>
-    </article>
+      <form id="orderForm">
+        <div class="field">
+          <label for="name">Nama / Nickname</label>
+          <input id="name" type="text" placeholder="Masukkan nickname" required>
+        </div>
 
-    <article class="card">
-      <div class="tag">PAKET NO FLEX</div>
-      <h3>🔥 No Flex 1 Match</h3>
-      <div class="price">Rp5.000 <small>/ match</small></div>
-      <ul>
-        <li>1 match</li>
-        <li>Mode No Flex</li>
-        <li>Konfirmasi jadwal</li>
-      </ul>
-      <button onclick="pilih('noflex1')">PILIH PAKET</button>
-    </article>
+        <div class="field">
+          <label for="mode">Pilih Mode</label>
+          <select id="mode" required>
+            <option value="flex">Flex — Rp3.000/match</option>
+            <option value="noflex">No Flex — Rp5.000/match</option>
+          </select>
+        </div>
 
-    <article class="card">
-      <div class="tag">PAKET HEMAT</div>
-      <h3>💎 Flex 5 Match</h3>
-      <div class="price">Rp12.000 <small>/ 5 match</small></div>
-      <ul>
-        <li>5 match</li>
-        <li>Mode Flex</li>
-        <li>Paket hemat</li>
-      </ul>
-      <button onclick="pilih('flex5')">PILIH PAKET</button>
-    </article>
+        <div class="field">
+          <label for="quantity">Jumlah Match</label>
+          <select id="quantity" required>
+            <option value="1">1 Match</option>
+            <option value="2">2 Match</option>
+            <option value="3">3 Match</option>
+            <option value="4">4 Match</option>
+            <option value="5">5 Match — Paket Hemat</option>
+          </select>
+        </div>
 
-    <article class="card">
-      <div class="tag">PAKET NO FLEX</div>
-      <h3>👑 No Flex 5 Match</h3>
-      <div class="price">Rp20.000 <small>/ 5 match</small></div>
-      <ul>
-        <li>5 match</li>
-        <li>Mode No Flex</li>
-        <li>Konfirmasi jadwal</li>
-      </ul>
-      <button onclick="pilih('noflex5')">PILIH PAKET</button>
-    </article>
+        <div class="field">
+          <label for="gameid">ID Game</label>
+          <input id="gameid" type="text" placeholder="Masukkan ID game" required>
+        </div>
 
-  </div>
+        <div class="field">
+          <label for="schedule">Jadwal Pemesanan</label>
+          <input id="schedule" type="datetime-local" required>
+        </div>
 
-  <section class="section" id="form-order">
-    <h2>📝 Form Pemesanan</h2>
+        <div class="field">
+          <label for="notes">Catatan Tambahan (Opsional)</label>
+          <textarea id="notes" placeholder="Contoh: request tertentu, waktu, dan lainnya"></textarea>
+        </div>
 
-    <form id="formPesanan" onsubmit="kirimPesanan(event)">
+        <div class="total-box">
+          <div class="total-row">
+            <span>Total Pembayaran</span>
+            <strong id="total">Rp3.000</strong>
+          </div>
+          <div id="discountNote" class="discount-note"></div>
+        </div>
 
-      <label for="nama">Nama / Nickname</label>
-      <input id="nama" required maxlength="60"
-        placeholder="Masukkan nickname">
+        <button type="submit" class="button whatsapp">
+          PESAN SEKARANG VIA WHATSAPP ↗
+        </button>
 
-      <label for="paket">Pilih Paket</label>
-      <select id="paket" onchange="hitung()">
-        <option value="flex1">Flex — Rp3.000 / match</option>
-        <option value="noflex1">No Flex — Rp5.000 / match</option>
-        <option value="flex5">Flex — Rp12.000 / 5 match</option>
-        <option value="noflex5">No Flex — Rp20.000 / 5 match</option>
-      </select>
+        <p class="small-note">
+          Pesanan akan dikirim ke WhatsApp untuk konfirmasi lebih lanjut.
+        </p>
+      </form>
+    </section>
 
-      <label for="game">ID Game</label>
-      <input id="game" required maxlength="100"
-        placeholder="Masukkan ID game">
+    <section class="panel">
+      <h2>💳 Pembayaran QRIS</h2>
+      <p class="subtitle">Scan QRIS berikut setelah mengonfirmasi pesanan.</p>
 
-      <label for="jadwal">Jadwal Bermain</label>
-      <input id="jadwal" maxlength="100"
-        placeholder="Contoh: malam pukul 20.00">
-
-      <label for="catatan">Catatan Tambahan</label>
-      <textarea id="catatan" rows="3" maxlength="500"
-        placeholder="Catatan tambahan (opsional)"></textarea>
-
-      <div class="total">
-        <span>Total Pembayaran</span>
-        <strong id="total">Rp3.000</strong>
+      <div class="qris-box">
+        <img
+          src="./qris.jpg"
+          alt="QRIS pembayaran"
+          onerror="this.style.display='none';document.getElementById('qrisPlaceholder').style.display='block';"
+        >
+        <div id="qrisPlaceholder" class="qris-placeholder" style="display:none;">
+          <strong>QRIS belum dipasang</strong><br>
+          Upload gambar QRIS dengan nama <b>qris.jpg</b><br>
+          ke folder yang sama dengan index.html.
+        </div>
       </div>
 
-      <button type="submit" class="telegram">
-        📲 LANJUT ORDER VIA TELEGRAM
-      </button>
+      <p class="qris-help">
+        Pastikan nama penerima dan nominal pembayaran sudah benar sebelum membayar.
+      </p>
+    </section>
 
-    </form>
+    <section class="panel channel-panel">
+      <div class="channel-icon">📢</div>
+      <h2>Saluran WhatsApp</h2>
+      <p>
+        Ikuti saluran WhatsApp untuk mendapatkan informasi,
+        update layanan, dan promo terbaru.
+      </p>
 
-    <p class="note">
-      Setelah menekan tombol, detail pesanan akan disalin jika
-      fitur clipboard tersedia. Tempel detail tersebut di chat
-      Telegram admin untuk konfirmasi.
-    </p>
-  </section>
+      <a
+        class="button whatsapp"
+        href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GABUNG SALURAN WHATSAPP ↗
+      </a>
+    </section>
 
-  <section class="section qris">
-    <h2>💳 PEMBAYARAN QRIS</h2>
-    <p>
-      Scan QRIS berikut menggunakan aplikasi pembayaran yang mendukung
-      QRIS. Periksa nama penerima dan nominal sebelum membayar.
-    </p>
+  </main>
 
-    <img src="./qris.jpg"
-      alt="QRIS pembayaran"
-      onerror="this.style.display='none';document.getElementById('qrisError').style.display='block';">
+  <footer class="container">
+    <p>© <span id="year"></span> RANK VS BOT</p>
+    <p>Harap periksa kembali data pesanan sebelum mengirim.</p>
+  </footer>
 
-    <p id="qrisError" style="display:none;color:#fca5a5">
-      Gambar QRIS belum ditemukan. Upload file qris.jpg ke folder
-      yang sama dengan index.html di GitHub.
-    </p>
+  <script>
+    const modeInput = document.getElementById("mode");
+    const quantityInput = document.getElementById("quantity");
+    const totalElement = document.getElementById("total");
+    const discountNote = document.getElementById("discountNote");
 
-    <a href="./qris.jpg" target="_blank" class="button">
-      LIHAT QRIS UKURAN PENUH
-    </a>
+    function calculateTotal() {
+      const mode = modeInput.value;
+      const quantity = Number(quantityInput.value);
 
-    <p class="note">
-      Pastikan pembayaran berhasil dan nama penerima benar.
-      Kirim bukti pembayaran ke admin Telegram.
-      Website ini belum memverifikasi pembayaran secara otomatis.
-    </p>
-  </section>
+      let total;
 
-  <section class="section">
-    <h2>📞 ADMIN</h2>
-    <p style="color:#adb6d0;margin-bottom:15px">
-      Hubungi admin untuk konfirmasi pesanan dan pembayaran.
-    </p>
+      if (quantity === 5) {
+        total = mode === "flex" ? 13000 : 23000;
+        discountNote.textContent = "✓ Harga paket hemat 5 match";
+      } else {
+        const pricePerMatch = mode === "flex" ? 3000 : 5000;
+        total = pricePerMatch * quantity;
+        discountNote.textContent = "";
+      }
 
-    <a class="button telegram"
-      href="https://t.me/rifhskdkk"
-      target="_blank" rel="noopener">
-      TELEGRAM @rifhskdkk
-    </a>
-  </section>
+      totalElement.textContent = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(total);
 
-</main>
+      return total;
+    }
 
-<footer>
-  © <span id="tahun"></span> JOKIFLEX<br>
-  Joki Gendong VS Bot
-</footer>
+    modeInput.addEventListener("change", calculateTotal);
+    quantityInput.addEventListener("change", calculateTotal);
 
-<script>
-const daftarPaket = {
-  flex1: {
-    nama: "Flex 1 Match",
-    harga: 3000
-  },
-  noflex1: {
-    nama: "No Flex 1 Match",
-    harga: 5000
-  },
-  flex5: {
-    nama: "Flex 5 Match",
-    harga: 12000
-  },
-  noflex5: {
-    nama: "No Flex 5 Match",
-    harga: 20000
-  }
-};
+    document.getElementById("orderForm").addEventListener("submit", function(event) {
+      event.preventDefault();
 
-function formatRupiah(angka) {
-  return "Rp" + angka.toLocaleString("id-ID");
-}
+      const name = document.getElementById("name").value.trim();
+      const mode = modeInput.value;
+      const quantity = Number(quantityInput.value);
+      const gameid = document.getElementById("gameid").value.trim();
+      const schedule = document.getElementById("schedule").value;
+      const notes = document.getElementById("notes").value.trim();
+      const total = calculateTotal();
 
-function hitung() {
-  const id = document.getElementById("paket").value;
-  document.getElementById("total").textContent =
-    formatRupiah(daftarPaket[id].harga);
-}
+      if (!name || !gameid || !schedule) {
+        alert("Mohon lengkapi semua data wajib.");
+        return;
+      }
 
-function pilih(id) {
-  document.getElementById("paket").value = id;
-  hitung();
+      const formattedSchedule = new Date(schedule).toLocaleString("id-ID", {
+        dateStyle: "long",
+        timeStyle: "short"
+      });
 
-  document.getElementById("form-order").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
+      const message = [
+        "*PESANAN RANK VS BOT*",
+        "",
+        "Nama: " + name,
+        "Mode: " + (mode === "flex" ? "Flex" : "No Flex"),
+        "Jumlah: " + quantity + " match",
+        "ID Game: " + gameid,
+        "Jadwal: " + formattedSchedule,
+        "Total: " + new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          maximumFractionDigits: 0
+        }).format(total),
+        "Catatan: " + (notes || "-"),
+        "",
+        "Mohon konfirmasi pesanan saya. Terima kasih."
+      ].join("\n");
 
-async function kirimPesanan(event) {
-  event.preventDefault();
+      const whatsappNumber = "6285725209623";
+      const whatsappURL =
+        "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
 
-  const nama = document.getElementById("nama").value.trim();
-  const game = document.getElementById("game").value.trim();
-  const jadwal = document.getElementById("jadwal").value.trim();
-  const catatan = document.getElementById("catatan").value.trim();
-  const id = document.getElementById("paket").value;
+      window.open(whatsappURL, "_blank", "noopener,noreferrer");
+    });
 
-  if (!nama || !game) {
-    alert("Nama dan ID game wajib diisi.");
-    return;
-  }
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-  const p = daftarPaket[id];
+    // Batas waktu minimum mengikuti waktu perangkat pengguna.
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById("schedule").min = now.toISOString().slice(0, 16);
 
-  const detail =
-`HALO ADMIN JOKIFLEX!
-
-Saya ingin memesan Joki Gendong VS Bot.
-
-Nama: ${nama}
-ID Game: ${game}
-Paket: ${p.nama}
-Total: ${formatRupiah(p.harga)}
-Jadwal: ${jadwal || "-"}
-Catatan: ${catatan || "-"}
-
-Mohon konfirmasi pesanan saya.`;
-
-  try {
-    await navigator.clipboard.writeText(detail);
-    alert("Detail pesanan berhasil disalin. Tempel pesan di chat Telegram admin.");
-  } catch (error) {
-    prompt("Salin detail pesanan ini, lalu kirim ke Telegram:", detail);
-  }
-
-  window.open(
-    "https://t.me/rifhskdkk",
-    "_blank",
-    "noopener"
-  );
-}
-
-document.getElementById("tahun").textContent =
-  new Date().getFullYear();
-
-hitung();
-</script>
-
+    calculateTotal();
+  </script>
 </body>
 </html>
