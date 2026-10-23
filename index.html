@@ -1,210 +1,106 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100b22">
-  <meta name="description" content="ORDER RANK VS BOT BY RIFHSK.  AMANAH, TERPERCAYA, DAN PESAN MELALUI WHATSAPP.">
-
-  <title>RANK VS BOT BY RIFHSK</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10051f">
+  <meta name="description" content="Pemesanan Rank VS Bot by RIFHSK">
+  <title>RANK VS BOT | BY RIFHSK</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-icon">♛</span>
+      <span><b>RANK VS BOT</b><small>BY RIFHSK</small></span>
+    </a>
+    <a class="channel-btn" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l" target="_blank" rel="noopener">Channel WhatsApp</a>
+  </header>  <main class="container">
+    <section class="hero">
+      <div class="badge">● ORDER SERVICE</div>
+      <h1>RANK VS BOT</h1>
+      <h2>BY RIFHSK</h2>
+      <p>Isi formulir pemesanan dengan benar, cek total pembayaran,<br> lalu kirim pesanan ke WhatsApp admin.</p>
+    </section><section class="panel price-section">
+  <h2 class="section-title">♟ DAFTAR HARGA</h2>
+  <div class="price-grid">
+    <article class="price-card">
+      <h3>⚡ FLEXIBLE</h3>
+      <p>Harga per match</p>
+      <strong>Rp2.500 <small>/ MATCH</small></strong>
+    </article>
+    <article class="price-card">
+      <h3>🔥 NO FLEXIBLE</h3>
+      <p>Harga per match</p>
+      <strong>Rp3.500 <small>/ MATCH</small></strong>
+    </article>
+  </div>
+</section>
 
-<header class="navbar">
-  <a href="#" class="brand">
-    <img src="logo.png" alt="Logo RIFHSK"
-         onerror="this.style.display='none'">
-    <span>
-      RANK VS BOT
-      <small>BY RIFHSK</small>
-    </span>
-  </a>
+<div class="content-grid">
+  <section class="panel">
+    <h2 class="section-title">▤ FORMULIR PEMESANAN</h2>
+    <p class="muted">Lengkapi semua data pemesanan.</p>
 
-  <a
-    class="channel-button"
-    href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-    target="_blank"
-    rel="noopener noreferrer">
-    Channel WhatsApp ↗
-  </a>
-</header>
+    <form id="orderForm">
+      <label for="nickname">Nama / Nickname</label>
+      <input id="nickname" type="text" placeholder="Masukkan nickname" required maxlength="60">
 
-<main class="container">
+      <label for="service">Pilih Layanan</label>
+      <select id="service">
+        <option value="FLEXIBLE">FLEXIBLE — Rp2.500/match</option>
+        <option value="NO FLEXIBLE">NO FLEXIBLE — Rp3.500/match</option>
+      </select>
 
-  <section class="hero">
-    <div class="badge">● ORDER SERVICE</div>
+      <label for="qty">Jumlah Match</label>
+      <select id="qty">
+        <option value="1">1 Match</option>
+        <option value="2">2 Match</option>
+        <option value="3">3 Match</option>
+        <option value="4">4 Match</option>
+        <option value="5">5 Match</option>
+      </select>
 
-    <h1>
-      RANK VS BOT
-      <span>BY RIFHSK</span>
-    </h1>
+      <label for="gameid">Game ID</label>
+      <input id="gameid" type="text" placeholder="Masukkan Game ID" required maxlength="50">
 
-    <p>
-      Isi data pemesanan dengan benar, pilih layanan,
-      cek total pembayaran, lalu kirim order ke WhatsApp admin.
-    </p>
+      <label for="schedule">Jadwal Pesanan</label>
+      <input id="schedule" type="datetime-local" required>
+
+      <label for="notes">Catatan Tambahan</label>
+      <textarea id="notes" rows="3" placeholder="Opsional" maxlength="500"></textarea>
+
+      <div class="total-box">
+        <div>
+          <b>Total Pembayaran</b>
+          <small id="totalDescription">FLEXIBLE · 1 MATCH</small>
+        </div>
+        <output id="totalPrice">Rp2.500</output>
+      </div>
+
+      <button type="submit" class="submit-btn">◉ PESAN SEKARANG VIA WHATSAPP</button>
+      <p class="form-note">Periksa kembali data sebelum mengirim pesanan.</p>
+    </form>
   </section>
 
-  <section class="content-grid">
-
-    <!-- FORM ORDER -->
-    <div class="card">
-      <h2>Form Pemesanan</h2>
-      <p class="description">Lengkapi semua data yang diperlukan.</p>
-
-      <form id="orderForm">
-
-        <label for="nickname">Nama / Nickname</label>
-        <input
-          type="text"
-          id="nickname"
-          placeholder="Masukkan nickname"
-          maxlength="50"
-          required>
-
-        <label for="mode">Pilih Layanan</label>
-        <select id="mode" required>
-          <option value="flex">Flex</option>
-          <option value="noflex">No Flex</option>
-        </select>
-
-        <label for="quantity">Jumlah Match</label>
-        <select id="quantity" required>
-          <option value="1">1 Match</option>
-          <option value="2">2 Match</option>
-          <option value="3">3 Match</option>
-          <option value="4">4 Match</option>
-          <option value="5">Paket 5 Match</option>
-        </select>
-
-        <label for="gameid">Game ID</label>
-        <input
-          type="text"
-          id="gameid"
-          placeholder="Masukkan Game ID"
-          maxlength="40"
-          required>
-
-        <label for="schedule">Jadwal Pesanan</label>
-        <input
-          type="datetime-local"
-          id="schedule"
-          required>
-
-        <label for="notes">Catatan Tambahan</label>
-        <textarea
-          id="notes"
-          rows="3"
-          maxlength="500"
-          placeholder="Opsional..."></textarea>
-
-        <div class="total-box">
-          <div>
-            <span>Total Pembayaran</span>
-            <small id="priceInfo">Flex · 1 match</small>
-          </div>
-
-          <strong id="totalPrice">Rp3.000</strong>
-        </div>
-
-        <button type="submit" class="order-button">
-          Pesan Sekarang via WhatsApp
-        </button>
-
-        <p class="disclaimer">
-          Periksa kembali data sebelum mengirim pesanan.
-        </p>
-
-      </form>
-    </div>
-
-    <!-- INFORMASI -->
-    <aside class="side-content">
-
-      <div class="card">
-        <h2>Daftar Harga</h2>
-
-        <div class="price-item">
-          <div>
-            <b>Flex</b>
-            <span>1–4 match</span>
-          </div>
-          <strong>Rp3.000<span>/match</span></strong>
-        </div>
-
-        <div class="price-item">
-          <div>
-            <b>Flex Paket</b>
-            <span>5 match</span>
-          </div>
-          <strong>Rp13.000</strong>
-        </div>
-
-        <div class="price-item">
-          <div>
-            <b>No Flex</b>
-            <span>1–4 match</span>
-          </div>
-          <strong>Rp5.000<span>/match</span></strong>
-        </div>
-
-        <div class="price-item">
-          <div>
-            <b>No Flex Paket</b>
-            <span>5 match</span>
-          </div>
-          <strong>Rp23.000</strong>
-        </div>
+  <aside>
+    <section class="panel">
+      <h2 class="section-title">▦ PEMBAYARAN QRIS</h2>
+      <div class="qris-box">
+        <img src="qris.jpg" alt="QRIS Pembayaran"
+          onerror="this.style.display='none';document.getElementById('qrisFallback').style.display='block'">
+        <p id="qrisFallback">Upload gambar QRIS asli dengan nama <b>qris.jpg</b>.</p>
       </div>
+      <p class="muted info-text">Scan QRIS untuk membayar sesuai total pesanan. Konfirmasikan pembayaran kepada admin.</p>
+    </section>
 
-      <div class="card">
-        <h2>Pembayaran QRIS</h2>
+    <section class="panel">
+      <h2 class="section-title">ⓘ INFORMASI</h2>
+      <p class="muted info-text">Pesanan dikirim ke WhatsApp admin untuk konfirmasi. Tunggu konfirmasi sebelum menganggap pesanan selesai.</p>
+    </section>
+  </aside>
+</div>
 
-        <div class="qris-container">
-          <img
-            src="qris.jpg"
-            alt="QRIS pembayaran"
-            id="qrisImage"
-            onerror="this.style.display='none';document.getElementById('qrisFallback').style.display='block'">
-
-          <div id="qrisFallback" class="qris-fallback">
-            <span>QRIS BELUM DIPASANG</span>
-            <p>
-              Upload gambar QRIS dengan nama
-              <b>qris.jpg</b> ke folder utama website.
-            </p>
-          </div>
-        </div>
-
-        <p class="description">
-          Pastikan nama file dan jumlah pembayaran benar.
-          Konfirmasi pembayaran kepada admin.
-        </p>
-      </div>
-
-      <div class="card notice">
-        <h2>Informasi</h2>
-        <p>
-          Pesanan dikirim ke WhatsApp admin untuk konfirmasi.
-          Pesanan belum dianggap selesai hanya dengan membuka WhatsApp.
-        </p>
-      </div>
-
-    </aside>
-
-  </section>
-
-  <footer>
-    <p>© <span id="year"></span> RANK VS BOT BY RIFHSK</p>
-    <p>All rights reserved.</p>
-  </footer>
-
-</main>
-
-<script src="script.js"></script>
-
+  </main>  <footer>© 2026 RANK VS BOT BY RIFHSK<br>All rights reserved.</footer>
+  <script src="script.js"></script>
 </body>
 </html>
