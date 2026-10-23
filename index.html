@@ -1,289 +1,859 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#06101f">
-  <title>RIFHSK777 | Rank vs Bot</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d12">
+<title>RIFHSK — Rank vs Bot</title>
+
+<style>
+:root{
+  --green:#b8ff39;
+  --green2:#8ee820;
+  --bg:rgba(10,15,20,.69);
+  --panel:rgba(12,19,24,.48);
+  --line:rgba(255,255,255,.12);
+  --muted:#a0ada9;
+  --white:#f6faf7;
+  --red:#ff7180;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--white);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#090d12 url("logo.jpg") center center/cover fixed no-repeat;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(120deg,rgba(4,9,13,.78),rgba(4,9,13,.48) 50%,rgba(4,9,13,.77));
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px;
+}
+button:disabled{opacity:.5;cursor:not-allowed}
+a{color:inherit;text-decoration:none}
+.app{min-height:100vh}
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(7,12,15,.72);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+.top-inner{
+  max-width:1320px;margin:auto;padding:14px 26px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-logo{
+  width:44px;height:44px;border-radius:14px;
+  object-fit:cover;border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 0 25px rgba(184,255,57,.08);
+}
+.brand-name{font-size:14px;font-weight:900;letter-spacing:.9px}
+.brand-sub{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:4px}
+.top-right{display:flex;align-items:center;gap:12px}
+.online{display:flex;align-items:center;gap:8px;color:#d4e0da;font-size:12px}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.contact-btn{
+  border:1px solid rgba(184,255,57,.35);background:rgba(184,255,57,.1);
+  color:var(--green);border-radius:11px;padding:11px 15px;font-weight:750;font-size:12px;
+}
+.layout{max-width:1320px;margin:auto;padding:25px 26px 50px;display:grid;grid-template-columns:225px minmax(0,1fr);gap:24px}
+.sidebar{
+  align-self:start;position:sticky;top:91px;
+  padding:13px;border:1px solid var(--line);border-radius:19px;
+  background:rgba(7,13,17,.53);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.nav-label{font-size:10px;letter-spacing:2px;color:#708079;padding:12px 12px 10px;font-weight:800}
+.nav-btn{
+  display:flex;align-items:center;gap:12px;width:100%;padding:13px 12px;
+  margin:3px 0;border-radius:12px;border:1px solid transparent;
+  color:#aab6b0;background:transparent;text-align:left;font-size:13px;font-weight:650;
+  transition:.18s;
+}
+.nav-btn .ico{width:20px;text-align:center;font-size:16px}
+.nav-btn:hover{background:rgba(255,255,255,.045);color:white}
+.nav-btn.active{
+  background:linear-gradient(110deg,rgba(184,255,57,.15),rgba(184,255,57,.035));
+  border-color:rgba(184,255,57,.18);color:var(--green);
+}
+.sidebar-bottom{margin-top:22px;padding:14px;border-top:1px solid var(--line)}
+.sidebar-bottom small{font-size:10px;color:#788680;letter-spacing:1px}
+.sidebar-bottom strong{display:block;margin-top:7px;font-size:12px}
+.content{min-width:0}
+.page{display:none;animation:enter .25s ease}
+.page.active{display:block}
+@keyframes enter{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:none}}
+.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:5px 0 25px}
+.eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--green);font-weight:850;margin-bottom:10px}
+h1,h2,h3,p{margin-top:0}
+.page-heading h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.2px;margin:0 0 8px;font-weight:850}
+.page-heading p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}
+.date-chip{padding:10px 12px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:10px;color:#b9c5bf;font-size:11px;white-space:nowrap}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:19px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 15px 50px rgba(0,0,0,.08);
+}
+.hero{
+  position:relative;overflow:hidden;padding:clamp(25px,4vw,43px);
+  min-height:270px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(150px,.7fr);
+  align-items:center;gap:22px;
+}
+.hero:after{
+  content:"";position:absolute;width:300px;height:300px;right:-90px;top:-130px;
+  border-radius:50%;border:1px solid rgba(184,255,57,.1);
+  box-shadow:0 0 0 35px rgba(184,255,57,.025),0 0 0 75px rgba(184,255,57,.018);
+  pointer-events:none;
+}
+.hero h2{font-size:clamp(32px,4.5vw,53px);line-height:1.04;letter-spacing:-2px;margin:0 0 16px;max-width:600px}
+.hero h2 span{color:var(--green)}
+.hero p{max-width:500px;color:#abb8b1;font-size:13px;line-height:1.85;margin-bottom:23px}
+.hero-mark{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.hero-mark img{
+  width:min(100%,205px);aspect-ratio:1;object-fit:cover;border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 0 70px rgba(184,255,57,.07);
+  mask-image:radial-gradient(circle,#000 50%,rgba(0,0,0,.85) 68%,transparent 75%);
+}
+.btn{
+  border:1px solid var(--line);border-radius:10px;padding:12px 15px;
+  background:rgba(255,255,255,.045);color:#edf4ef;font-size:12px;font-weight:750;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.18s;
+}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.09)}
+.btn.primary{background:var(--green);border-color:var(--green);color:#12180b}
+.btn.primary:hover{background:#cbff71}
+.btn.danger{color:#ff9ba5;border-color:rgba(255,113,128,.24);background:rgba(255,113,128,.07)}
+.btn.blue{color:#8fcaff;border-color:rgba(72,167,255,.28);background:rgba(72,167,255,.08)}
+.btn.small{padding:9px 11px;font-size:11px}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:27px 0 14px}
+.section-head h2{font-size:17px;margin:0;font-weight:800;letter-spacing:-.3px}
+.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.section-head .right-note{font-size:10px;color:#899890}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:18px}
+.stat{padding:19px;border-radius:16px;position:relative;overflow:hidden}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stat-label{color:#a0ada6;font-size:11px}
+.stat-icon{
+  display:grid;place-items:center;width:32px;height:32px;border-radius:10px;
+  background:rgba(184,255,57,.09);color:var(--green);font-size:15px
+}
+.stat-value{font-size:clamp(22px,3vw,30px);font-weight:850;letter-spacing:-1px;margin:17px 0 7px;overflow-wrap:anywhere}
+.stat-foot{font-size:10px;color:#84938b;line-height:1.5}
+.packages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.package{padding:21px;position:relative;overflow:hidden;transition:.2s}
+.package:hover{border-color:rgba(184,255,57,.3);transform:translateY(-2px)}
+.package-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.package-symbol{width:41px;height:41px;display:grid;place-items:center;border-radius:13px;background:rgba(184,255,57,.09);color:var(--green);font-weight:900}
+.pill{font-size:9px;letter-spacing:1px;padding:7px 9px;border-radius:7px;background:rgba(184,255,57,.09);color:var(--green);border:1px solid rgba(184,255,57,.16);font-weight:850}
+.package h3{font-size:18px;margin:18px 0 7px}
+.package-desc{color:var(--muted);font-size:11px;line-height:1.7}
+.price{font-size:28px;letter-spacing:-1px;font-weight:850;margin:19px 0 5px}
+.price span{font-size:11px;letter-spacing:0;color:#94a39a;font-weight:500}
+.package-limit{font-size:11px;color:#bac5be;margin:12px 0 19px}
+.package-limit b{color:var(--green)}
+.package .btn{width:100%}
+.form-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:16px;align-items:start}
+.form-panel{padding:22px}
+.form-title{font-size:16px;font-weight:850;margin-bottom:5px}
+.form-subtitle{color:var(--muted);font-size:11px;line-height:1.7;margin-bottom:22px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:11px;color:#d8e1db;font-weight:700}
+input,select,textarea{
+  width:100%;min-width:0;padding:12px 13px;border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;background:rgba(3,8,11,.3);color:#fff;font-size:12px;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:rgba(184,255,57,.6)}
+input::placeholder,textarea::placeholder{color:#738179}
+select option{background:#101914;color:white}
+textarea{min-height:90px;resize:vertical}
+.hint{font-size:10px;line-height:1.65;color:#84938b}
+.summary{padding:21px;position:sticky;top:100px}
+.summary-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
+.summary-title h3{font-size:15px;margin:0}
+.summary-lines{display:grid;gap:14px}
+.sum-line{display:flex;justify-content:space-between;gap:12px;color:#9aa89f;font-size:11px}
+.sum-line strong{color:#eaf0eb;text-align:right;overflow-wrap:anywhere}
+.sum-divider{height:1px;background:var(--line);margin:18px 0}
+.sum-total{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sum-total span{font-size:11px;color:#a4b0a8}
+.sum-total strong{font-size:23px;color:var(--green);letter-spacing:-.7px}
+.summary .btn{width:100%;margin-top:17px}
+.secure-note{margin-top:15px;padding:12px;border-radius:10px;background:rgba(255,255,255,.025);color:#8f9d95;font-size:10px;line-height:1.7}
+.qris-panel{display:none;padding:22px;margin-top:16px;text-align:center}
+.qris-panel.show{display:block}
+.qris-panel h3{font-size:17px;margin-bottom:8px}
+.qris-panel>p{font-size:11px;color:var(--muted);line-height:1.7}
+.qris-img{display:block;width:min(100%,290px);height:auto;padding:9px;border-radius:12px;background:#fff;margin:18px auto}
+.qris-img.error{display:none}
+.qris-total{padding:14px;border:1px solid rgba(184,255,57,.18);background:rgba(184,255,57,.045);border-radius:11px;margin:15px 0}
+.qris-total small{color:#9ca99f;font-size:10px}
+.qris-total strong{display:block;font-size:24px;color:var(--green);margin-top:7px}
+.notice{padding:13px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025);color:#98a69e;font-size:11px;line-height:1.75}
+.history-list{display:grid;gap:12px}
+.history-item{padding:18px}
+.history-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.history-code{font-size:12px;font-weight:850;letter-spacing:.5px}
+.history-meta{font-size:10px;color:#8d9b93;margin-top:6px}
+.history-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px 0}
+.history-cell small{display:block;font-size:10px;color:#8e9c94;margin-bottom:6px}
+.history-cell strong{font-size:12px;overflow-wrap:anywhere}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap}
+.empty{padding:36px 15px;text-align:center;color:#92a098;font-size:12px}
+.empty-symbol{font-size:27px;margin-bottom:12px}
+.faq-list{display:grid;gap:10px}
+details{padding:17px 19px}
+summary{cursor:pointer;font-size:12px;font-weight:750}
+details p{color:#a5b1a9;font-size:11px;line-height:1.8;margin:13px 0 0}
+.guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.guide-card{padding:19px}
+.guide-number{font-size:10px;color:var(--green);letter-spacing:2px;font-weight:900}
+.guide-card h3{font-size:13px;margin:15px 0 8px}
+.guide-card p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}
+.footer{max-width:1320px;margin:auto;padding:0 26px 26px;color:#78877e;font-size:10px;line-height:1.8;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.toast{
+  position:fixed;z-index:100;bottom:22px;left:50%;transform:translateX(-50%);
+  padding:13px 18px;border:1px solid rgba(184,255,57,.2);border-radius:12px;
+  background:rgba(9,15,17,.96);color:white;font-size:12px;display:none;
+  box-shadow:0 10px 40px #0004;max-width:calc(100% - 28px);text-align:center
+}
+.toast.show{display:block}
+.mobile-nav{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:190px minmax(0,1fr);gap:16px;padding:20px 18px 40px}
+  .top-inner{padding:13px 18px}
+  .sidebar{top:83px}
+  .hero{grid-template-columns:1fr .48fr}
+  .hero-mark img{width:160px}
+  .form-layout{grid-template-columns:1fr}
+  .summary{position:static}
+  .guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  body{background-attachment:scroll;background-position:center top}
+  .top-inner{padding:11px 14px}
+  .brand-logo{width:39px;height:39px}
+  .brand-name{font-size:12px}
+  .brand-sub{font-size:8px;letter-spacing:1.5px}
+  .online{display:none}
+  .contact-btn{padding:10px;font-size:10px}
+  .layout{display:block;padding:18px 13px 34px}
+  .sidebar{display:none}
+  .mobile-nav{
+    display:flex;position:fixed;z-index:60;bottom:10px;left:10px;right:10px;
+    padding:8px 5px;border:1px solid rgba(255,255,255,.13);border-radius:17px;
+    background:rgba(7,12,15,.91);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    justify-content:space-around;gap:3px;box-shadow:0 8px 30px #0005
+  }
+  .mobile-nav .nav-btn{
+    width:auto;flex:1;display:flex;flex-direction:column;justify-content:center;
+    gap:5px;padding:8px 2px;margin:0;font-size:9px;text-align:center;border-radius:10px
+  }
+  .mobile-nav .nav-btn .ico{font-size:16px;width:auto}
+  .hero{grid-template-columns:1fr;padding:25px 20px;min-height:0}
+  .hero h2{font-size:37px}
+  .hero-mark{display:none}
+  .hero p{font-size:12px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .stat{padding:14px}
+  .stat:last-child{grid-column:1/-1}
+  .stat-value{font-size:25px;margin:13px 0 5px}
+  .packages{grid-template-columns:1fr}
+  .package{padding:19px}
+  .page-heading{align-items:flex-start;flex-direction:column;margin-bottom:18px}
+  .date-chip{display:none}
+  .form-panel,.summary{padding:17px}
+  .fields{grid-template-columns:1fr;gap:14px}
+  .field.full{grid-column:auto}
+  .history-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .guide-grid{grid-template-columns:1fr}
+  .footer{padding:0 14px 92px}
+  .section-head{align-items:flex-start}
+}
+</style>
 </head>
+
 <body>
-
-  <div class="background-glow"></div>
-
-  <header class="navbar">
-    <a href="#" class="brand">
-      <div class="brand-icon">R<span>7</span></div>
+<div class="app">
+<header class="topbar">
+  <div class="top-inner">
+    <a class="brand" href="#" data-page-link="home">
+      <img class="brand-logo" src="logo.jpg" alt="RIFHSK"
+        onerror="this.style.opacity='.15'">
       <div>
-        <strong>RIFHSK777</strong>
-        <small>RANK VS BOT SERVICE</small>
+        <div class="brand-name">RIFHSK <span style="color:var(--green)">/</span> RANK VS BOT</div>
+        <div class="brand-sub">PREMIUM SERVICE PANEL</div>
       </div>
     </a>
-
-    <div class="online">
-      <span></span> SYSTEM ONLINE
+    <div class="top-right">
+      <div class="online"><span class="online-dot"></span> SYSTEM READY</div>
+      <button class="contact-btn" id="contactHeader">↗ Hubungi Admin</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-label">MENU UTAMA</div>
+    <button class="nav-btn active" data-page="home"><span class="ico">⌂</span> Overview</button>
+    <button class="nav-btn" data-page="dashboard"><span class="ico">▦</span> Dashboard</button>
+    <button class="nav-btn" data-page="order"><span class="ico">＋</span> Buat Pesanan</button>
+    <button class="nav-btn" data-page="history"><span class="ico">◷</span> Riwayat Pesanan</button>
+    <div class="nav-label" style="margin-top:14px">INFORMASI</div>
+    <button class="nav-btn" data-page="guide"><span class="ico">↗</span> Cara Pemesanan</button>
+    <button class="nav-btn" data-page="faq"><span class="ico">?</span> Pusat Bantuan</button>
+    <div class="sidebar-bottom">
+      <small>PLATFORM STATUS</small>
+      <strong><span class="online-dot" style="display:inline-block;margin-right:7px"></span>Panel siap digunakan</strong>
+    </div>
+  </aside>
 
-    <section class="hero">
-      <div class="hero-content">
-        <div class="badge">⚡ PREMIUM SERVICE</div>
+  <main class="content">
+    <!-- HOME -->
+    <section class="page active" id="home">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">WELCOME TO RIFHSK</div>
+          <h1>Push rank. <span style="color:var(--green)">Stay ahead.</span></h1>
+          <p>Kelola pesananmu dengan cepat melalui satu panel yang simpel dan eksklusif.</p>
+        </div>
+        <div class="date-chip" id="todayDate">RIFHSK SERVICE</div>
+      </div>
 
-        <h1>RANK VS BOT<br><span>MAX 75</span></h1>
+      <div class="hero panel">
+        <div style="position:relative;z-index:2">
+          <div class="eyebrow">RANK VS BOT MAX 75</div>
+          <h2>LEVEL UP<br>YOUR <span>GAME.</span></h2>
+          <p>Pilih paket layanan, tentukan jumlah match, lalu selesaikan pesanan melalui alur yang jelas. Maksimal 5 match per pesanan.</p>
+          <div class="actions">
+            <button class="btn primary" data-go="order">＋ Buat Pesanan</button>
+            <button class="btn" data-go="dashboard">Lihat Dashboard ↗</button>
+          </div>
+        </div>
+        <div class="hero-mark"><img src="logo.jpg" alt="Logo RIFHSK"></div>
+      </div>
 
-        <p>
-          Pilih paket layanan, tentukan jumlah match,
-          dan lakukan pemesanan dengan mudah.
-        </p>
-
-        <div class="hero-info">
-          <span>✦ Fast Order</span>
-          <span>◈ QRIS Payment</span>
+      <div class="section-head">
+        <div><h2>Ringkasan Aktivitas</h2><p>Statistik dari pesanan yang tersimpan di perangkat ini.</p></div>
+        <span class="right-note">LOCAL DATA</span>
+      </div>
+      <div class="stats">
+        <div class="stat panel">
+          <div class="stat-top"><span class="stat-label">Total Pesanan</span><span class="stat-icon">▤</span></div>
+          <div class="stat-value" id="homeOrders">0</div>
+          <div class="stat-foot">Semua pesanan tersimpan</div>
+        </div>
+        <div class="stat panel">
+          <div class="stat-top"><span class="stat-label">Total Match</span><span class="stat-icon">◈</span></div>
+          <div class="stat-value" id="homeMatches">0</div>
+          <div class="stat-foot">Akumulasi match pesanan</div>
+        </div>
+        <div class="stat panel">
+          <div class="stat-top"><span class="stat-label">Pilihan Paket</span><span class="stat-icon">✳</span></div>
+          <div class="stat-value">02</div>
+          <div class="stat-foot">Flexible & No Flexible</div>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="ring ring-one"></div>
-        <div class="ring ring-two"></div>
-
-        <img
-          src="logo.png"
-          alt="Logo RIFHSK777"
-          class="hero-logo"
-          onerror="this.style.display='none';document.getElementById('logoFallback').style.display='grid'"
-        >
-
-        <div id="logoFallback" class="logo-fallback">R<span>7</span></div>
-
-        <div class="hero-caption">RIFHSK<span>777</span></div>
+      <div class="section-head">
+        <div><h2>Pilih Paket Layanan</h2><p>Harga per match, batas maksimal 5 match.</p></div>
+        <span class="right-note">2 PACKAGES</span>
       </div>
+
+      <div class="packages">
+        <article class="package panel">
+          <div class="package-top"><div class="package-symbol">F</div><span class="pill">FLEXIBLE</span></div>
+          <h3>Flexible Package</h3>
+          <div class="package-desc">Pilihan paket flexible untuk kebutuhan pesananmu.</div>
+          <div class="price">Rp2.500 <span>/ match</span></div>
+          <div class="package-limit">Maksimal <b>5 match</b> per pesanan</div>
+          <button class="btn primary" data-package="flexible">Pilih Flexible →</button>
+        </article>
+        <article class="package panel">
+          <div class="package-top"><div class="package-symbol">N</div><span class="pill">NO FLEXIBLE</span></div>
+          <h3>No Flexible Package</h3>
+          <div class="package-desc">Paket alternatif dengan perhitungan biaya yang transparan.</div>
+          <div class="price">Rp3.500 <span>/ match</span></div>
+          <div class="package-limit">Maksimal <b>5 match</b> per pesanan</div>
+          <button class="btn primary" data-package="no-flexible">Pilih No Flexible →</button>
+        </article>
+      </div>
+
+      <div class="section-head"><div><h2>Pesanan Terbaru</h2><p>Aktivitas terakhir pada browser ini.</p></div><button class="btn small" data-go="history">Lihat Semua →</button></div>
+      <div id="homeRecent" class="history-list"></div>
     </section>
 
-    <section class="clock-panel">
-      <div>
-        <small>WAKTU INDONESIA BARAT</small>
-        <strong id="clock">00:00:00 WIB</strong>
+    <!-- DASHBOARD -->
+    <section class="page" id="dashboard">
+      <div class="page-heading">
+        <div><div class="eyebrow">OVERVIEW / ANALYTICS</div><h1>Dashboard</h1><p>Ringkasan pesanan dan akumulasi match.</p></div>
+        <div class="date-chip">RIFHSK • LOCAL PANEL</div>
       </div>
-
-      <div class="date" id="date">Memuat tanggal...</div>
+      <div class="stats">
+        <div class="stat panel"><div class="stat-top"><span class="stat-label">Total Pesanan</span><span class="stat-icon">▤</span></div><div class="stat-value" id="statOrders">0</div><div class="stat-foot">Jumlah pesanan tersimpan</div></div>
+        <div class="stat panel"><div class="stat-top"><span class="stat-label">Total Match</span><span class="stat-icon">◈</span></div><div class="stat-value" id="statMatches">0</div><div class="stat-foot">Akumulasi dari semua pesanan</div></div>
+        <div class="stat panel"><div class="stat-top"><span class="stat-label">Paket Tersedia</span><span class="stat-icon">✳</span></div><div class="stat-value">02</div><div class="stat-foot">Flexible dan No Flexible</div></div>
+      </div>
+      <div class="section-head"><div><h2>Aktivitas Pesanan</h2><p>Data terbaru yang tercatat di browser.</p></div><button class="btn small" data-go="order">＋ Pesanan Baru</button></div>
+      <div id="dashboardRecent" class="history-list"></div>
+      <div class="notice" style="margin-top:15px">Dashboard menggunakan penyimpanan lokal browser. Data ini tidak otomatis tersinkron ke perangkat lain dan tidak membuktikan bahwa pembayaran telah terverifikasi.</div>
     </section>
 
-    <section class="dashboard">
+    <!-- ORDER -->
+    <section class="page" id="order">
+      <div class="page-heading">
+        <div><div class="eyebrow">ORDER / NEW REQUEST</div><h1>Buat Pesanan</h1><p>Isi detail pesanan. Total harga akan dihitung otomatis.</p></div>
+        <div class="date-chip">MAX 5 MATCH</div>
+      </div>
 
-      <div class="panel order-panel">
-        <div class="section-title">
-          <div>
-            <small class="eyebrow">01 / ORDER</small>
-            <h2>Buat Pesanan</h2>
+      <div class="form-layout">
+        <form class="form-panel panel" id="orderForm">
+          <div class="form-title">Detail Pesanan</div>
+          <div class="form-subtitle">Pastikan data game dan nomor WhatsApp sudah benar.</div>
+          <div class="fields">
+            <div class="field full">
+              <label for="package">PILIH PAKET</label>
+              <select id="package" required>
+                <option value="flexible">FLEXIBLE — Rp2.500 / match</option>
+                <option value="no-flexible">NO FLEXIBLE — Rp3.500 / match</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="gameId">ID GAME</label>
+              <input id="gameId" required maxlength="40" placeholder="Masukkan ID game">
+            </div>
+            <div class="field">
+              <label for="nickname">NICKNAME</label>
+              <input id="nickname" required maxlength="50" placeholder="Nickname game">
+            </div>
+            <div class="field full">
+              <label for="customerWa">NOMOR WHATSAPP AKTIF</label>
+              <input id="customerWa" required type="tel" maxlength="20" placeholder="Contoh: 6281234567890">
+              <span class="hint">Nomor ini digunakan admin untuk menghubungi kamu.</span>
+            </div>
+            <div class="field full">
+              <label for="matchCount">JUMLAH MATCH</label>
+              <input id="matchCount" required type="number" min="1" max="5" value="1" step="1">
+              <span class="hint" id="matchHint">Minimal 1 dan maksimal 5 match.</span>
+            </div>
+            <div class="field full">
+              <label for="notes">CATATAN TAMBAHAN (OPSIONAL)</label>
+              <textarea id="notes" maxlength="500" placeholder="Catatan khusus untuk admin..."></textarea>
+            </div>
+            <div class="field full">
+              <label style="display:flex;align-items:flex-start;gap:10px;line-height:1.7">
+                <input id="confirmData" type="checkbox" required style="width:auto;margin-top:2px">
+                <span>Saya memastikan data pesanan benar dan memahami bahwa pembayaran perlu dikonfirmasi oleh admin.</span>
+              </label>
+            </div>
+            <div class="field full"><button type="submit" class="btn primary" style="width:100%">Buat Pesanan & Lanjut Pembayaran ↗</button></div>
           </div>
-          <span class="number">01</span>
-        </div>
-
-        <div class="packages">
-
-          <button
-            class="package active"
-            type="button"
-            data-package="flexible"
-          >
-            <div class="package-head">
-              <span>✦ FLEXIBLE</span>
-              <span class="popular">POPULAR</span>
-            </div>
-
-            <strong>Rp2.500<small> / match</small></strong>
-            <p>Maksimal 5 match</p>
-            <div class="radio"></div>
-          </button>
-
-          <button
-            class="package"
-            type="button"
-            data-package="no-flexible"
-          >
-            <div class="package-head">
-              <span>◈ NO FLEXIBLE</span>
-              <span class="standard">STANDARD</span>
-            </div>
-
-            <strong>Rp3.500<small> / match</small></strong>
-            <p>Maksimal 10 match</p>
-            <div class="radio"></div>
-          </button>
-
-        </div>
-
-        <form id="orderForm">
-
-          <label for="playerName">Nama / Username</label>
-          <input
-            id="playerName"
-            type="text"
-            maxlength="60"
-            placeholder="Masukkan nama atau username"
-            required
-          >
-
-          <label for="playerId">ID Game <span>(opsional)</span></label>
-          <input
-            id="playerId"
-            type="text"
-            maxlength="40"
-            placeholder="Masukkan ID game"
-          >
-
-          <div class="form-row">
-            <div>
-              <label for="matchCount">Jumlah Match</label>
-
-              <div class="stepper">
-                <button type="button" id="minus">−</button>
-                <input
-                  type="number"
-                  id="matchCount"
-                  min="1"
-                  max="5"
-                  value="1"
-                >
-                <button type="button" id="plus">+</button>
-              </div>
-
-              <small class="hint" id="limitHint">Maksimal 5 match</small>
-            </div>
-
-            <div>
-              <label for="notes">Catatan <span>(opsional)</span></label>
-              <input
-                type="text"
-                id="notes"
-                maxlength="180"
-                placeholder="Catatan tambahan"
-              >
-            </div>
-          </div>
-
-          <div class="total-box">
-            <div>
-              <small>TOTAL PEMBAYARAN</small>
-              <p id="calculation">1 match × Rp2.500</p>
-            </div>
-
-            <strong id="total">Rp2.500</strong>
-          </div>
-
-          <button type="submit" class="btn-primary">
-            <span>Pesan Sekarang via WhatsApp</span>
-            <span>↗</span>
-          </button>
-
-          <p class="disclaimer">
-            Pastikan detail pesanan benar sebelum dikirim ke admin.
-          </p>
-
         </form>
-      </div>
 
-      <aside class="side">
-
-        <div class="panel payment-panel">
-          <div class="section-title">
-            <div>
-              <small class="eyebrow">02 / PAYMENT</small>
-              <h2>Pembayaran QRIS</h2>
+        <aside>
+          <div class="summary panel">
+            <div class="summary-title"><h3>Order Summary</h3><span class="pill">PREVIEW</span></div>
+            <div class="summary-lines">
+              <div class="sum-line"><span>Paket</span><strong id="summaryPackage">FLEXIBLE</strong></div>
+              <div class="sum-line"><span>Harga per match</span><strong id="summaryPrice">Rp2.500</strong></div>
+              <div class="sum-line"><span>Jumlah match</span><strong id="summaryMatches">1 match</strong></div>
             </div>
-            <div class="qris-icon">▦</div>
+            <div class="sum-divider"></div>
+            <div class="sum-total"><span>Total Pembayaran</span><strong id="summaryTotal">Rp2.500</strong></div>
+            <button type="button" class="btn" id="copyTotal">▣ Salin Nominal</button>
+            <div class="secure-note">✓ Perhitungan otomatis<br>✓ Maksimal 5 match per pesanan<br>✓ QRIS ditampilkan setelah pesanan dibuat</div>
           </div>
 
-          <div class="qris-frame">
-            <img
-              src="qris.jpg"
-              alt="QRIS Pembayaran"
-              onerror="this.style.display='none';document.getElementById('qrisError').style.display='flex'"
-            >
-
-            <div id="qrisError" class="qris-error">
-              <strong>QRIS belum tersedia</strong>
-              <p>Pastikan file qris.jpg tersedia.</p>
+          <div class="qris-panel panel" id="qrisPanel">
+            <div class="eyebrow">PAYMENT / QRIS</div>
+            <h3>Scan untuk Membayar</h3>
+            <p>Periksa nominal pembayaran sebelum melanjutkan transaksi.</p>
+            <div class="qris-total"><small>KODE PESANAN</small><strong id="qrisOrderCode" style="font-size:13px;letter-spacing:.5px">-</strong><small style="display:block;margin-top:14px">TOTAL PEMBAYARAN</small><strong id="qrisTotal">Rp0</strong></div>
+            <img class="qris-img" id="qrisImage" src="qris.jpg" alt="QRIS Pembayaran">
+            <p id="qrisError" style="display:none;color:#ff9aa7">File qris.jpg tidak ditemukan. Letakkan file di folder yang sama dengan index.html.</p>
+            <div class="actions" style="flex-direction:column">
+              <a href="qris.jpg" download="QRIS-RANK-VS-BOT.jpg" class="btn blue" id="downloadQris">↓ Download QRIS</a>
+              <button type="button" class="btn primary" id="sendOrder">Kirim Detail ke WhatsApp ↗</button>
             </div>
+            <p class="hint" style="margin-top:13px">Pembayaran belum diverifikasi otomatis. Kirim bukti transaksi kepada admin.</p>
           </div>
-
-          <p class="payment-description">
-            Scan QRIS menggunakan aplikasi pembayaran yang mendukung QRIS.
-            Periksa nominal sebelum membayar.
-          </p>
-
-          <div class="payment-step">
-            <span>01</span>
-            <p>Scan kode QRIS untuk melakukan pembayaran.</p>
-          </div>
-
-          <div class="payment-step">
-            <span>02</span>
-            <p>Simpan bukti pembayaran setelah transaksi berhasil.</p>
-          </div>
-
-          <div class="payment-step">
-            <span>03</span>
-            <p>Kirim detail order dan bukti pembayaran kepada admin.</p>
-          </div>
-        </div>
-
-        <div class="panel admin-panel">
-          <div class="admin-symbol">✦</div>
-
-          <div>
-            <h3>Butuh Bantuan?</h3>
-            <p>Hubungi admin jika ada pertanyaan tentang pesanan.</p>
-          </div>
-
-          <a
-            href="https://wa.me/6285725209623"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-secondary"
-          >
-            Chat Admin WhatsApp ↗
-          </a>
-        </div>
-
-      </aside>
-    </section>
-
-    <section class="features">
-      <div class="feature">
-        <span>01</span>
-        <div>
-          <strong>Simple Order</strong>
-          <small>Pemesanan mudah dan praktis</small>
-        </div>
-      </div>
-
-      <div class="feature">
-        <span>02</span>
-        <div>
-          <strong>Auto Calculation</strong>
-          <small>Total harga dihitung otomatis</small>
-        </div>
-      </div>
-
-      <div class="feature">
-        <span>03</span>
-        <div>
-          <strong>WhatsApp Support</strong>
-          <small>Terhubung langsung ke admin</small>
-        </div>
+        </aside>
       </div>
     </section>
 
-    <footer>
-      <span>© <span id="year"></span> RIFHSK777</span>
-      <span>RANK VS BOT MAX 75</span>
-    </footer>
+    <!-- HISTORY -->
+    <section class="page" id="history">
+      <div class="page-heading">
+        <div><div class="eyebrow">ORDER / HISTORY</div><h1>Riwayat Pesanan</h1><p>Detail pesanan yang tersimpan pada perangkat ini.</p></div>
+        <button class="btn danger" id="clearHistory">Hapus Semua</button>
+      </div>
+      <div class="section-head" style="margin-top:0"><div><h2>Semua Pesanan</h2><p id="historyCount">0 pesanan tersimpan</p></div><button class="btn small" id="refreshHistory">↻ Perbarui</button></div>
+      <div id="historyList" class="history-list"></div>
+      <div class="notice" style="margin-top:16px">Riwayat tersimpan di browser ini saja. Membersihkan data browser atau berpindah perangkat dapat membuat riwayat tidak tersedia.</div>
+    </section>
 
+    <!-- GUIDE -->
+    <section class="page" id="guide">
+      <div class="page-heading"><div><div class="eyebrow">GETTING STARTED</div><h1>Cara Pemesanan</h1><p>Ikuti langkah sederhana untuk membuat pesanan.</p></div></div>
+      <div class="guide-grid">
+        <article class="guide-card panel"><div class="guide-number">STEP 01</div><h3>Pilih Paket</h3><p>Tentukan FLEXIBLE atau NO FLEXIBLE sesuai kebutuhan.</p></article>
+        <article class="guide-card panel"><div class="guide-number">STEP 02</div><h3>Isi Detail Game</h3><p>Masukkan ID game, nickname, nomor WhatsApp, dan jumlah match.</p></article>
+        <article class="guide-card panel"><div class="guide-number">STEP 03</div><h3>Periksa Total</h3><p>Website menghitung biaya otomatis sesuai paket dan jumlah match.</p></article>
+        <article class="guide-card panel"><div class="guide-number">STEP 04</div><h3>Lihat QRIS</h3><p>Setelah pesanan dibuat, QRIS dan nominal muncul di halaman pesanan.</p></article>
+        <article class="guide-card panel"><div class="guide-number">STEP 05</div><h3>Konfirmasi Admin</h3><p>Kirim detail pesanan dan bukti pembayaran melalui WhatsApp.</p></article>
+        <article class="guide-card panel"><div class="guide-number">STEP 06</div><h3>Simpan Kode</h3><p>Gunakan kode pesanan ketika bertanya tentang status pesanan.</p></article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="page" id="faq">
+      <div class="page-heading"><div><div class="eyebrow">SUPPORT CENTER</div><h1>Pusat Bantuan</h1><p>Informasi singkat seputar pemesanan dan pembayaran.</p></div></div>
+      <div class="faq-list">
+        <details class="panel"><summary>Berapa batas maksimal match?</summary><p>Kedua paket, FLEXIBLE dan NO FLEXIBLE, memiliki batas maksimal 5 match per pesanan.</p></details>
+        <details class="panel"><summary>Berapa harga setiap paket?</summary><p>FLEXIBLE Rp2.500 per match. NO FLEXIBLE Rp3.500 per match. Total dihitung otomatis.</p></details>
+        <details class="panel"><summary>Apakah QRIS tampil di beranda?</summary><p>Tidak. QRIS hanya ditampilkan di bagian pembayaran pada halaman Buat Pesanan setelah pesanan berhasil dibuat.</p></details>
+        <details class="panel"><summary>Apakah pembayaran diverifikasi otomatis?</summary><p>Tidak. Website menampilkan gambar QRIS dan nominal, sedangkan verifikasi pembayaran perlu dilakukan admin.</p></details>
+        <details class="panel"><summary>Kenapa QRIS tidak muncul?</summary><p>Periksa apakah file qris.jpg berada di folder yang sama dengan index.html dan ejaan nama file tepat.</p></details>
+        <details class="panel"><summary>Apakah riwayat tersinkron ke perangkat lain?</summary><p>Tidak. Versi ini menggunakan localStorage pada browser. Sinkronisasi lintas perangkat memerlukan backend dan database.</p></details>
+      </div>
+    </section>
   </main>
+</div>
 
-  <script src="script.js"></script>
+<nav class="mobile-nav" aria-label="Navigasi mobile">
+  <button class="nav-btn active" data-page="home"><span class="ico">⌂</span>Home</button>
+  <button class="nav-btn" data-page="dashboard"><span class="ico">▦</span>Dashboard</button>
+  <button class="nav-btn" data-page="order"><span class="ico">＋</span>Pesan</button>
+  <button class="nav-btn" data-page="history"><span class="ico">◷</span>Riwayat</button>
+  <button class="nav-btn" data-page="faq"><span class="ico">?</span>Bantuan</button>
+</nav>
+
+<footer class="footer">
+  <span>© <span id="year"></span> RIFHSK • RANK VS BOT MAX 75</span>
+  <span>PREMIUM SERVICE PANEL</span>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+"use strict";
+
+const ADMIN_WA = "6285725209623";
+const STORAGE_KEY = "rifhsk_rank_bot_orders_v3";
+
+const PACKAGES = {
+  "flexible": { name:"FLEXIBLE", price:2500, max:5 },
+  "no-flexible": { name:"NO FLEXIBLE", price:3500, max:5 }
+};
+
+const $ = s => document.querySelector(s);
+let currentOrderCode = null;
+let toastTimer;
+
+function rupiah(n){
+  return new Intl.NumberFormat("id-ID",{
+    style:"currency",currency:"IDR",maximumFractionDigits:0
+  }).format(Number(n)||0);
+}
+
+function escapeHtml(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  })[c]);
+}
+
+function toast(message){
+  const el=$("#toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove("show"),2800);
+}
+
+function getOrders(){
+  try{
+    const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+    return Array.isArray(value)?value:[];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveOrders(orders){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(orders));
+    return true;
+  }catch(e){
+    toast("Penyimpanan gagal. Periksa ruang penyimpanan browser.");
+    return false;
+  }
+}
+
+function getPack(){
+  return PACKAGES[$("#package").value]||PACKAGES.flexible;
+}
+
+function updateTotal(){
+  const pack=getPack();
+  const input=$("#matchCount");
+  input.max=String(pack.max);
+
+  let count=Math.floor(Number(input.value));
+  if(!Number.isFinite(count)||count<1) count=1;
+  count=Math.min(pack.max,count);
+  input.value=String(count);
+
+  const total=count*pack.price;
+  $("#summaryPackage").textContent=pack.name;
+  $("#summaryPrice").textContent=rupiah(pack.price);
+  $("#summaryMatches").textContent=count+" match";
+  $("#summaryTotal").textContent=rupiah(total);
+  $("#matchHint").textContent="Minimal 1 dan maksimal "+pack.max+" match untuk paket "+pack.name+".";
+  return {pack,count,total};
+}
+
+function showPage(id){
+  if(!document.getElementById(id)?.classList.contains("page")) return;
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+  document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+  if(id==="dashboard") renderDashboard();
+  if(id==="history") renderHistory();
+  if(id==="home") renderHome();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
+document.querySelectorAll("[data-page-link]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showPage(b.dataset.pageLink)}));
+
+document.querySelectorAll("[data-package]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    $("#package").value=b.dataset.package;
+    updateTotal();
+    currentOrderCode=null;
+    $("#qrisPanel").classList.remove("show");
+    showPage("order");
+  });
+});
+
+function totalStats(){
+  const orders=getOrders();
+  return {
+    orders:orders.length,
+    matches:orders.reduce((sum,o)=>sum+Math.max(0,Number(o.matchCount)||0),0)
+  };
+}
+
+function renderDashboard(){
+  const s=totalStats();
+  $("#statOrders").textContent=s.orders;
+  $("#statMatches").textContent=s.matches;
+  const recent=getOrders().slice().reverse().slice(0,5);
+  $("#dashboardRecent").innerHTML=recent.length?recent.map(historyCard).join(""):emptyMarkup("Belum ada aktivitas pesanan.");
+  attachHistoryActions($("#dashboardRecent"));
+}
+
+function renderHome(){
+  const s=totalStats();
+  $("#homeOrders").textContent=s.orders;
+  $("#homeMatches").textContent=s.matches;
+  const recent=getOrders().slice().reverse().slice(0,3);
+  $("#homeRecent").innerHTML=recent.length?recent.map(historyCard).join(""):emptyMarkup("Pesanan terbaru akan muncul di sini.");
+  attachHistoryActions($("#homeRecent"));
+}
+
+function emptyMarkup(message){
+  return `<div class="empty panel"><div class="empty-symbol">◌</div>${escapeHtml(message)}</div>`;
+}
+
+function historyCard(o){
+  return `<article class="history-item panel">
+    <div class="history-top">
+      <div><div class="history-code">${escapeHtml(o.code)}</div><div class="history-meta">${escapeHtml(o.date||"")}</div></div>
+      <span class="pill">${escapeHtml(o.packageName)}</span>
+    </div>
+    <div class="history-grid">
+      <div class="history-cell"><small>NICKNAME</small><strong>${escapeHtml(o.nickname)}</strong></div>
+      <div class="history-cell"><small>JUMLAH MATCH</small><strong>${Number(o.matchCount)||0} match</strong></div>
+      <div class="history-cell"><small>TOTAL</small><strong>${rupiah(o.total)}</strong></div>
+    </div>
+    <div class="history-actions">
+      <button class="btn small blue" data-send="${escapeHtml(o.code)}">↗ WhatsApp</button>
+      <button class="btn small" data-copy="${escapeHtml(o.code)}">▣ Salin Kode</button>
+      <button class="btn small danger" data-delete="${escapeHtml(o.code)}">Hapus</button>
+    </div>
+  </article>`;
+}
+
+function renderHistory(){
+  const orders=getOrders().slice().reverse();
+  $("#historyCount").textContent=orders.length+" pesanan tersimpan";
+  $("#historyList").innerHTML=orders.length?orders.map(historyCard).join(""):emptyMarkup("Belum ada riwayat pesanan.");
+  attachHistoryActions($("#historyList"));
+}
+
+function attachHistoryActions(root){
+  root.querySelectorAll("[data-send]").forEach(b=>b.addEventListener("click",()=>{
+    const o=getOrders().find(x=>x.code===b.dataset.send);
+    if(o) openWhatsApp(makeMessage(o));
+  }));
+  root.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>copyText(b.dataset.copy,"Kode pesanan disalin.")));
+  root.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>{
+    const code=b.dataset.delete;
+    if(!confirm("Hapus pesanan "+code+" dari riwayat lokal?"))return;
+    if(saveOrders(getOrders().filter(o=>o.code!==code))){
+      if(currentOrderCode===code){currentOrderCode=null;$("#qrisPanel").classList.remove("show")}
+      renderAll();
+      toast("Pesanan dihapus dari riwayat.");
+    }
+  }));
+}
+
+function renderAll(){
+  renderDashboard();
+  renderHistory();
+  renderHome();
+}
+
+function makeCode(){
+  return "RIF-"+Date.now().toString().slice(-8)+"-"+Math.floor(1000+Math.random()*9000);
+}
+
+function makeMessage(o){
+  return [
+    "*PESANAN RANK VS BOT MAX 75*","",
+    "Kode: "+o.code,
+    "Paket: "+o.packageName,
+    "ID Game: "+o.gameId,
+    "Nickname: "+o.nickname,
+    "WhatsApp: "+o.customerWa,
+    "Jumlah Match: "+o.matchCount,
+    "Harga per Match: "+rupiah(o.price),
+    "Total: "+rupiah(o.total),
+    "Catatan: "+(o.notes||"-"),"",
+    "Mohon konfirmasi pesanan dan pembayaran."
+  ].join("\n");
+}
+
+function openWhatsApp(message,phone=ADMIN_WA){
+  const number=String(phone).replace(/\D/g,"");
+  if(!number){toast("Nomor WhatsApp tidak valid.");return}
+  window.open("https://wa.me/"+number+"?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
+}
+
+async function copyText(text,message){
+  try{
+    await navigator.clipboard.writeText(String(text));
+    toast(message);
+  }catch(e){
+    const t=document.createElement("textarea");
+    t.value=String(text);
+    document.body.appendChild(t);
+    t.select();
+    const ok=document.execCommand("copy");
+    t.remove();
+    toast(ok?message:"Gagal menyalin teks.");
+  }
+}
+
+$("#package").addEventListener("change",()=>{
+  updateTotal();
+  currentOrderCode=null;
+  $("#qrisPanel").classList.remove("show");
+});
+$("#matchCount").addEventListener("input",updateTotal);
+$("#copyTotal").addEventListener("click",()=>copyText(updateTotal().total,"Nominal pembayaran disalin."));
+
+$("#orderForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const {pack,count,total}=updateTotal();
+  const gameId=$("#gameId").value.trim();
+  const nickname=$("#nickname").value.trim();
+  const customerWa=$("#customerWa").value.replace(/[^\d+]/g,"");
+  const notes=$("#notes").value.trim();
+
+  if(!gameId||!nickname||!customerWa){toast("Lengkapi semua data wajib.");return}
+  if(!/^\+?\d{8,16}$/.test(customerWa)){toast("Nomor WhatsApp tidak valid.");$("#customerWa").focus();return}
+  if(!$("#confirmData").checked){toast("Centang konfirmasi data terlebih dahulu.");return}
+  if(count<1||count>5){toast("Maksimal 5 match per pesanan.");return}
+
+  const order={
+    code:makeCode(),
+    packageKey:$("#package").value,
+    packageName:pack.name,
+    gameId,nickname,customerWa,
+    matchCount:count,price:pack.price,total,notes,
+    date:new Date().toLocaleString("id-ID"),
+    createdAt:new Date().toISOString()
+  };
+
+  const orders=getOrders();
+  orders.push(order);
+  if(!saveOrders(orders))return;
+
+  currentOrderCode=order.code;
+  $("#qrisOrderCode").textContent=order.code;
+  $("#qrisTotal").textContent=rupiah(order.total);
+  $("#qrisPanel").classList.add("show");
+  renderAll();
+  toast("Pesanan dibuat. Silakan periksa nominal dan QRIS.");
+  setTimeout(()=>$("#qrisPanel").scrollIntoView({behavior:"smooth",block:"start"}),100);
+});
+
+$("#sendOrder").addEventListener("click",()=>{
+  const order=getOrders().find(o=>o.code===currentOrderCode);
+  if(!order){toast("Buat pesanan terlebih dahulu.");return}
+  openWhatsApp(makeMessage(order));
+});
+
+$("#contactHeader").addEventListener("click",()=>{
+  openWhatsApp("Halo Admin RANK VS BOT MAX 75, saya ingin bertanya.");
+});
+
+$("#refreshHistory").addEventListener("click",()=>{
+  renderAll();
+  toast("Riwayat diperbarui.");
+});
+
+$("#clearHistory").addEventListener("click",()=>{
+  if(!getOrders().length){toast("Riwayat masih kosong.");return}
+  if(!confirm("Yakin menghapus semua riwayat lokal pada browser ini?"))return;
+  if(saveOrders([])){
+    currentOrderCode=null;
+    $("#qrisPanel").classList.remove("show");
+    renderAll();
+    toast("Semua riwayat lokal dihapus.");
+  }
+});
+
+$("#qrisImage").addEventListener("error",()=>{
+  $("#qrisImage").classList.add("error");
+  $("#qrisError").style.display="block";
+});
+$("#qrisImage").addEventListener("load",()=>{
+  $("#qrisImage").classList.remove("error");
+  $("#qrisError").style.display="none";
+});
+
+$("#year").textContent=new Date().getFullYear();
+$("#todayDate").textContent=new Date().toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}).toUpperCase();
+
+updateTotal();
+renderAll();
+</script>
 </body>
 </html>
