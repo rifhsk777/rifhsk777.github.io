@@ -1,528 +1,289 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#061326">
-<title>RANK VS BOT | BY RIFHSK</title>
-
-<style>
-:root {
-  --blue: #168bff;
-  --cyan: #55c5ff;
-  --bg: #061326;
-  --panel: rgba(5, 20, 40, .78);
-  --line: rgba(45, 153, 255, .65);
-  --text: #f4f8ff;
-  --muted: #b6c9e2;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at center, #102c4d, #061326 65%, #020711);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background: url("logo.png") center 43% / min(85vw, 850px) auto no-repeat;
-  opacity: .17;
-}
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: rgba(2, 9, 20, .48);
-}
-a { color: inherit; text-decoration: none; }
-button, input, select, textarea { font: inherit; }
-
-.topbar {
-  width: min(1200px, calc(100% - 30px));
-  margin: 18px auto;
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  flex-wrap: wrap;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 19px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 10px 35px #0005;
-}
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand img { width: 52px; height: 52px; object-fit: contain; }
-.brand strong { display: block; font-size: 17px; }
-.brand small { color: var(--cyan); letter-spacing: 2px; font-weight: bold; }
-
-nav { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
-nav a {
-  padding: 10px;
-  border-radius: 9px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #e1efff;
-}
-nav a:hover { background: #168bff30; color: var(--cyan); }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border: 1px solid #52baff;
-  border-radius: 12px;
-  background: linear-gradient(110deg, #0878eb, #159fff);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .2s;
-}
-.btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px #168bff55; }
-
-.container { width: min(1050px, calc(100% - 30px)); margin: 24px auto; }
-.card {
-  min-width: 0;
-  margin-bottom: 18px;
-  padding: 24px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 12px 35px #0003;
-}
-.hero { text-align: center; padding: 30px 20px; }
-.hero-logo { width: 110px; height: 110px; object-fit: contain; }
-.hero h1 { margin: 8px 0 0; font-size: clamp(30px, 6vw, 47px); }
-.cyan { color: var(--cyan); }
-.eyebrow { color: var(--cyan); font-size: 12px; font-weight: bold; letter-spacing: 4px; }
-.hero p { color: var(--muted); line-height: 1.7; }
-.clock { font-weight: bold; font-size: 15px; }
-#date { color: var(--muted); font-size: 12px; margin-top: 4px; }
-
-h2 { margin: 0 0 18px; font-size: 22px; }
-h2::before {
-  content: "";
-  display: inline-block;
-  width: 5px;
-  height: 22px;
-  background: var(--blue);
-  border-radius: 5px;
-  margin-right: 10px;
-  vertical-align: -4px;
-}
-
-.dashboard { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; align-items: start; }
-.dashboard .card { margin: 0; }
-.price-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 25px; }
-.price-card {
-  min-width: 0;
-  padding: 15px 10px;
-  text-align: left;
-  color: white;
-  background: #0c2949b8;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  cursor: pointer;
-}
-.price-card.active {
-  background: linear-gradient(135deg, #125b9cdd, #092443e8);
-  border-color: var(--cyan);
-  box-shadow: 0 0 18px #168bff25;
-}
-.price-card span, .price-card strong, .price-card small { display: block; }
-.price-card span { font-size: 13px; font-weight: bold; }
-.price-card strong { margin: 8px 0 4px; font-size: clamp(17px, 3vw, 23px); }
-.price-card small { color: var(--muted); font-size: 11px; line-height: 1.5; }
-
-form { display: grid; gap: 9px; }
-label { margin-top: 5px; font-size: 13px; font-weight: bold; }
-input, select, textarea {
-  width: 100%;
-  min-width: 0;
-  padding: 13px;
-  color: white;
-  background: #020e20d9;
-  border: 1px solid #6284a955;
-  border-radius: 11px;
-  outline: none;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px #168bff22; }
-input::placeholder, textarea::placeholder { color: #829ab6; }
-select option { background: #061326; color: white; }
-
-.total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 15px;
-  margin: 10px 0;
-  background: #0b3155a8;
-  border: 1px solid #168bff70;
-  border-radius: 13px;
-}
-.total strong { color: var(--cyan); font-size: 24px; }
-.full { width: 100%; }
-
-.info { text-align: center; }
-.info-logo {
-  min-height: 180px;
-  display: grid;
-  place-items: center;
-}
-.info-logo img { width: min(220px, 80%); max-height: 200px; object-fit: contain; }
-.info h2 { margin-bottom: 5px; }
-.info h2::before { display: none; }
-.info h3 { margin: 0; color: var(--cyan); letter-spacing: 3px; }
-.info p { color: var(--muted); line-height: 1.7; }
-.features { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 22px; }
-.feature {
-  padding: 13px 5px;
-  background: #0b2a49a8;
-  border: 1px solid #168bff50;
-  border-radius: 12px;
-  font-size: 12px;
-}
-.feature span { display: block; font-size: 23px; margin-bottom: 7px; }
-.feature strong { display: block; }
-
-.payment { text-align: center; }
-.payment h2 { text-align: left; }
-.payment p { color: var(--muted); line-height: 1.6; }
-.qris { display: block; width: min(100%, 300px); padding: 8px; margin: 18px auto; background: white; border-radius: 14px; }
-.payment-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.secondary { background: #0b3155; }
-.warning { font-size: 12px; color: #ffe0a0 !important; }
-
-.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-.step { padding: 16px; background: #0b2948a8; border: 1px solid #168bff50; border-radius: 13px; }
-.step strong { color: var(--cyan); }
-.step p { color: var(--muted); font-size: 13px; line-height: 1.6; }
-
-.contact { text-align: center; }
-.contact p { color: var(--muted); }
-
-footer { text-align: center; padding: 24px 10px; color: var(--muted); font-size: 12px; }
-footer strong { color: var(--cyan); }
-
-@media (max-width: 760px) {
-  .topbar { justify-content: center; }
-  .brand { width: 100%; justify-content: center; }
-  nav { width: 100%; }
-  nav a { font-size: 12px; padding: 8px; }
-  .dashboard { grid-template-columns: 1fr; }
-  .card { padding: 18px; border-radius: 18px; }
-  .steps { grid-template-columns: 1fr; }
-  body::before { background-size: 125vw auto; opacity: .12; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06101f">
+  <title>RIFHSK777 | Rank vs Bot</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="topbar">
-  <a class="brand" href="#home">
-    <img src="logo.png" alt="Logo RIFHSK">
-    <div>
-      <strong>RANK VS BOT</strong>
-      <small>BY RIFHSK</small>
+  <div class="background-glow"></div>
+
+  <header class="navbar">
+    <a href="#" class="brand">
+      <div class="brand-icon">R<span>7</span></div>
+      <div>
+        <strong>RIFHSK777</strong>
+        <small>RANK VS BOT SERVICE</small>
+      </div>
+    </a>
+
+    <div class="online">
+      <span></span> SYSTEM ONLINE
     </div>
-  </a>
+  </header>
 
-  <nav>
-    <a href="#home">⌂ Home</a>
-    <a href="#layanan">♛ Harga</a>
-    <a href="#cara-order">▤ Cara Order</a>
-    <a href="#keunggulan">☆ Info</a>
-    <a href="#kontak">☏ Kontak</a>
-  </nav>
+  <main class="container">
 
-  <a class="btn" href="https://wa.me/6285725209623" target="_blank" rel="noopener">
-    Chat WhatsApp
-  </a>
-</header>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="badge">⚡ PREMIUM SERVICE</div>
 
-<main class="container">
+        <h1>RANK VS BOT<br><span>MAX 75</span></h1>
 
-<section class="card hero" id="home">
-  <img class="hero-logo" src="logo.png" alt="RIFHSK">
-  <div class="eyebrow">WELCOME TO</div>
-  <h1>RANK VS <span class="cyan">BOT</span></h1>
-  <div class="cyan"><strong>BY RIFHSK</strong></div>
-  <p>LAYANAN RANK MATCH MOBILE LEGENDS</p>
-  <div class="clock" id="clock">Memuat waktu...</div>
-  <div id="date"></div>
-</section>
+        <p>
+          Pilih paket layanan, tentukan jumlah match,
+          dan lakukan pemesanan dengan mudah.
+        </p>
 
-<div class="dashboard">
+        <div class="hero-info">
+          <span>✦ Fast Order</span>
+          <span>◈ QRIS Payment</span>
+        </div>
+      </div>
 
-<section class="card" id="layanan">
-  <h2>Pilih Layanan</h2>
+      <div class="hero-visual">
+        <div class="ring ring-one"></div>
+        <div class="ring ring-two"></div>
 
-  <div class="price-list">
-    <button type="button" class="price-card active" data-service="FLEXIBLE" data-price="2500" data-max="5">
-      <span>♛ FLEXIBLE</span>
-      <strong>Rp2.500</strong>
-      <small>Per match · Maksimal 5</small>
-    </button>
+        <img
+          src="logo.png"
+          alt="Logo RIFHSK777"
+          class="hero-logo"
+          onerror="this.style.display='none';document.getElementById('logoFallback').style.display='grid'"
+        >
 
-    <button type="button" class="price-card" data-service="NO FLEXIBLE" data-price="3500" data-max="10">
-      <span>⚡ NO FLEXIBLE</span>
-      <strong>Rp3.500</strong>
-      <small>Per match · Maksimal 10</small>
-    </button>
-  </div>
+        <div id="logoFallback" class="logo-fallback">R<span>7</span></div>
 
-  <h2>Formulir Pemesanan</h2>
+        <div class="hero-caption">RIFHSK<span>777</span></div>
+      </div>
+    </section>
 
-  <form id="orderForm">
-    <label for="nickname">Nickname Game</label>
-    <input id="nickname" name="nickname" maxlength="40" placeholder="Masukkan nickname" required>
+    <section class="clock-panel">
+      <div>
+        <small>WAKTU INDONESIA BARAT</small>
+        <strong id="clock">00:00:00 WIB</strong>
+      </div>
 
-    <label for="gameId">ID Game</label>
-    <input id="gameId" name="gameId" maxlength="40" placeholder="Masukkan ID game" required>
+      <div class="date" id="date">Memuat tanggal...</div>
+    </section>
 
-    <label for="quantity">Jumlah Match</label>
-    <select id="quantity" name="quantity">
-      <option value="1">1 Match</option>
-      <option value="2">2 Match</option>
-      <option value="3">3 Match</option>
-      <option value="4">4 Match</option>
-      <option value="5">5 Match</option>
-      <option value="6">6 Match</option>
-      <option value="7">7 Match</option>
-      <option value="8">8 Match</option>
-      <option value="9">9 Match</option>
-      <option value="10">10 Match</option>
-    </select>
+    <section class="dashboard">
 
-    <label for="notes">Catatan (opsional)</label>
-    <textarea id="notes" name="notes" rows="3" maxlength="300" placeholder="Catatan tambahan"></textarea>
+      <div class="panel order-panel">
+        <div class="section-title">
+          <div>
+            <small class="eyebrow">01 / ORDER</small>
+            <h2>Buat Pesanan</h2>
+          </div>
+          <span class="number">01</span>
+        </div>
 
-    <div class="total">
-      <span>Total Pembayaran</span>
-      <strong id="total">Rp2.500</strong>
-    </div>
+        <div class="packages">
 
-    <button class="btn full" type="submit">Lanjut ke Pembayaran</button>
-  </form>
-</section>
+          <button
+            class="package active"
+            type="button"
+            data-package="flexible"
+          >
+            <div class="package-head">
+              <span>✦ FLEXIBLE</span>
+              <span class="popular">POPULAR</span>
+            </div>
 
-<aside class="card info" id="keunggulan">
-  <div class="info-logo">
-    <img src="logo.png" alt="Logo RANK VS BOT">
-  </div>
-  <h2>RANK VS BOT</h2>
-  <h3>BY RIFHSK</h3>
-  <p>
-    Pilih layanan sesuai kebutuhanmu. Isi data pesanan dengan benar,
-    lalu hubungi admin untuk melanjutkan pemesanan.
-  </p>
+            <strong>Rp2.500<small> / match</small></strong>
+            <p>Maksimal 5 match</p>
+            <div class="radio"></div>
+          </button>
 
-  <div class="features">
-    <div class="feature"><span>🛡️</span><strong>Aman</strong></div>
-    <div class="feature"><span>⚡</span><strong>Cepat</strong></div>
-    <div class="feature"><span>⭐</span><strong>Terpercaya</strong></div>
-  </div>
-</aside>
+          <button
+            class="package"
+            type="button"
+            data-package="no-flexible"
+          >
+            <div class="package-head">
+              <span>◈ NO FLEXIBLE</span>
+              <span class="standard">STANDARD</span>
+            </div>
 
-</div>
+            <strong>Rp3.500<small> / match</small></strong>
+            <p>Maksimal 10 match</p>
+            <div class="radio"></div>
+          </button>
 
-<section class="card payment" id="pembayaran" hidden>
-  <h2>Pembayaran QRIS</h2>
-  <p>Periksa detail pesananmu. Scan QRIS dan bayar sesuai nominal yang tertera.</p>
+        </div>
 
-  <div id="orderSummary"></div>
+        <form id="orderForm">
 
-  <img class="qris" src="qris.jpg" alt="QRIS pembayaran">
+          <label for="playerName">Nama / Username</label>
+          <input
+            id="playerName"
+            type="text"
+            maxlength="60"
+            placeholder="Masukkan nama atau username"
+            required
+          >
 
-  <div class="payment-actions">
-    <a class="btn secondary" href="qris.jpg" download="QRIS-RIFHSK.jpg">Download QRIS</a>
-    <a class="btn" id="whatsappOrder" href="#" target="_blank" rel="noopener">Kirim Pesanan ke WhatsApp</a>
-  </div>
+          <label for="playerId">ID Game <span>(opsional)</span></label>
+          <input
+            id="playerId"
+            type="text"
+            maxlength="40"
+            placeholder="Masukkan ID game"
+          >
 
-  <p class="warning">
-    Pastikan pembayaran sudah benar. Kirim bukti pembayaran kepada admin melalui WhatsApp.
-  </p>
-</section>
+          <div class="form-row">
+            <div>
+              <label for="matchCount">Jumlah Match</label>
 
-<section class="card" id="cara-order">
-  <h2>Cara Order</h2>
-  <div class="steps">
-    <div class="step"><strong>01 — Pilih layanan</strong><p>Pilih FLEXIBLE atau NO FLEXIBLE dan jumlah match.</p></div>
-    <div class="step"><strong>02 — Isi data</strong><p>Masukkan nickname, ID game, dan catatan jika diperlukan.</p></div>
-    <div class="step"><strong>03 — Bayar & hubungi admin</strong><p>Scan QRIS, bayar sesuai total, lalu kirim detail dan bukti pembayaran ke WhatsApp.</p></div>
-  </div>
-</section>
+              <div class="stepper">
+                <button type="button" id="minus">−</button>
+                <input
+                  type="number"
+                  id="matchCount"
+                  min="1"
+                  max="5"
+                  value="1"
+                >
+                <button type="button" id="plus">+</button>
+              </div>
 
-<section class="card contact" id="kontak">
-  <h2>Hubungi Admin</h2>
-  <p>Butuh bantuan? Hubungi admin atau ikuti channel kami.</p>
-  <a class="btn" href="https://wa.me/6285725209623" target="_blank" rel="noopener">Chat Admin</a>
-  <a class="btn secondary" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l" target="_blank" rel="noopener">WhatsApp Channel</a>
-</section>
+              <small class="hint" id="limitHint">Maksimal 5 match</small>
+            </div>
 
-<footer>
-  <strong>RANK VS BOT BY RIFHSK</strong>
-  <p>Aman · Cepat · Terpercaya</p>
-  <div>© <span id="year"></span> RIFHSK</div>
-</footer>
+            <div>
+              <label for="notes">Catatan <span>(opsional)</span></label>
+              <input
+                type="text"
+                id="notes"
+                maxlength="180"
+                placeholder="Catatan tambahan"
+              >
+            </div>
+          </div>
 
-</main>
+          <div class="total-box">
+            <div>
+              <small>TOTAL PEMBAYARAN</small>
+              <p id="calculation">1 match × Rp2.500</p>
+            </div>
 
-<script>
-(() => {
-  const prices = {
-    "FLEXIBLE": 2500,
-    "NO FLEXIBLE": 3500
-  };
+            <strong id="total">Rp2.500</strong>
+          </div>
 
-  let service = "FLEXIBLE";
-  let maxMatches = 5;
+          <button type="submit" class="btn-primary">
+            <span>Pesan Sekarang via WhatsApp</span>
+            <span>↗</span>
+          </button>
 
-  const form = document.getElementById("orderForm");
-  const quantity = document.getElementById("quantity");
-  const total = document.getElementById("total");
-  const payment = document.getElementById("pembayaran");
-  const summary = document.getElementById("orderSummary");
-  const waButton = document.getElementById("whatsappOrder");
+          <p class="disclaimer">
+            Pastikan detail pesanan benar sebelum dikirim ke admin.
+          </p>
 
-  const rupiah = value => new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(value);
+        </form>
+      </div>
 
-  function updateTotal() {
-    const count = Number(quantity.value);
-    total.textContent = rupiah(prices[service] * count);
-  }
+      <aside class="side">
 
-  document.querySelectorAll(".price-card").forEach(button => {
-    button.addEventListener("click", () => {
-      service = button.dataset.service;
-      maxMatches = Number(button.dataset.max);
+        <div class="panel payment-panel">
+          <div class="section-title">
+            <div>
+              <small class="eyebrow">02 / PAYMENT</small>
+              <h2>Pembayaran QRIS</h2>
+            </div>
+            <div class="qris-icon">▦</div>
+          </div>
 
-      document.querySelectorAll(".price-card").forEach(item => {
-        item.classList.toggle("active", item === button);
-      });
+          <div class="qris-frame">
+            <img
+              src="qris.jpg"
+              alt="QRIS Pembayaran"
+              onerror="this.style.display='none';document.getElementById('qrisError').style.display='flex'"
+            >
 
-      [...quantity.options].forEach(option => {
-        option.disabled = Number(option.value) > maxMatches;
-      });
+            <div id="qrisError" class="qris-error">
+              <strong>QRIS belum tersedia</strong>
+              <p>Pastikan file qris.jpg tersedia.</p>
+            </div>
+          </div>
 
-      if (Number(quantity.value) > maxMatches) {
-        quantity.value = String(maxMatches);
-      }
+          <p class="payment-description">
+            Scan QRIS menggunakan aplikasi pembayaran yang mendukung QRIS.
+            Periksa nominal sebelum membayar.
+          </p>
 
-      updateTotal();
-    });
-  });
+          <div class="payment-step">
+            <span>01</span>
+            <p>Scan kode QRIS untuk melakukan pembayaran.</p>
+          </div>
 
-  quantity.addEventListener("change", updateTotal);
+          <div class="payment-step">
+            <span>02</span>
+            <p>Simpan bukti pembayaran setelah transaksi berhasil.</p>
+          </div>
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
+          <div class="payment-step">
+            <span>03</span>
+            <p>Kirim detail order dan bukti pembayaran kepada admin.</p>
+          </div>
+        </div>
 
-    const nickname = document.getElementById("nickname").value.trim();
-    const gameId = document.getElementById("gameId").value.trim();
-    const notes = document.getElementById("notes").value.trim();
-    const count = Number(quantity.value);
-    const amount = prices[service] * count;
+        <div class="panel admin-panel">
+          <div class="admin-symbol">✦</div>
 
-    if (!nickname || !gameId) {
-      alert("Mohon isi nickname dan ID game terlebih dahulu.");
-      return;
-    }
+          <div>
+            <h3>Butuh Bantuan?</h3>
+            <p>Hubungi admin jika ada pertanyaan tentang pesanan.</p>
+          </div>
 
-    if (count < 1 || count > maxMatches) {
-      alert("Jumlah match tidak sesuai dengan layanan yang dipilih.");
-      return;
-    }
+          <a
+            href="https://wa.me/6285725209623"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary"
+          >
+            Chat Admin WhatsApp ↗
+          </a>
+        </div>
 
-    const details = [
-      "HALO ADMIN, SAYA INGIN MEMESAN",
-      "",
-      "Layanan: " + service,
-      "Nickname: " + nickname,
-      "ID Game: " + gameId,
-      "Jumlah: " + count + " match",
-      "Total: " + rupiah(amount),
-      "Catatan: " + (notes || "-"),
-      "",
-      "Saya akan mengirim bukti pembayaran setelah melakukan pembayaran."
-    ].join("\n");
+      </aside>
+    </section>
 
-    summary.replaceChildren();
+    <section class="features">
+      <div class="feature">
+        <span>01</span>
+        <div>
+          <strong>Simple Order</strong>
+          <small>Pemesanan mudah dan praktis</small>
+        </div>
+      </div>
 
-    const lines = [
-      ["Layanan", service],
-      ["Nickname", nickname],
-      ["ID Game", gameId],
-      ["Jumlah Match", String(count)],
-      ["Total", rupiah(amount)],
-      ["Catatan", notes || "-"]
-    ];
+      <div class="feature">
+        <span>02</span>
+        <div>
+          <strong>Auto Calculation</strong>
+          <small>Total harga dihitung otomatis</small>
+        </div>
+      </div>
 
-    lines.forEach(([label, value]) => {
-      const row = document.createElement("p");
-      const strong = document.createElement("strong");
-      strong.textContent = label + ": ";
-      row.append(strong, document.createTextNode(value));
-      summary.appendChild(row);
-    });
+      <div class="feature">
+        <span>03</span>
+        <div>
+          <strong>WhatsApp Support</strong>
+          <small>Terhubung langsung ke admin</small>
+        </div>
+      </div>
+    </section>
 
-    waButton.href = "https://wa.me/6285725209623?text=" + encodeURIComponent(details);
-    payment.hidden = false;
-    payment.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+    <footer>
+      <span>© <span id="year"></span> RIFHSK777</span>
+      <span>RANK VS BOT MAX 75</span>
+    </footer>
 
-  function updateClock() {
-    const now = new Date();
-    document.getElementById("clock").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }).format(now) + " WIB";
+  </main>
 
-    document.getElementById("date").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      }).format(now);
-  }
-
-  document.getElementById("year").textContent =
-    new Intl.DateTimeFormat("en", {
-      timeZone: "Asia/Jakarta",
-      year: "numeric"
-    }).format(new Date());
-
-  updateClock();
-  setInterval(updateClock, 1000);
-  updateTotal();
-})();
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
