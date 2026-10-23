@@ -1,274 +1,634 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10091d">
-<title>RANK VS BOT BY RIFHSK</title>
+<meta name="theme-color" content="#100923">
+<title>RANK VS BOT BY RIFHSK</title><style>
+:root {
+  --bg: #0b0715;
+  --panel: #171027;
+  --purple: #9b5cff;
+  --pink: #d14cff;
+  --text: #f7f2ff;
+  --muted: #b9adce;
+  --line: rgba(202,164,255,.2);
+}
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{color-scheme:dark;--purple:#a66bff;--light:#d9baff;--muted:#c9b9df}
-html{min-height:100%;overflow-x:hidden}
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  font-family:Arial,Helvetica,sans-serif;
-  color:#fff;
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
   background:
-    radial-gradient(ellipse at top,#352052 0%,#160d25 48%,#0d0717 100%);
-  line-height:1.5;
+    radial-gradient(ellipse at 50% -10%, #462078, transparent 45%),
+    linear-gradient(160deg, #0b0715, #10091f 55%, #090611);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.6;
 }
-.topbar{
-  width:100%;padding:12px 16px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:#160d24;border-bottom:1px solid #50336c;
-}
-#clock{font-size:15px;font-weight:bold}
-#date{font-size:11px;color:var(--muted);margin-top:3px}
-.channel{
-  display:inline-block;padding:10px 12px;border-radius:9px;
-  background:#168d59;color:white;text-decoration:none;
-  font-size:11px;font-weight:bold;white-space:nowrap;
-}
-.container{width:calc(100% - 24px);max-width:520px;margin:20px auto}
-.card{
-  min-width:0;padding:19px;margin-bottom:15px;
-  background:rgba(37,24,57,.92);
-  border:1px solid #563975;border-radius:15px;
-  box-shadow:0 8px 24px #0003;
-}
-.hero{text-align:center;padding:20px 14px}
-.logo{
-  display:block;width:100%;max-width:340px;height:auto;
-  margin:0 auto 16px;border-radius:8px;object-fit:contain;
-}
-h1{font-size:27px;line-height:1.25;letter-spacing:1px}
-.subtitle{margin-top:6px;color:var(--light);font-weight:bold;letter-spacing:3px}
-.description{font-size:13px;color:var(--muted);margin-top:10px}
-h2{font-size:18px;margin-bottom:15px}
-.prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px}
-.price{
-  min-width:0;min-height:105px;padding:13px 5px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
-  color:#fff;background:#170e26;border:1px solid #604578;border-radius:11px;
-  font-family:inherit;text-align:center;cursor:pointer;
-}
-.price span{font-size:12px;font-weight:bold}
-.price strong{font-size:clamp(15px,4.5vw,20px);color:var(--light)}
-.price small{font-size:11px;color:var(--muted)}
-.price.active{border:2px solid var(--purple);background:#693b8b55}
-label{display:block;font-size:13px;font-weight:bold;margin:14px 0 7px}
-input,select,textarea{
-  display:block;width:100%;min-width:0;padding:12px;
-  color:#fff;background:#10091b;border:1px solid #59416f;
-  border-radius:9px;font-family:inherit;font-size:14px;outline:none;
-}
-input:focus,select:focus,textarea:focus{border-color:var(--purple)}
-input::placeholder,textarea::placeholder{color:#9989ad}
-select option{background:#211632;color:white}
-textarea{resize:vertical;min-height:75px}
-.total{
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;
-  margin-top:20px;padding:14px;background:#a66bff18;
-  border:1px solid #a66bff66;border-radius:10px;font-size:13px;
-}
-.total strong{font-size:19px;color:var(--light)}
-.order{
-  width:100%;padding:14px;margin-top:15px;border:0;border-radius:10px;
-  color:white;background:linear-gradient(135deg,#a66bff,#6931bc);
-  font-size:14px;font-weight:bold;cursor:pointer;
-}
-.order:active{transform:scale(.99)}
-.payment{text-align:center}
-.payment p{font-size:13px;line-height:1.6;color:var(--muted)}
-.qris{display:block;width:100%;max-width:280px;height:auto;margin:17px auto;border-radius:9px;background:white;padding:5px}
-.download{
-  display:inline-block;padding:11px 15px;margin:0 0 14px;
-  border-radius:9px;background:#6931bc;color:white;
-  text-decoration:none;font-size:12px;font-weight:bold;
-}
-.warning{font-size:11px!important}
-footer{text-align:center;padding:8px 0 25px;color:var(--muted);font-size:11px}
-@media(max-width:380px){
-  .topbar{padding:11px;gap:7px}
-  .channel{padding:9px;font-size:10px}
-  .container{width:calc(100% - 18px);margin-top:14px}
-  .card{padding:14px}
-  .hero{padding:17px 10px}
-  h1{font-size:23px}
-  h2{font-size:17px}
-  .price span{font-size:11px}
-  .price small{font-size:10px}
-  .total strong{font-size:17px}
-}
-</style>
-</head>
 
-<body>
+a { color: inherit; }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px max(16px, calc((100% - 680px)/2));
+  border-bottom: 1px solid var(--line);
+  background: rgba(10,6,20,.8);
+}
+
+#clock { font-weight: 800; }
+#date { font-size: 12px; color: var(--muted); }
+
+.channel-btn,
+.download-btn {
+  display: inline-block;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #8544f5, #c34cff);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.container {
+  width: min(100% - 24px, 620px);
+  margin: 22px auto 35px;
+}
+
+.card {
+  margin-bottom: 16px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(31,21,50,.97), rgba(18,12,31,.98));
+  box-shadow: 0 15px 40px #0003;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  color: #e5caff;
+  background: #a15bff20;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo {
+  display: block;
+  width: min(160px, 55%);
+  max-height: 160px;
+  object-fit: contain;
+  margin: 14px auto;
+  filter: drop-shadow(0 0 20px #a44fff44);
+}
+
+h1 {
+  margin: 5px 0;
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  margin: 5px 0;
+  color: #c99aff;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+.muted { color: var(--muted); font-size: 13px; }
+
+h2 { margin: 0 0 15px; font-size: 20px; }
+
+.price-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.price-card {
+  min-width: 0;
+  padding: 15px 8px;
+  color: var(--text);
+  background: #100b1c;
+  border: 1px solid #45305f;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+}
+
+.price-card span,
+.price-card strong,
+.price-card small {
+  display: block;
+}
+
+.price-card span { font-size: 12px; font-weight: 900; }
+
+.price-card strong {
+  margin: 5px 0;
+  color: #d6a9ff;
+  font-size: 21px;
+}
+
+.price-card small { color: var(--muted); font-size: 11px; }
+
+.price-card.active {
+  border-color: #b678ff;
+  background: linear-gradient(145deg, #3a1e5c, #211333);
+  box-shadow: 0 0 0 2px #a65bff25;
+}
+
+label {
+  display: block;
+  margin: 13px 0 6px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  color: var(--text);
+  background: #0d0817;
+  border: 1px solid #443157;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #b16aff;
+  box-shadow: 0 0 0 3px #a45cff20;
+}
+
+select option { background: #160e25; }
+textarea { resize: vertical; }
+
+.total-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #a45cff13;
+}
+
+.total-box span { color: var(--muted); font-size: 13px; }
+.total-box strong { color: #d6a9ff; font-size: 21px; }
+
+.order-btn {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  color: white;
+  background: linear-gradient(110deg, #7e3ff2, #d14cff);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.order-btn:active { transform: scale(.99); }
+
+.payment-intro { color: var(--muted); font-size: 13px; }
+
+.qris {
+  display: block;
+  width: min(100%, 290px);
+  max-height: 380px;
+  object-fit: contain;
+  margin: 18px auto;
+  padding: 8px;
+  background: white;
+  border-radius: 13px;
+}
+
+.qris-missing {
+  display: none;
+  padding: 13px;
+  color: #f6d9a0;
+  background: #f4a62312;
+  border: 1px solid #f4a62335;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.download-wrap {
+  margin: 12px 0 20px;
+  text-align: center;
+}
+
+.download-btn {
+  background: #302044;
+  border: 1px solid #65428a;
+}
+
+.steps {
+  display: grid;
+  gap: 11px;
+  margin-top: 17px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #100b1b80;
+}
+
+.step-number {
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #8544f5, #c34cff);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.step-content { min-width: 0; flex: 1; }
+
+.step h3 { margin: 1px 0 4px; font-size: 14px; }
+
+.step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.notice {
+  margin-top: 15px;
+  padding: 12px;
+  color: #f6d9a0;
+  background: #f4a62312;
+  border: 1px solid #f4a62335;
+  border-radius: 11px;
+  font-size: 12px;
+}
+
+.contact-btn {
+  display: block;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid #23784a;
+  border-radius: 11px;
+  color: white;
+  background: #123b2a;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+footer {
+  padding: 8px 0 20px;
+  color: #8f83a4;
+  text-align: center;
+  font-size: 11px;
+}
+
+@media (max-width: 420px) {
+  .topbar { padding: 12px; }
+  .container { width: calc(100% - 18px); margin-top: 13px; }
+  .card { padding: 16px; border-radius: 16px; }
+  .hero { padding: 23px 12px; }
+  .price-card strong { font-size: 18px; }
+  .total-box strong { font-size: 18px; }
+  .step { padding: 11px; gap: 9px; }
+}
+</style></head><body>
 <header class="topbar">
   <div>
-    <div id="clock">Memuat jam...</div>
-    <div id="date">Memuat tanggal...</div>
-  </div>
-  <a class="channel"
-     href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-     target="_blank" rel="noopener">WhatsApp Channel</a>
-</header>
+    <div id="clock">Memuat waktu...</div>
+    <div id="date"></div>
+  </div><a class="channel-btn"
+href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+target="_blank" rel="noopener noreferrer">
+WHATSAPP CHANNEL ↗
+</a>
 
-<main class="container">
-  <section class="card hero">
-    <img class="logo" src="logo.png" alt="RANK VS BOT BY RIFHSK"
+</header><main class="container">  <section class="card hero">
+    <span class="badge">RANK MATCH SERVICE</span>
+    <img class="logo" src="logo.png" alt="Logo RIFHSK"
          onerror="this.style.display='none'">
     <h1>RANK VS BOT</h1>
     <p class="subtitle">BY RIFHSK</p>
-    <p class="description">Layanan Rank Match Mobile Legends</p>
-  </section>
+    <p class="muted">Layanan Rank Match · Pemesanan Mudah · Konfirmasi WhatsApp</p>
+  </section>  <section class="card" id="order">
+    <h2>🎮 Form Pemesanan</h2><div class="price-list">
+  <button type="button" class="price-card active"
+          data-service="FLEXIBLE" data-price="2500">
+    <span>FLEXIBLE</span>
+    <strong>Rp2.500</strong>
+    <small>Maksimal 5 match</small>
+  </button>
 
-  <section class="card">
-    <h2>Pilih Layanan</h2>
-    <div class="prices">
-      <button type="button" class="price active"
-              data-service="FLEXIBLE" data-price="2500">
-        <span>FLEXIBLE</span>
-        <strong>Rp2.500</strong>
-        <small>Per match</small>
-      </button>
-      <button type="button" class="price"
-              data-service="NO FLEXIBLE" data-price="3500">
-        <span>NO FLEXIBLE</span>
-        <strong>Rp3.500</strong>
-        <small>Per match</small>
-      </button>
+  <button type="button" class="price-card"
+          data-service="NO FLEXIBLE" data-price="3500">
+    <span>NO FLEXIBLE</span>
+    <strong>Rp3.500</strong>
+    <small>Maksimal 10 match</small>
+  </button>
+</div>
+
+<form id="orderForm">
+  <label for="nickname">Nickname Game *</label>
+  <input id="nickname" name="nickname" type="text"
+         placeholder="Masukkan nickname game"
+         maxlength="40" autocomplete="nickname" required>
+
+  <label for="gameId">ID Game *</label>
+  <input id="gameId" name="gameId" type="text"
+         placeholder="Masukkan ID game dan server jika ada"
+         maxlength="50" required>
+
+  <label for="quantity">Jumlah Match *</label>
+  <select id="quantity" name="quantity">
+    <option value="1">1 Match</option>
+    <option value="2">2 Match</option>
+    <option value="3">3 Match</option>
+    <option value="4">4 Match</option>
+    <option value="5">5 Match</option>
+    <option value="6" hidden disabled>6 Match</option>
+    <option value="7" hidden disabled>7 Match</option>
+    <option value="8" hidden disabled>8 Match</option>
+    <option value="9" hidden disabled>9 Match</option>
+    <option value="10" hidden disabled>10 Match</option>
+  </select>
+
+  <label for="notes">Catatan (opsional)</label>
+  <textarea id="notes" name="notes" rows="3"
+            maxlength="300"
+            placeholder="Tulis catatan tambahan jika ada"></textarea>
+
+  <div class="total-box">
+    <span>Total Pembayaran</span>
+    <strong id="total">Rp2.500</strong>
+  </div>
+
+  <button class="order-btn" type="submit">
+    PESAN SEKARANG VIA WHATSAPP →
+  </button>
+</form>
+
+  </section>  <section class="card" id="payment">
+    <h2>💳 Pembayaran QRIS</h2>
+    <p class="payment-intro">
+      Ikuti tata cara pembayaran berikut. Konfirmasikan nominal dan QRIS
+      kepada admin sebelum melakukan transaksi.
+    </p><img class="qris" id="qrisImage" src="qris.jpg"
+     alt="QRIS pembayaran RIFHSK"
+     onerror="this.style.display='none';document.getElementById('qrisMissing').style.display='block'">
+
+<div class="qris-missing" id="qrisMissing">
+  Gambar QRIS belum tersedia. Hubungi admin melalui WhatsApp untuk
+  meminta QRIS pembayaran yang benar.
+</div>
+
+<div class="download-wrap">
+  <a class="download-btn" href="qris.jpg" download="QRIS-RIFHSK.jpg">
+    ⬇ DOWNLOAD QRIS
+  </a>
+</div>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-number">01</div>
+    <div class="step-content">
+      <h3>Pilih Layanan</h3>
+      <p>Pilih FLEXIBLE atau NO FLEXIBLE, lalu isi nickname, ID game,
+         dan jumlah match yang dipesan.</p>
     </div>
+  </div>
 
-    <form id="orderForm">
-      <label for="nickname">Nickname Game</label>
-      <input id="nickname" type="text" maxlength="40"
-             placeholder="Masukkan nickname" required>
+  <div class="step">
+    <div class="step-number">02</div>
+    <div class="step-content">
+      <h3>Periksa Total Harga</h3>
+      <p>FLEXIBLE Rp2.500 per match dan NO FLEXIBLE Rp3.500 per match.
+         Periksa total yang muncul di form.</p>
+    </div>
+  </div>
 
-      <label for="gameId">ID Game</label>
-      <input id="gameId" type="text" maxlength="30"
-             placeholder="Contoh: 123456789 (1234)" required>
+  <div class="step">
+    <div class="step-number">03</div>
+    <div class="step-content">
+      <h3>Kirim Pesanan ke Admin</h3>
+      <p>Tekan tombol pemesanan WhatsApp. Pesan yang terbuka berisi
+         detail pesanan kamu.</p>
+    </div>
+  </div>
 
-      <label for="quantity">Jumlah Match</label>
-      <select id="quantity">
-        <option value="1">1 Match</option>
-        <option value="2">2 Match</option>
-        <option value="3">3 Match</option>
-        <option value="4">4 Match</option>
-        <option value="5">5 Match</option>
-      </select>
+  <div class="step">
+    <div class="step-number">04</div>
+    <div class="step-content">
+      <h3>Lakukan Pembayaran</h3>
+      <p>Setelah admin mengonfirmasi pesanan, scan QRIS yang telah
+         dipastikan benar dan bayar sesuai nominal.</p>
+    </div>
+  </div>
 
-      <label for="notes">Catatan (opsional)</label>
-      <textarea id="notes" maxlength="300"
-                placeholder="Tambahkan catatan pesanan"></textarea>
+  <div class="step">
+    <div class="step-number">05</div>
+    <div class="step-content">
+      <h3>Kirim Bukti Pembayaran</h3>
+      <p>Kirim screenshot bukti transaksi kepada admin melalui
+         WhatsApp untuk diverifikasi.</p>
+    </div>
+  </div>
 
-      <div class="total">
-        <span>Total Pembayaran</span>
-        <strong id="total">Rp2.500</strong>
-      </div>
+  <div class="step">
+    <div class="step-number">06</div>
+    <div class="step-content">
+      <h3>Tunggu Konfirmasi</h3>
+      <p>Pesanan diproses setelah pembayaran berhasil diverifikasi
+         dan admin mengonfirmasi pesanan.</p>
+    </div>
+  </div>
+</div>
 
-      <button type="submit" class="order">
-        Pesan Sekarang via WhatsApp
-      </button>
-    </form>
-  </section>
+<div class="notice">
+  ⚠️ Pastikan nama merchant dan nominal pembayaran benar sebelum
+  membayar. Jangan bagikan PIN, kata sandi, atau kode OTP.
+  Simpan bukti transaksi sampai pesanan selesai.
+</div>
 
-  <section class="card payment">
-    <h2>Pembayaran QRIS</h2>
-    <p>Scan QRIS berikut untuk melakukan pembayaran.</p>
-    <img class="qris" src="qris.jpg" alt="QRIS Pembayaran">
-    <a class="download" href="qris.jpg" download="QRIS-RIFHSK.jpg">
-      Download QRIS
-    </a>
-    <p class="warning">Pastikan nominal pembayaran sesuai total pesanan.</p>
-  </section>
+<a class="contact-btn"
+   href="https://wa.me/6285725209623"
+   target="_blank" rel="noopener noreferrer">
+  CHAT ADMIN RIFHSK DI WHATSAPP ↗
+</a>
 
-  <footer>© <span id="year"></span> RANK VS BOT BY RIFHSK</footer>
-</main>
+  </section>  <footer>
+    © <span id="year"></span> RANK VS BOT BY RIFHSK · All Rights Reserved
+  </footer>
+</main><script>
+(function () {
+  "use strict";
 
-<script>
-"use strict";
+  const ADMIN_WA = "6285725209623";
+  let selectedService = "FLEXIBLE";
+  let selectedPrice = 2500;
 
-const ADMIN_WA = "6285725209623";
-let service = "FLEXIBLE";
-let price = 2500;
+  const cards = document.querySelectorAll(".price-card");
+  const quantityInput = document.getElementById("quantity");
+  const totalElement = document.getElementById("total");
+  const orderForm = document.getElementById("orderForm");
 
-const money = n => "Rp" + new Intl.NumberFormat("id-ID").format(n);
-const quantity = document.getElementById("quantity");
-const total = document.getElementById("total");
-
-function updateTotal() {
-  total.textContent = money(price * Number(quantity.value));
-}
-
-document.querySelectorAll(".price").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".price").forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-    service = button.dataset.service;
-    price = Number(button.dataset.price);
-    updateTotal();
-  });
-});
-
-quantity.addEventListener("change", updateTotal);
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent =
-    new Intl.DateTimeFormat("id-ID", {
-      timeZone:"Asia/Jakarta",
-      hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
-    }).format(now) + " WIB";
-
-  document.getElementById("date").textContent =
-    new Intl.DateTimeFormat("id-ID", {
-      timeZone:"Asia/Jakarta",
-      weekday:"long",day:"numeric",month:"long",year:"numeric"
-    }).format(now);
-}
-
-updateClock();
-setInterval(updateClock, 1000);
-document.getElementById("year").textContent = new Date().getFullYear();
-
-document.getElementById("orderForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const nickname = document.getElementById("nickname").value.trim();
-  const gameId = document.getElementById("gameId").value.trim();
-  const qty = Number(quantity.value);
-  const notes = document.getElementById("notes").value.trim();
-
-  if (!nickname || !gameId) {
-    alert("Nickname dan ID Game wajib diisi.");
-    return;
+  function formatRupiah(amount) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }).format(amount);
   }
 
-  const message = [
-    "HALO ADMIN RIFHSK YANG PALING GANTENG!",
-    "",
-    "SAYA INGIN MELAKUKAN PEMESANAN:",
-    "",
-    "NICKNAME: " + nickname,
-    "ID GAME: " + gameId,
-    "LAYANAN: " + service,
-    "JUMLAH MATCH: " + qty,
-    "CATATAN: " + (notes || "-"),
-    "TOTAL PEMBAYARAN: " + money(price * qty),
-    "",
-    "MOHON KONFIRMASI PESANAN SAYA. TERIMA KASIH."
-  ].join("\n");
+  function updateTotal() {
+    const quantity = Number(quantityInput.value);
+    totalElement.textContent = formatRupiah(selectedPrice * quantity);
+  }
 
-  const url = "https://wa.me/" + ADMIN_WA + "?text=" +
-    encodeURIComponent(message);
+  function updateQuantityOptions() {
+    const maxMatch = selectedService === "NO FLEXIBLE" ? 10 : 5;
 
-  window.location.href = url;
-});
+    Array.from(quantityInput.options).forEach(function (option) {
+      const unavailable = Number(option.value) > maxMatch;
+      option.disabled = unavailable;
+      option.hidden = unavailable;
+    });
 
-updateTotal();
-</script>
-</body>
+    if (Number(quantityInput.value) > maxMatch) {
+      quantityInput.value = String(maxMatch);
+    }
+
+    updateTotal();
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener("click", function () {
+      cards.forEach(function (item) {
+        item.classList.remove("active");
+      });
+
+      card.classList.add("active");
+      selectedService = card.dataset.service;
+      selectedPrice = Number(card.dataset.price);
+
+      updateQuantityOptions();
+    });
+  });
+
+  quantityInput.addEventListener("change", updateTotal);
+
+  orderForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const nickname = document.getElementById("nickname").value.trim();
+    const gameId = document.getElementById("gameId").value.trim();
+    const quantity = Number(quantityInput.value);
+    const notes = document.getElementById("notes").value.trim();
+    const maxMatch = selectedService === "NO FLEXIBLE" ? 10 : 5;
+
+    if (!nickname || !gameId) {
+      alert("Nickname dan ID Game wajib diisi.");
+      return;
+    }
+
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > maxMatch) {
+      alert("Jumlah match tidak sesuai dengan layanan yang dipilih.");
+      return;
+    }
+
+    const total = selectedPrice * quantity;
+
+    const message = [
+      "HALO ADMIN RIFHSK!",
+      "",
+      "SAYA INGIN MELAKUKAN PEMESANAN:",
+      "",
+      "Nickname: " + nickname,
+      "ID Game: " + gameId,
+      "Layanan: " + selectedService,
+      "Jumlah Match: " + quantity,
+      "Harga per Match: " + formatRupiah(selectedPrice),
+      "Total Pembayaran: " + formatRupiah(total),
+      "Catatan: " + (notes || "-"),
+      "",
+      "Mohon konfirmasi pesanan dan instruksi pembayaran. Terima kasih."
+    ].join("\n");
+
+    const whatsappURL =
+      "https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(message);
+
+    const opened = window.open(whatsappURL, "_blank");
+
+    if (!opened) {
+      window.location.href = whatsappURL;
+    }
+  });
+
+  function updateClock() {
+    const now = new Date();
+
+    document.getElementById("clock").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(now) + " WIB";
+
+    document.getElementById("date").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(now);
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  updateTotal();
+})();
+</script></body>
 </html>
