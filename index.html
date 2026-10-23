@@ -3,101 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ROFLKAKILIMA - Topup Games & Produk Digital Murah #1 Indonesia</title>
-  <!-- Menggunakan Font mirip dengan aslinya -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>RIFHSK DKK - Topup Games & Produk Digital Murah #1 Indonesia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --primary: #4f46e5; /* Warna ungu/biru khas topup */
-      --secondary: #10b981;
-      --bg: #f8fafc;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --white: #ffffff;
+      --bg-body: #0f172a;
+      --bg-card: #1e293b;
+      --bg-nav: #0b1120;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --radius: 12px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
     a { text-decoration: none; color: inherit; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
 
-    /* HEADER */
-    header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50; }
+    /* HEADER & SEARCH */
+    header { background: var(--bg-nav); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
     .nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-    .logo img { width: 35px; height: 35px; border-radius: 5px; object-fit: contain; }
-    .btn-login { background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+    .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .logo svg { width: 35px; height: 35px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); }
+    .nav-links a:hover { color: var(--primary); }
+    .btn-login { background: var(--primary); color: white; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+    .btn-login:hover { background: var(--primary-hover); }
 
-    /* HERO / BANNER */
-    .hero { background: var(--white); padding: 30px 0; border-bottom: 1px solid var(--border); }
-    .hero h1 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
-    .hero p { color: var(--text-muted); font-size: 14px; }
+    /* HERO & SEARCH BAR */
+    .hero { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 40px 0; text-align: center; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+    .hero p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
+    .search-box { max-width: 600px; margin: 0 auto; position: relative; }
+    .search-box input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 50px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 15px; outline: none; transition: 0.2s; }
+    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+    .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px; }
 
     /* SECTION TITLE */
-    .section-title { text-align: center; margin: 40px 0 20px; }
-    .section-title h2 { font-size: 22px; font-weight: 700; color: var(--text); }
+    .section-title { margin: 40px 0 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .section-title h2 { font-size: 22px; font-weight: 800; }
+    .section-title a { font-size: 14px; color: var(--primary); font-weight: 600; }
 
     /* GRID PRODUK */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-bottom: 40px; }
-    .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; transition: 0.2s; cursor: pointer; }
-    .product-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--primary); }
-    .product-icon { width: 70px; height: 70px; margin: 0 auto 10px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 30px; }
-    .product-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; }
-    .product-price { color: var(--primary); font-weight: 700; font-size: 13px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: 0.2s; cursor: pointer; }
+    .product-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .product-img { height: 120px; background: #2a3a55; display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; }
+    .product-tag { position: absolute; top: 10px; right: 10px; background: rgba(16, 185, 129, 0.2); color: var(--accent); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .product-info { padding: 15px; }
+    .product-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 5px; line-height: 1.3; }
+    .product-price { color: var(--text-muted); font-size: 12px; }
+    .product-price span { color: var(--primary); font-weight: 800; font-size: 14px; display: block; margin-top: 5px; }
 
-    /* KENAPA ROFLKAKILIMA (FITUR) */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
-    .feature-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
-    .feature-card i { font-size: 30px; color: var(--primary); margin-bottom: 15px; }
-    .feature-card h3 { font-size: 16px; margin-bottom: 10px; }
-    .feature-card p { font-size: 13px; color: var(--text-muted); }
+    /* TESTIMONI (Persis Seperti Referensi) */
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+    .testi-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: var(--radius); }
+    .testi-quote { font-size: 14px; color: #e2e8f0; font-style: italic; margin-bottom: 15px; }
+    .testi-user { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--primary); }
+
+    /* FITUR (Kenapa ROFLKAKILIMA) */
+    .fitur-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .fitur-card { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: var(--radius); text-align: center; }
+    .fitur-card i { font-size: 35px; color: var(--primary); margin-bottom: 15px; }
+    .fitur-card h3 { font-size: 18px; margin-bottom: 10px; }
+    .fitur-card p { color: var(--text-muted); font-size: 14px; }
 
     /* CARA PESAN */
-    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
-    .step-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid var(--border); position: relative; }
-    .step-num { width: 30px; height: 30px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 15px; }
-    .step-card h3 { font-size: 15px; margin-bottom: 5px; }
-    .step-card p { font-size: 13px; color: var(--text-muted); }
+    .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .step-card { background: var(--bg-card); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); }
+    .step-num { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; margin-bottom: 15px; }
+    .step-card h3 { font-size: 16px; margin-bottom: 8px; }
+    .step-card p { color: var(--text-muted); font-size: 13px; }
 
-    /* TESTIMONI */
-    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 40px; }
-    .testi-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
-    .testi-text { font-size: 14px; font-style: italic; margin-bottom: 10px; }
-    .testi-user { font-size: 13px; font-weight: 600; color: var(--primary); }
+    /* TOAST NOTIFICATION */
+    .toast { position: fixed; bottom: 20px; left: 20px; background: var(--bg-card); border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; display: flex; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; font-size: 13px; animation: slideUp 0.5s ease; }
+    .toast i { color: var(--accent); font-size: 20px; }
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* MODAL CHECKOUT (POPUP) */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--white); width: 100%; max-width: 400px; border-radius: 12px; padding: 20px; position: relative; max-height: 90vh; overflow-y: auto; }
-    .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
-    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-    .modal-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    /* MODAL CHECKOUT */
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(5px); }
+    .modal.active { display: flex; }
+    .modal-box { background: var(--bg-card); width: 100%; max-width: 450px; border-radius: var(--radius); padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); }
+    .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+    .modal-head { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+    .modal-head h2 { font-size: 18px; }
+    .modal-head p { color: var(--text-muted); font-size: 13px; margin-top: 5px; }
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
-    .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; outline: none; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #cbd5e1; }
+    .form-control { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-body); color: white; outline: none; font-size: 14px; }
     .form-control:focus { border-color: var(--primary); }
+    .btn-action { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
+    .btn-action:hover { background: var(--primary-hover); }
+    .btn-back { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; }
     
-    .qris-area { text-align: center; display: none; }
-    .qris-img { width: 100%; max-width: 280px; border-radius: 8px; border: 1px solid var(--border); margin: 10px auto; display: block; }
-    .total-pay { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
-
-    .btn-action { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
-    .btn-action:hover { background: #4338ca; }
-    .btn-back { width: 100%; padding: 10px; background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-
+    .qris-area { display: none; text-align: center; }
+    .qris-total { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+    .qris-img { width: 100%; max-width: 300px; border-radius: 8px; margin: 0 auto 15px; display: block; background: white; padding: 10px; }
+    
     /* FOOTER */
-    footer { background: var(--white); border-top: 1px solid var(--border); padding: 30px 0; text-align: center; }
-    footer p { font-size: 13px; color: var(--text-muted); }
+    footer { background: var(--bg-nav); border-top: 1px solid var(--border); padding: 30px 0; text-align: center; margin-top: 50px; }
+    footer p { color: var(--text-muted); font-size: 13px; }
 
-    /* FLOATING TELEGRAM */
-    .float-tg { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 15px rgba(0,136,204,0.4); z-index: 99; transition: 0.2s; }
+    .float-tg { position: fixed; bottom: 20px; right: 20px; background: #229ED9; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 15px rgba(34, 158, 217, 0.4); z-index: 99; transition: 0.2s; }
     .float-tg:hover { transform: scale(1.1); }
 
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 20px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 22px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -107,81 +127,145 @@
   <header>
     <div class="container nav">
       <div class="logo">
-        <!-- LOGO SVG BAWAAN -->
-        <svg width="35" height="35" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="#4f46e5"/>
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="20" fill="#3b82f6"/>
           <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="60" font-weight="900" font-family="Arial" fill="#ffffff">R</text>
         </svg>
         RIFHSK DKK
       </div>
-      <button class="btn-login" onclick="scrollToProducts()">Topup Sekarang</button>
+      <div class="nav-links">
+        <a href="#produk">Produk</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="#keunggulan">Keunggulan</a>
+      </div>
+      <button class="btn-login" onclick="document.getElementById('searchInput').focus()">Cari Produk</button>
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO & SEARCH -->
   <section class="hero">
     <div class="container">
       <h1>Topup Games & Produk Digital Murah #1 Indonesia</h1>
       <p>Proses instan 24 jam, pembayaran lengkap via QRIS. Aman dan terpercaya.</p>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari produk (Contoh: Mobile Legends, Free Fire, Netflix)..." onkeyup="filterProducts()">
+      </div>
     </div>
   </section>
 
   <!-- PRODUK -->
-  <div class="container" id="produk-section">
+  <div class="container" id="produk">
     <div class="section-title">
       <h2>Daftar Produk</h2>
     </div>
-    <div class="product-grid">
-      <!-- PRODUK 1 -->
-      <div class="product-card" onclick="openOrder('Mobile Legends 86 Diamonds', 20000)">
-        <div class="product-icon">💎</div>
-        <h3>Mobile Legends 86 Diamonds</h3>
-        <div class="product-price">Rp 20.000</div>
+    <div class="product-grid" id="productGrid">
+      <!-- Produk 1 -->
+      <div class="product-card" data-name="Mobile Legends" onclick="openOrder('Mobile Legends 86 Diamonds', 20000)">
+        <div class="product-img">💎<span class="product-tag">Terlaris</span></div>
+        <div class="product-info">
+          <h3>Mobile Legends 86 Diamonds</h3>
+          <div class="product-price">Harga mulai <span>Rp 20.000</span></div>
+        </div>
       </div>
-      <!-- PRODUK 2 -->
-      <div class="product-card" onclick="openOrder('Free Fire 70 Diamonds', 10000)">
-        <div class="product-icon">🔥</div>
-        <h3>Free Fire 70 Diamonds</h3>
-        <div class="product-price">Rp 10.000</div>
+      <!-- Produk 2 -->
+      <div class="product-card" data-name="Free Fire" onclick="openOrder('Free Fire 70 Diamonds', 10000)">
+        <div class="product-img">🔥<span class="product-tag">Murah</span></div>
+        <div class="product-info">
+          <h3>Free Fire 70 Diamonds</h3>
+          <div class="product-price">Harga mulai <span>Rp 10.000</span></div>
+        </div>
       </div>
-      <!-- PRODUK 3 -->
-      <div class="product-card" onclick="openOrder('PUBG Mobile 60 UC', 15000)">
-        <div class="product-icon">🎯</div>
-        <h3>PUBG Mobile 60 UC</h3>
-        <div class="product-price">Rp 15.000</div>
+      <!-- Produk 3 -->
+      <div class="product-card" data-name="PUBG Mobile" onclick="openOrder('PUBG Mobile 60 UC', 15000)">
+        <div class="product-img">🎯<span class="product-tag">Instan</span></div>
+        <div class="product-info">
+          <h3>PUBG Mobile 60 UC</h3>
+          <div class="product-price">Harga mulai <span>Rp 15.000</span></div>
+        </div>
       </div>
-      <!-- PRODUK 4 -->
-      <div class="product-card" onclick="openOrder('Steam Wallet 12K', 12000)">
-        <div class="product-icon">🎮</div>
-        <h3>Steam Wallet 12K</h3>
-        <div class="product-price">Rp 12.000</div>
+      <!-- Produk 4 -->
+      <div class="product-card" data-name="Steam Wallet" onclick="openOrder('Steam Wallet Rp 12.000', 12000)">
+        <div class="product-img">🎮<span class="product-tag">Voucher</span></div>
+        <div class="product-info">
+          <h3>Steam Wallet Rp 12.000</h3>
+          <div class="product-price">Harga mulai <span>Rp 12.000</span></div>
+        </div>
       </div>
-      <!-- PRODUK 5 -->
-      <div class="product-card" onclick="openOrder('Netflix 1 Bulan', 45000)">
-        <div class="product-icon">🎬</div>
-        <h3>Netflix 1 Bulan</h3>
-        <div class="product-price">Rp 45.000</div>
+      <!-- Produk 5 -->
+      <div class="product-card" data-name="Netflix" onclick="openOrder('Netflix 1 Bulan', 45000)">
+        <div class="product-img">🎬<span class="product-tag">Premium</span></div>
+        <div class="product-info">
+          <h3>Netflix 1 Bulan</h3>
+          <div class="product-price">Harga mulai <span>Rp 45.000</span></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- KEUNGGULAN -->
-  <div class="container">
+  <!-- TESTIMONI (Sesuai Referensi) -->
+  <div class="container" id="testimoni">
+    <div class="section-title">
+      <h2>Apa Kata Mereka?</h2>
+      <a href="#">Lihat Semua</a>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-quote">"Rw paket 1"</div>
+        <div class="testi-user">— 𝙼𝚒𝚣𝚞𝚔𝚒</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"p"</div>
+        <div class="testi-user">— p</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"Mantap"</div>
+        <div class="testi-user">— Hendra</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"gacor🔥"</div>
+        <div class="testi-user">— iqbal</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"Surfshark 60 days"</div>
+        <div class="testi-user">— Imbochil</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"terbaik"</div>
+        <div class="testi-user">— ryy</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"mantap Uda langganan disini next lebih di ganasin lagi stoknya mas rofkakilima"</div>
+        <div class="testi-user">— khalid</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"cara riset key"</div>
+        <div class="testi-user">— kepo</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"Very good"</div>
+        <div class="testi-user">— Kanjut</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEUNGGULAN (Sesuai Referensi) -->
+  <div class="container" id="keunggulan">
     <div class="section-title">
       <h2>Kenapa RIFHSK DKK?</h2>
     </div>
-    <div class="features-grid">
-      <div class="feature-card">
+    <div class="fitur-grid">
+      <div class="fitur-card">
         <i class="fas fa-tags"></i>
         <h3>Harga Termurah</h3>
         <p>Berbagai pilihan voucher game dengan harga terbaik dan kompetitif di Indonesia.</p>
       </div>
-      <div class="feature-card">
+      <div class="fitur-card">
         <i class="fas fa-bolt"></i>
         <h3>Proses Instan 24 Jam</h3>
         <p>Pembelian cepat, mudah, aman, dan dapat dipercaya kapan saja tanpa batas waktu.</p>
       </div>
-      <div class="feature-card">
+      <div class="fitur-card">
         <i class="fas fa-wallet"></i>
         <h3>Pembayaran Lengkap</h3>
         <p>Tersedia metode pembayaran termasuk QRIS, transfer bank, e-wallet, dan lainnya.</p>
@@ -189,12 +273,12 @@
     </div>
   </div>
 
-  <!-- CARA PESAN -->
-  <div class="container">
+  <!-- CARA PESAN (Sesuai Referensi) -->
+  <div class="container" id="cara-pesan">
     <div class="section-title">
       <h2>Cara Mudah Memesan</h2>
     </div>
-    <div class="steps-grid">
+    <div class="step-grid">
       <div class="step-card">
         <div class="step-num">1</div>
         <h3>Pilih Produk</h3>
@@ -218,95 +302,73 @@
     </div>
   </div>
 
-  <!-- TESTIMONI -->
-  <div class="container">
-    <div class="section-title">
-      <h2>Apa Kata Mereka?</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="testi-text">"Rw paket 1"</div>
-        <div class="testi-user">— 𝙼𝚒𝚣𝚞𝚔𝚒</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-text">"Mantap"</div>
-        <div class="testi-user">— Hendra</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-text">"gacor🔥"</div>
-        <div class="testi-user">— iqbal</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-text">"mantap Uda langganan disini next lebih di ganasin lagi stoknya mas"</div>
-        <div class="testi-user">— khalid</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-text">"Very good"</div>
-        <div class="testi-user">— Kanjut</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-text">"Surfshark 60 days"</div>
-        <div class="testi-user">— Imbochil</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>&copy; 2026 RIFHSK DKK. All rights reserved.</p>
     </div>
   </footer>
 
+  <!-- TOAST NOTIFIKASI (Bawah Kiri) -->
+  <div class="toast" id="liveToast">
+    <i class="fas fa-check-circle"></i>
+    <div>
+      <strong style="display:block; font-size:12px;">Beberapa saat yang lalu</strong>
+      <span style="color:var(--text-muted); font-size:11px;">Seseorang baru saja membeli produk.</span>
+    </div>
+  </div>
+
   <!-- FLOATING TELEGRAM -->
-  <a href="https://t.me/rifhskdkk" target="_blank" class="float-tg" title="Hubungi via Telegram">
+  <a href="https://t.me/rifhskdkk" target="_blank" class="float-tg">
     <i class="fab fa-telegram-plane"></i>
   </a>
 
   <!-- MODAL CHECKOUT -->
-  <div class="modal-overlay" id="orderModal">
+  <div class="modal" id="orderModal">
     <div class="modal-box">
-      <button class="close-btn" onclick="closeModal()">✕</button>
+      <button class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
       
-      <!-- STEP 1: FORMULIR -->
+      <!-- STEP 1: FORM -->
       <div id="step1">
-        <h2 class="modal-title" id="modalProductName">Nama Produk</h2>
-        <p class="modal-subtitle" id="modalProductPrice">Rp 0</p>
+        <div class="modal-head">
+          <h2 id="mProductName">Nama Produk</h2>
+          <p id="mProductPrice">Rp 0</p>
+        </div>
         
         <form onsubmit="goToQris(event)">
           <div class="form-group">
-            <label>Nickname / Nama</label>
-            <input type="text" class="form-control" id="inputName" required placeholder="Masukkan nama">
+            <label>Masukkan Nickname / Nama</label>
+            <input type="text" class="form-control" id="inputName" required placeholder="Contoh: Mizuki">
           </div>
           <div class="form-group">
-            <label>User ID / Email / No. Tujuan</label>
-            <input type="text" class="form-control" id="inputTarget" required placeholder="Masukkan ID / Email">
+            <label>Masukkan User ID / Email / No. Tujuan</label>
+            <input type="text" class="form-control" id="inputTarget" required placeholder="Contoh: 12345678 (1234)">
           </div>
           <div class="form-group">
             <label>Jumlah Pembelian</label>
             <input type="number" class="form-control" id="inputQty" value="1" min="1" required oninput="updateTotal()">
           </div>
-          <button type="submit" class="btn-action">Lanjut ke Pembayaran</button>
+          <button type="submit" class="btn-action">Lanjut Pembayaran <i class="fas fa-arrow-right"></i></button>
         </form>
       </div>
 
       <!-- STEP 2: QRIS -->
       <div id="step2" class="qris-area">
-        <h2 class="modal-title">Pembayaran QRIS</h2>
-        <p class="modal-subtitle">Scan kode QR di bawah ini</p>
+        <div class="modal-head">
+          <h2>Pembayaran QRIS</h2>
+          <p>Silakan scan kode di bawah</p>
+        </div>
         
-        <div class="total-pay" id="qrisTotal">Rp 0</div>
+        <div class="qris-total" id="qrisTotal">Rp 0</div>
         
         <!-- ⚠️ GANTI LINK GAMBAR DI BAWAH INI DENGAN GAMBAR QRIS ANDA -->
-        <!-- Upload gambar QRIS Anda ke imgbee/postimages, lalu ganti link src di bawah -->
         <img src="https://i.ibb.co.com/6cZqXKZ/qris-placeholder.png" alt="QRIS RIFHKAK" class="qris-img" onerror="this.src='https://via.placeholder.com/300x400/ffffff/000000?text=GANTI+GAMBAR+QRIS'">
         
-        <p style="font-size: 12px; margin-bottom: 15px;">
+        <p style="font-size: 12px; margin-bottom: 15px; color:var(--text-muted);">
           NMID: ID1026586399622<br>
           Atas Nama: <b>RIFHKAK - COURSE</b>
         </p>
 
-        <button onclick="sendToTelegram()" class="btn-action">
+        <button onclick="sendToTelegram()" class="btn-action" style="background:#229ED9;">
           <i class="fab fa-telegram-plane"></i> Saya Sudah Bayar
         </button>
         <button onclick="backToForm()" class="btn-back">Kembali</button>
@@ -320,14 +382,25 @@
     let currentProduct = { name: '', price: 0 };
     const TELEGRAM_USERNAME = "rifhskdkk"; // Username Telegram Anda
 
-    function scrollToProducts() {
-      document.getElementById('produk-section').scrollIntoView({ behavior: 'smooth' });
+    // Fitur Pencarian
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.product-card');
+      
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        if (name.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
 
     function openOrder(name, price) {
       currentProduct = { name, price };
-      document.getElementById('modalProductName').innerText = name;
-      document.getElementById('modalProductPrice').innerText = formatRupiah(price);
+      document.getElementById('mProductName').innerText = name;
+      document.getElementById('mProductPrice').innerText = formatRupiah(price);
       document.getElementById('inputQty').value = 1;
       updateTotal();
       
@@ -364,9 +437,8 @@
       let qty = document.getElementById('inputQty').value;
       let total = currentProduct.price * qty;
 
-      let text = `Halo Admin, saya sudah melakukan pembayaran via QRIS.\n\n*DETAIL PESANAN:*\nProduk: ${currentProduct.name}\nJumlah: ${qty}\nTotal: ${formatRupiah(total)}\n\n*DATA PEMBELI:*\nNama: ${name}\nID/Email/Tujuan: ${target}\n\nBerikut saya lampirkan bukti transfernya. Mohon segera diproses ya.`;
+      let text = `Halo Admin @rifhskdkk, saya sudah melakukan pembayaran via QRIS.\n\n*DETAIL PESANAN:*\nProduk: ${currentProduct.name}\nJumlah: ${qty}\nTotal: ${formatRupiah(total)}\n\n*DATA PEMBELI:*\nNama: ${name}\nID/Email/Tujuan: ${target}\n\nBerikut saya lampirkan bukti transfernya. Mohon segera diproses ya.`;
 
-      // Encode text untuk URL Telegram
       let url = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
       
@@ -376,6 +448,12 @@
     function formatRupiah(angka) {
       return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
     }
+
+    // Sembunyikan Toast setelah 5 detik
+    setTimeout(() => {
+      document.getElementById('liveToast').style.display = 'none';
+    }, 5000);
   </script>
 </body>
 </html>
+      
