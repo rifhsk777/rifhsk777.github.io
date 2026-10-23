@@ -1,145 +1,80 @@
-"use strict";
+/*
+
+* RANK VS BOT BY RIFHSK
+* Periksa nomor admin sebelum website dipublikasikan.
+  */
+  const WHATSAPP_ADMIN = "628572092623";
 
 const form = document.getElementById("orderForm");
-const mode = document.getElementById("mode");
-const quantity = document.getElementById("quantity");
+const service = document.getElementById("service");
+const qty = document.getElementById("qty");
 const totalPrice = document.getElementById("totalPrice");
-const priceInfo = document.getElementById("priceInfo");
-const scheduleInput = document.getElementById("schedule");
+const totalDescription = document.getElementById("totalDescription");
 
-const ADMIN_WHATSAPP = "6285725209623";
-
-function formatRupiah(amount) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(amount);
+function getPricePerMatch() {
+return service.value === "FLEXIBLE" ? 2500 : 3500;
 }
 
-function getOrderPrice() {
-  const selectedMode = mode.value;
-  const qty = Number(quantity.value);
-
-  if (selectedMode === "flex") {
-    return qty === 5 ? 13000 : qty * 3000;
-  }
-
-  if (selectedMode === "noflex") {
-    return qty === 5 ? 23000 : qty * 5000;
-  }
-
-  return 0;
+function formatRupiah(value) {
+return new Intl.NumberFormat("id-ID", {
+style: "currency",
+currency: "IDR",
+maximumFractionDigits: 0
+}).format(value);
 }
 
 function updateTotal() {
-  const qty = Number(quantity.value);
-  const selectedMode = mode.value;
-  const total = getOrderPrice();
+const quantity = Number(qty.value);
+const total = getPricePerMatch() * quantity;
 
-  totalPrice.textContent = formatRupiah(total);
-
-  const serviceName =
-    selectedMode === "flex" ? "Flex" : "No Flex";
-
-  priceInfo.textContent =
-    qty === 5
-      ? `${serviceName} · Paket 5 match`
-      : `${serviceName} · ${qty} match`;
-
-  return total;
+totalPrice.textContent = formatRupiah(total);
+totalDescription.textContent =
+"${service.value} · ${quantity} MATCH";
 }
 
-function setMinimumSchedule() {
-  const now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+service.addEventListener("change", updateTotal);
+qty.addEventListener("change", updateTotal);
 
-  scheduleInput.min = now.toISOString().slice(0, 16);
-}
+form.addEventListener("submit", function(event) {
+event.preventDefault();
 
-mode.addEventListener("change", updateTotal);
-quantity.addEventListener("change", updateTotal);
+const nickname = document.getElementById("nickname").value.trim();
+const gameid = document.getElementById("gameid").value.trim();
+const scheduleValue = document.getElementById("schedule").value;
+const notes = document.getElementById("notes").value.trim() || "-";
 
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+const date = new Date(scheduleValue);
+const schedule = Number.isNaN(date.getTime())
+? scheduleValue
+: new Intl.DateTimeFormat("id-ID", {
+dateStyle: "long",
+timeStyle: "short"
+}).format(date);
 
-setMinimumSchedule();
-updateTotal();
+const quantity = Number(qty.value);
+const total = getPricePerMatch() * quantity;
 
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
+const message = [
+"HALO ADMIN RIFHSK YANG PALING GANTENG!",
+"",
+"SAYA INGIN MELAKUKAN PEMESANAN :",
+"",
+"NICKNAME : ${nickname}",
+"ID GAME : ${gameid}",
+"LAYANAN : ${service.value}",
+"JUMLAH : ${quantity} MATCH",
+"JADWAL : ${schedule}",
+"CATATAN : ${notes}",
+"TOTAL PEMBAYARAN : ${formatRupiah(total)}",
+"",
+"MOHON KONFIRMASI PESANAN SAYA.",
+"TERIMA KASIH."
+].join("\n");
 
-  if (!form.reportValidity()) {
-    return;
-  }
+const whatsappURL =
+"https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent(message)}";
 
-  const nickname =
-    document.getElementById("nickname").value.trim();
-
-  const gameid =
-    document.getElementById("gameid").value.trim();
-
-  const notes =
-    document.getElementById("notes").value.trim() || "-";
-
-  const selectedMode = mode.value;
-  const qty = Number(quantity.value);
-  const total = getOrderPrice();
-
-  if (!nickname || !gameid || !scheduleInput.value) {
-    alert("Mohon lengkapi semua data wajib.");
-    return;
-  }
-
-  const scheduleDate = new Date(scheduleInput.value);
-
-  if (Number.isNaN(scheduleDate.getTime())) {
-    alert("Jadwal tidak valid. Silakan pilih ulang.");
-    return;
-  }
-
-  if (scheduleDate.getTime() < Date.now()) {
-    alert("Jadwal tidak boleh berada di waktu yang sudah lewat.");
-    return;
-  }
-
-  const schedule = scheduleDate.toLocaleString("id-ID", {
-    dateStyle: "long",
-    timeStyle: "short"
-  });
-
-  const serviceName =
-    selectedMode === "flex" ? "Flex" : "No Flex";
-
-  const message = [
-    "Halo Admin RANK VS BOT BY RIFHSK!",
-    "Saya ingin melakukan pemesanan:",
-    "",
-    `Nama/Nickname: ${nickname}`,
-    `Layanan: ${serviceName}`,
-    `Jumlah: ${qty} match`,
-    `Game ID: ${gameid}`,
-    `Jadwal: ${schedule}`,
-    `Catatan: ${notes}`,
-    `Total pembayaran: ${formatRupiah(total)}`,
-    "",
-    "Mohon konfirmasi pesanan saya.",
-    "Terima kasih."
-  ].join("\n");
-
-  const whatsappURL =
-    "https://wa.me/" +
-    ADMIN_WHATSAPP +
-    "?text=" +
-    encodeURIComponent(message);
-
-  const newWindow = window.open(
-    whatsappURL,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-  if (!newWindow) {
-    window.location.href = whatsappURL;
-  }
+window.open(whatsappURL, "_blank", "noopener,noreferrer");
 });
+
+updateTotal();
