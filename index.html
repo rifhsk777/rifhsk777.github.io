@@ -1,112 +1,274 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RANK VS BOT BY RIFHSK</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10091d">
+<title>RANK VS BOT BY RIFHSK</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{color-scheme:dark;--purple:#a66bff;--light:#d9baff;--muted:#c9b9df}
+html{min-height:100%;overflow-x:hidden}
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(ellipse at top,#352052 0%,#160d25 48%,#0d0717 100%);
+  line-height:1.5;
+}
+.topbar{
+  width:100%;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#160d24;border-bottom:1px solid #50336c;
+}
+#clock{font-size:15px;font-weight:bold}
+#date{font-size:11px;color:var(--muted);margin-top:3px}
+.channel{
+  display:inline-block;padding:10px 12px;border-radius:9px;
+  background:#168d59;color:white;text-decoration:none;
+  font-size:11px;font-weight:bold;white-space:nowrap;
+}
+.container{width:calc(100% - 24px);max-width:520px;margin:20px auto}
+.card{
+  min-width:0;padding:19px;margin-bottom:15px;
+  background:rgba(37,24,57,.92);
+  border:1px solid #563975;border-radius:15px;
+  box-shadow:0 8px 24px #0003;
+}
+.hero{text-align:center;padding:20px 14px}
+.logo{
+  display:block;width:100%;max-width:340px;height:auto;
+  margin:0 auto 16px;border-radius:8px;object-fit:contain;
+}
+h1{font-size:27px;line-height:1.25;letter-spacing:1px}
+.subtitle{margin-top:6px;color:var(--light);font-weight:bold;letter-spacing:3px}
+.description{font-size:13px;color:var(--muted);margin-top:10px}
+h2{font-size:18px;margin-bottom:15px}
+.prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.price{
+  min-width:0;min-height:105px;padding:13px 5px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  color:#fff;background:#170e26;border:1px solid #604578;border-radius:11px;
+  font-family:inherit;text-align:center;cursor:pointer;
+}
+.price span{font-size:12px;font-weight:bold}
+.price strong{font-size:clamp(15px,4.5vw,20px);color:var(--light)}
+.price small{font-size:11px;color:var(--muted)}
+.price.active{border:2px solid var(--purple);background:#693b8b55}
+label{display:block;font-size:13px;font-weight:bold;margin:14px 0 7px}
+input,select,textarea{
+  display:block;width:100%;min-width:0;padding:12px;
+  color:#fff;background:#10091b;border:1px solid #59416f;
+  border-radius:9px;font-family:inherit;font-size:14px;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--purple)}
+input::placeholder,textarea::placeholder{color:#9989ad}
+select option{background:#211632;color:white}
+textarea{resize:vertical;min-height:75px}
+.total{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;
+  margin-top:20px;padding:14px;background:#a66bff18;
+  border:1px solid #a66bff66;border-radius:10px;font-size:13px;
+}
+.total strong{font-size:19px;color:var(--light)}
+.order{
+  width:100%;padding:14px;margin-top:15px;border:0;border-radius:10px;
+  color:white;background:linear-gradient(135deg,#a66bff,#6931bc);
+  font-size:14px;font-weight:bold;cursor:pointer;
+}
+.order:active{transform:scale(.99)}
+.payment{text-align:center}
+.payment p{font-size:13px;line-height:1.6;color:var(--muted)}
+.qris{display:block;width:100%;max-width:280px;height:auto;margin:17px auto;border-radius:9px;background:white;padding:5px}
+.download{
+  display:inline-block;padding:11px 15px;margin:0 0 14px;
+  border-radius:9px;background:#6931bc;color:white;
+  text-decoration:none;font-size:12px;font-weight:bold;
+}
+.warning{font-size:11px!important}
+footer{text-align:center;padding:8px 0 25px;color:var(--muted);font-size:11px}
+@media(max-width:380px){
+  .topbar{padding:11px;gap:7px}
+  .channel{padding:9px;font-size:10px}
+  .container{width:calc(100% - 18px);margin-top:14px}
+  .card{padding:14px}
+  .hero{padding:17px 10px}
+  h1{font-size:23px}
+  h2{font-size:17px}
+  .price span{font-size:11px}
+  .price small{font-size:10px}
+  .total strong{font-size:17px}
+}
+</style>
 </head>
+
 <body>
+<header class="topbar">
+  <div>
+    <div id="clock">Memuat jam...</div>
+    <div id="date">Memuat tanggal...</div>
+  </div>
+  <a class="channel"
+     href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+     target="_blank" rel="noopener">WhatsApp Channel</a>
+</header>
 
-  <header class="topbar">
-    <div>
-      <div id="clock">Memuat waktu...</div>
-      <div id="date"></div>
+<main class="container">
+  <section class="card hero">
+    <img class="logo" src="logo.png" alt="RANK VS BOT BY RIFHSK"
+         onerror="this.style.display='none'">
+    <h1>RANK VS BOT</h1>
+    <p class="subtitle">BY RIFHSK</p>
+    <p class="description">Layanan Rank Match Mobile Legends</p>
+  </section>
+
+  <section class="card">
+    <h2>Pilih Layanan</h2>
+    <div class="prices">
+      <button type="button" class="price active"
+              data-service="FLEXIBLE" data-price="2500">
+        <span>FLEXIBLE</span>
+        <strong>Rp2.500</strong>
+        <small>Per match</small>
+      </button>
+      <button type="button" class="price"
+              data-service="NO FLEXIBLE" data-price="3500">
+        <span>NO FLEXIBLE</span>
+        <strong>Rp3.500</strong>
+        <small>Per match</small>
+      </button>
     </div>
-    <a class="channel-btn"
-       href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-       target="_blank" rel="noopener">
-      WhatsApp Channel
-    </a>
-  </header>
 
-  <main class="container">
-    <section class="hero card">
-      <img src="logo.png" alt="Logo RIFHSK" class="logo">
-      <h1>RANK VS BOT</h1>
-      <p class="subtitle">BY RIFHSK</p>
-      <p class="description">Layanan Rank Match Mobile Legends</p>
-    </section>
+    <form id="orderForm">
+      <label for="nickname">Nickname Game</label>
+      <input id="nickname" type="text" maxlength="40"
+             placeholder="Masukkan nickname" required>
 
-    <section class="card">
-      <h2>Pilih Layanan</h2>
+      <label for="gameId">ID Game</label>
+      <input id="gameId" type="text" maxlength="30"
+             placeholder="Contoh: 123456789 (1234)" required>
 
-      <div class="price-list">
-        <button class="price-card active"
-                type="button"
-                data-service="FLEXIBLE"
-                data-price="2500">
-          <span>FLEXIBLE</span>
-          <strong>Rp2.500</strong>
-          <small>Per match</small>
-        </button>
+      <label for="quantity">Jumlah Match</label>
+      <select id="quantity">
+        <option value="1">1 Match</option>
+        <option value="2">2 Match</option>
+        <option value="3">3 Match</option>
+        <option value="4">4 Match</option>
+        <option value="5">5 Match</option>
+      </select>
 
-        <button class="price-card"
-                type="button"
-                data-service="NO FLEXIBLE"
-                data-price="3500">
-          <span>NO FLEXIBLE</span>
-          <strong>Rp3.500</strong>
-          <small>Per match</small>
-        </button>
+      <label for="notes">Catatan (opsional)</label>
+      <textarea id="notes" maxlength="300"
+                placeholder="Tambahkan catatan pesanan"></textarea>
+
+      <div class="total">
+        <span>Total Pembayaran</span>
+        <strong id="total">Rp2.500</strong>
       </div>
 
-      <form id="orderForm">
-        <label for="nickname">Nickname Game</label>
-        <input id="nickname" type="text"
-               placeholder="Masukkan nickname"
-               maxlength="40" required>
+      <button type="submit" class="order">
+        Pesan Sekarang via WhatsApp
+      </button>
+    </form>
+  </section>
 
-        <label for="gameId">ID Game</label>
-        <input id="gameId" type="text"
-               placeholder="Contoh: 123456789 (1234)"
-               maxlength="30" required>
+  <section class="card payment">
+    <h2>Pembayaran QRIS</h2>
+    <p>Scan QRIS berikut untuk melakukan pembayaran.</p>
+    <img class="qris" src="qris.jpg" alt="QRIS Pembayaran">
+    <a class="download" href="qris.jpg" download="QRIS-RIFHSK.jpg">
+      Download QRIS
+    </a>
+    <p class="warning">Pastikan nominal pembayaran sesuai total pesanan.</p>
+  </section>
 
-        <label for="quantity">Jumlah Match</label>
-        <select id="quantity" required>
-          <option value="1">1 Match</option>
-          <option value="2">2 Match</option>
-          <option value="3">3 Match</option>
-          <option value="4">4 Match</option>
-          <option value="5">5 Match</option>
-        </select>
+  <footer>© <span id="year"></span> RANK VS BOT BY RIFHSK</footer>
+</main>
 
-        <label for="notes">Catatan (opsional)</label>
-        <textarea id="notes" rows="3"
-                  maxlength="300"
-                  placeholder="Tambahkan catatan pesanan"></textarea>
+<script>
+"use strict";
 
-        <div class="total-box">
-          <span>Total Pembayaran</span>
-          <strong id="total">Rp2.500</strong>
-        </div>
+const ADMIN_WA = "6285725209623";
+let service = "FLEXIBLE";
+let price = 2500;
 
-        <button type="submit" class="order-btn">
-          Pesan Sekarang via WhatsApp
-        </button>
-      </form>
-    </section>
+const money = n => "Rp" + new Intl.NumberFormat("id-ID").format(n);
+const quantity = document.getElementById("quantity");
+const total = document.getElementById("total");
 
-    <section class="card payment">
-      <h2>Pembayaran QRIS</h2>
-      <p>Scan QRIS berikut untuk melakukan pembayaran.</p>
-      <img src="qris.jpg" alt="QRIS Pembayaran" class="qris">
+function updateTotal() {
+  total.textContent = money(price * Number(quantity.value));
+}
 
-      <a href="qris.jpg" download="QRIS-RIFHSK.jpg"
-         class="download-btn">
-        Download QRIS
-      </a>
+document.querySelectorAll(".price").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".price").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    service = button.dataset.service;
+    price = Number(button.dataset.price);
+    updateTotal();
+  });
+});
 
-      <p class="warning">
-        Pastikan nominal pembayaran sesuai total pesanan.
-      </p>
-    </section>
+quantity.addEventListener("change", updateTotal);
 
-    <footer>
-      © <span id="year"></span> RANK VS BOT BY RIFHSK
-    </footer>
-  </main>
+function updateClock() {
+  const now = new Date();
+  document.getElementById("clock").textContent =
+    new Intl.DateTimeFormat("id-ID", {
+      timeZone:"Asia/Jakarta",
+      hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
+    }).format(now) + " WIB";
 
-  <script src="script.js"></script>
+  document.getElementById("date").textContent =
+    new Intl.DateTimeFormat("id-ID", {
+      timeZone:"Asia/Jakarta",
+      weekday:"long",day:"numeric",month:"long",year:"numeric"
+    }).format(now);
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("orderForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const nickname = document.getElementById("nickname").value.trim();
+  const gameId = document.getElementById("gameId").value.trim();
+  const qty = Number(quantity.value);
+  const notes = document.getElementById("notes").value.trim();
+
+  if (!nickname || !gameId) {
+    alert("Nickname dan ID Game wajib diisi.");
+    return;
+  }
+
+  const message = [
+    "HALO ADMIN RIFHSK YANG PALING GANTENG!",
+    "",
+    "SAYA INGIN MELAKUKAN PEMESANAN:",
+    "",
+    "NICKNAME: " + nickname,
+    "ID GAME: " + gameId,
+    "LAYANAN: " + service,
+    "JUMLAH MATCH: " + qty,
+    "CATATAN: " + (notes || "-"),
+    "TOTAL PEMBAYARAN: " + money(price * qty),
+    "",
+    "MOHON KONFIRMASI PESANAN SAYA. TERIMA KASIH."
+  ].join("\n");
+
+  const url = "https://wa.me/" + ADMIN_WA + "?text=" +
+    encodeURIComponent(message);
+
+  window.location.href = url;
+});
+
+updateTotal();
+</script>
 </body>
 </html>
