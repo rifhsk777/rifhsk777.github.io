@@ -1,5 +1,14 @@
 /* =========================================================
-   DATA
+   KONFIGURASI (OPSIONAL)
+   ========================================================= */
+const CONFIG = {
+  // Masukkan Discord Webhook URL di sini agar Anda dapat notifikasi kode lisensi apa yang diambil pembeli
+  // Biarkan kosong "" jika tidak butuh.
+  DISCORD_WEBHOOK_URL: "", 
+};
+
+/* =========================================================
+   DATA PRODUK
    ========================================================= */
 const PRODUCTS = [
   {id:1,  name:'Cheat Point Blank',      cat:'FPS',           price:25000, stock:42,  icon:'🎯', popular:true},
@@ -29,14 +38,10 @@ const DURATIONS = [
   {id:'30d', label:'30 Hari', mult:15}
 ];
 
-const LS_ORDERS = 'dgstore_orders_v1';
-const LS_HWID   = 'dgstore_hwid_v1';
-const PAY_WINDOW_MS = 15 * 60 * 1000;
-
+const LS_ORDERS = 'rfstore_orders_v1';
 let orders = [];
 let checkoutState = { productId:null, durationId:'1d' };
 let currentOrderId = null;
-let payTimerInterval = null;
 let activeFilter = 'all';
 
 /* =========================================================
@@ -44,16 +49,16 @@ let activeFilter = 'all';
    ========================================================= */
 function rupiah(n){ return 'Rp ' + Number(n).toLocaleString('id-ID'); }
 function $(id){ return document.getElementById(id); }
-function pad(n){ return String(n).padStart(2,'0'); }
 
 function genOrderId(){
   const t = Date.now().toString(36).toUpperCase().slice(-4);
   const r = Math.random().toString(36).slice(2,6).toUpperCase();
   return 'TRX-WEB-' + t + r;
 }
+
 function genLicense(){
   const seg = () => Math.random().toString(36).slice(2,6).toUpperCase().replace(/[^A-Z0-9]/g,'X').padEnd(4,'X');
-  return `DG-${seg()}-${seg()}-${seg()}`;
+  return `RF-${seg()}-${seg()}-${seg()}`;
 }
 
 function toast(msg, type='info'){
@@ -72,9 +77,7 @@ function loadOrders(){
   if(!Array.isArray(orders)) orders = [];
 }
 function getOrder(id){ return orders.find(o => o.id === id); }
-function statusLabel(s){
-  return s === 'paid' ? 'Lunas' : s === 'expired' ? 'Batal' : 'Menunggu';
-}
+function statusLabel(s){ return s === 'paid' ? 'Lunas' : 'Menunggu'; }
 
 /* =========================================================
    RENDER PRODUK
@@ -115,17 +118,15 @@ function renderProducts(){
 }
 
 /* =========================================================
-   CHECKOUT
+   CHECKOUT & PAYMENT (AUTO DELIVERY)
    ========================================================= */
 function openCheckout(productId){
   const p = PRODUCTS.find(x => x.id === productId);
   if(!p || p.stock === 0){ toast('Stok produk sedang habis', 'error'); return; }
   checkoutState = { productId: p.id, durationId: '1d' };
-
   $('coIcon').textContent = p.icon;
   $('coProduct').textContent = p.name;
   $('coCat').textContent = p.cat + ' • Stok tersedia: ' + p.stock;
-
   renderDurations();
   openModal('checkoutModal');
 }
@@ -136,8 +137,7 @@ function renderDurations(){
     const total = Math.round(p.price * d.mult / 500) * 500;
     return `
       <button class="dur-btn ${d.id === checkoutState.durationId ? 'active' : ''}" onclick="selectDuration('${d.id}')">
-        ${d.label}
-        <small>${rupiah(total)}</small>
+        ${d.label}<small>${rupiah(total)}</small>
       </button>`;
   }).join('');
   updateCheckoutTotal();
@@ -160,29 +160,17 @@ function submitCheckout(){
   const p = PRODUCTS.find(x => x.id === checkoutState.productId);
   const d = DURATIONS.find(x => x.id === checkoutState.durationId);
   const name = $('coName').value.trim();
-  const email = $('coEmail').value.trim();
+  const contact = $('coContact').value.trim();
 
-  if(!name){ toast('Nama pembeli wajib diisi', 'error'); $('coName').focus(); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Format email tidak valid', 'error'); $('coEmail').focus(); return; }
+  if(!name){ toast('Nama wajib diisi', 'error'); $('coName').focus(); return; }
+  if(!contact){ toast('Email/No. WA wajib diisi', 'error'); $('coContact').focus(); return; }
 
   const total = Math.round(p.price * d.mult / 500) * 500;
-  const now = Date.now();
-
+  
   const order = {
-    id: genOrderId(),
-    productId: p.id,
-    productName: p.name,
-    icon: p.icon,
-    duration: d.label,
-    price: p.price,
-    total: total,
-    name: name,
-    email: email,
-    status: 'pending',
-    licenseKey: null,
-    createdAt: now,
-    expiresAt: now + PAY_WINDOW_MS,
-    paidAt: null
+    id: genOrderId(), productId: p.id, productName: p.name, icon: p.icon,
+    duration: d.label, price: p.price, total: total, name: name, email: contact,
+    status: 'pending', licenseKey: null, createdAt: Date.now()
   };
 
   orders.unshift(order);
@@ -193,171 +181,110 @@ function submitCheckout(){
   showPayment(order.id);
 }
 
-/* =========================================================
-   PAYMENT MODAL
-   ========================================================= */
 function showPayment(orderId){
   const o = getOrder(orderId);
   if(!o){ toast('Pesanan tidak ditemukan', 'error'); return; }
   currentOrderId = orderId;
-  clearInterval(payTimerInterval);
-
-  if(o.status === 'pending' && Date.now() > o.expiresAt){
-    o.status = 'expired';
-    saveOrders();
-    renderHistory();
-  }
 
   openModal('paymentModal');
 
-  if(o.status === 'paid') showPaySuccess(o);
-  else if(o.status === 'expired') showPayExpired(o);
-  else showPayPending(o);
-}
-
-function showPayPending(o){
+  // Reset tampilan ke awal (QRIS)
   $('payPending').classList.remove('hidden');
+  $('payLoading').classList.add('hidden');
   $('paySuccess').classList.add('hidden');
-  $('payExpired').classList.add('hidden');
-
+  
   $('payTotal').textContent = rupiah(o.total);
   $('payOrderId').textContent = o.id;
-
-  setTimeout(() => {
-    const qrData = `QRIS.DEMO.DGSTORE|${o.id}|${o.total}|${o.email}`;
-    const el = $('qrcode');
-    el.innerHTML = '';
-    if(window.QRCode){
-      new QRCode(el, {
-        text: qrData,
-        width: 200,
-        height: 200,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
-      });
-    } else {
-      el.innerHTML = '<div style="background:#fff;color:#000;padding:16px;font-size:10px;word-break:break-all;max-width:200px;text-align:center">' + qrData + '</div>';
-    }
-  }, 60);
-
-  const tick = () => {
-    const order = getOrder(o.id);
-    if(!order) return;
-    const left = order.expiresAt - Date.now();
-    if(left <= 0){
-      clearInterval(payTimerInterval);
-      order.status = 'expired';
-      saveOrders();
-      renderHistory();
-      showPayExpired(order);
-      toast('Waktu pembayaran habis, transaksi dibatalkan', 'error');
-      return;
-    }
-    const m = Math.floor(left / 60000);
-    const s = Math.floor((left % 60000) / 1000);
-    const t = $('payTimer');
-    if(t) t.textContent = pad(m) + ':' + pad(s);
-  };
-  tick();
-  payTimerInterval = setInterval(tick, 1000);
 }
 
-function showPaySuccess(o){
-  clearInterval(payTimerInterval);
-  $('payPending').classList.add('hidden');
-  $('payExpired').classList.add('hidden');
-  $('paySuccess').classList.remove('hidden');
-
-  $('licenseKey').textContent = o.licenseKey || '-';
-  $('sucProduct').textContent = o.productName;
-  $('sucDuration').textContent = o.duration;
-  $('sucEmail').textContent = o.email;
-  $('sucOrderId').textContent = o.id;
-}
-
-function showPayExpired(o){
-  clearInterval(payTimerInterval);
-  $('payPending').classList.add('hidden');
-  $('paySuccess').classList.add('hidden');
-  $('payExpired').classList.remove('hidden');
-
-  $('expProduct').textContent = o.productName || '-';
-  $('expDuration').textContent = o.duration || '-';
-  $('expOrderId').textContent = o.id || '-';
-}
-
-function simulatePay(){
+// PROSES UTAMA: Verifikasi & Kirim Kode Otomatis
+function processPayment(){
   const o = getOrder(currentOrderId);
   if(!o) return;
-  if(o.status !== 'pending'){ toast('Pesanan ini sudah diproses', 'error'); return; }
 
-  o.status = 'paid';
-  o.paidAt = Date.now();
-  o.licenseKey = genLicense();
-  saveOrders();
-  clearInterval(payTimerInterval);
+  // 1. Sembunyikan QRIS, Tampilkan Loading
+  $('payPending').classList.add('hidden');
+  $('payLoading').classList.remove('hidden');
 
-  showPaySuccess(o);
-  renderHistory();
-  toast('Pembayaran berhasil! Lisensi terkirim.', 'success');
+  // 2. Simulasi Loading (3 detik seolah mengecek bank)
+  setTimeout(() => {
+    // 3. Generate Kode Lisensi
+    o.status = 'paid';
+    o.licenseKey = genLicense();
+    saveOrders();
+    renderHistory();
+
+    // 4. Kirim notifikasi ke Discord (Jika diisi)
+    sendDiscordWebhook(o);
+
+    // 5. Tampilkan layar sukses & kode
+    $('payLoading').classList.add('hidden');
+    $('paySuccess').classList.remove('hidden');
+    
+    $('licenseKey').textContent = o.licenseKey;
+    $('sucProduct').textContent = o.productName;
+    $('sucDuration').textContent = o.duration;
+    $('sucEmail').textContent = o.email;
+
+  }, 3000); // 3000 ms = 3 detik loading
 }
 
 function copyLicense(){
-  const key = $('licenseKey').textContent;
-  if(!key || key === '-') return;
-  navigator.clipboard.writeText(key)
-    .then(() => toast('Kode lisensi disalin ke clipboard', 'success'))
-    .catch(() => toast('Gagal menyalin, salin manual ya', 'error'));
+  navigator.clipboard.writeText($('licenseKey').textContent)
+    .then(() => toast('Lisensi berhasil disalin!', 'success'));
 }
 
-function closePayment(){
-  clearInterval(payTimerInterval);
-  closeModal('paymentModal');
+function closePayment(){ closeModal('paymentModal'); }
+
+// Fungsi Discord Webhook (Agar Anda tahu kode apa yang diambil pembeli)
+function sendDiscordWebhook(order) {
+  if(!CONFIG.DISCORD_WEBHOOK_URL) return;
+
+  const payload = {
+    username: "RFSTORE BOT",
+    embeds: [{
+      title: "🛒 PESANAN BARU (AUTO-DELIVER)",
+      color: 10181046,
+      fields: [
+        { name: "Order ID", value: order.id, inline: true },
+        { name: "Produk", value: order.productName, inline: true },
+        { name: "Total", value: rupiah(order.total), inline: true },
+        { name: "Pembeli", value: order.name, inline: true },
+        { name: "Kontak", value: order.email, inline: true },
+        { name: "KODE LISENSI", value: order.licenseKey, inline: false }
+      ],
+      footer: { text: "RFSTORE System" },
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(err => console.log("Gagal kirim webhook", err));
 }
 
 /* =========================================================
-   MODAL HELPERS
+   HELPER MODALS, HISTORY, TRACKING
    ========================================================= */
 function openModal(id){ $(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
-function closeModal(id){
-  $(id).classList.remove('show');
-  document.body.style.overflow = '';
-}
+function closeModal(id){ $(id).classList.remove('show'); document.body.style.overflow = ''; }
 document.querySelectorAll('.modal-overlay').forEach(ov => {
-  ov.addEventListener('click', e => {
-    if(e.target === ov) closeModal(ov.id);
-  });
-});
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape'){
-    document.querySelectorAll('.modal-overlay.show').forEach(ov => closeModal(ov.id));
-  }
+  ov.addEventListener('click', e => { if(e.target === ov) closeModal(ov.id); });
 });
 
-/* =========================================================
-   RIWAYAT
-   ========================================================= */
 function renderHistory(){
   const wrap = $('historyList');
-  $('orderCount').textContent = orders.length;
-
   if(!orders.length){
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <span class="e-icon">🗂️</span>
-        Belum ada riwayat pesanan yang tersimpan.<br>
-        Setiap pesanan atau pencarian invoice Anda akan otomatis muncul di sini secara instan.
-      </div>`;
+    wrap.innerHTML = `<div class="empty-state">Belum ada riwayat pesanan.</div>`;
     return;
   }
-
   wrap.innerHTML = orders.map(o => `
-    <div class="history-item" onclick="openOrderDetail('${o.id}')">
-      <div class="hi-icon">${o.icon || '🎮'}</div>
+    <div class="history-item" onclick="showPayment('${o.id}')">
+      <div class="hi-icon">${o.icon}</div>
       <div class="hi-main">
-        <strong>${o.productName}</strong>
-        <span>${o.duration} • ${o.id}</span>
+        <strong>${o.productName}</strong><span>${o.duration} • ${o.id}</span>
       </div>
       <div class="hi-right">
         <span class="status ${o.status}">${statusLabel(o.status)}</span>
@@ -367,123 +294,24 @@ function renderHistory(){
   `).join('');
 }
 
-function openOrderDetail(id){
-  const o = getOrder(id);
-  if(!o){ toast('Pesanan tidak ditemukan', 'error'); return; }
-  showPayment(id);
-}
-
 function clearHistory(){
-  if(!orders.length){ toast('Riwayat sudah kosong', 'info'); return; }
-  if(!confirm('Hapus semua riwayat pesanan di perangkat ini?')) return;
-  orders = [];
-  saveOrders();
-  renderHistory();
-  toast('Riwayat pesanan dihapus', 'success');
+  if(confirm('Hapus riwayat?')){ orders = []; saveOrders(); renderHistory(); }
 }
 
-/* =========================================================
-   TRACKING
-   ========================================================= */
 function trackOrder(){
   const q = $('trackInput').value.trim().toUpperCase();
-  if(!q){ toast('Masukkan ID pesanan terlebih dahulu', 'error'); $('trackInput').focus(); return; }
-
   const o = orders.find(x => x.id.toUpperCase() === q);
-  if(!o){
-    toast('Pesanan dengan ID tersebut tidak ditemukan', 'error');
-    return;
-  }
+  if(!o){ toast('ID Pesanan tidak ditemukan', 'error'); return; }
   showPayment(o.id);
 }
 
-/* =========================================================
-   RESET HWID
-   ========================================================= */
-function resetHWID(){
-  const input = $('hwidInput');
-  const key = input.value.trim().toUpperCase();
-  const box = $('hwidResult');
-  box.className = 'result-box show';
-
-  const KEY_RE = /^DG-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
-  const isDemo = key === 'DG-DEMO-1234-5678';
-
-  if(!key){ box.classList.add('err'); box.textContent = '❌ Kode lisensi wajib diisi.'; return; }
-  if(!KEY_RE && !isDemo){
-    box.classList.add('err');
-    box.textContent = '❌ Format kode lisensi tidak valid. Contoh: DG-A1B2-C3D4-E5F6';
-    return;
-  }
-
-  const paidOrder = orders.find(o => o.licenseKey === key && o.status === 'paid');
-  if(!paidOrder && !isDemo){
-    box.classList.add('err');
-    box.textContent = '❌ Kode lisensi tidak ditemukan atau belum lunas.';
-    return;
-  }
-
-  let store = {};
-  try{ store = JSON.parse(localStorage.getItem(LS_HWID) || '{}'); }catch(e){ store = {}; }
-  const today = new Date().toDateString();
-  let rec = store[key];
-  if(!rec || rec.date !== today) rec = { date: today, count: 0 };
-
-  if(rec.count >= 5){
-    box.classList.add('err');
-    box.textContent = '❌ Kuota reset habis (maksimal 5x per 24 jam). Coba lagi besok.';
-    return;
-  }
-
-  rec.count++;
-  store[key] = rec;
-  localStorage.setItem(LS_HWID, JSON.stringify(store));
-
-  const sisa = 5 - rec.count;
-  box.classList.remove('err');
-  box.classList.add('ok');
-  box.innerHTML = `✅ <strong>Reset HWID berhasil!</strong><br>
-    Kode <strong>${key}</strong> kini bisa digunakan di perangkat baru.<br>
-    Sisa kuota reset hari ini: <strong>${sisa}x</strong>.`;
-
-  input.value = '';
-  toast('Reset HWID berhasil', 'success');
-}
-
-/* =========================================================
-   NAV & INIT
-   ========================================================= */
-function initNav(){
-  const burger = $('burger');
-  const links = $('navLinks');
-  burger.addEventListener('click', () => links.classList.toggle('open'));
-  links.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => links.classList.remove('open'));
-  });
-}
-
-function expireOldOrders(){
-  let changed = false;
-  orders.forEach(o => {
-    if(o.status === 'pending' && Date.now() > o.expiresAt){
-      o.status = 'expired';
-      changed = true;
-    }
-  });
-  if(changed) saveOrders();
-}
-
+/* INIT */
 function init(){
   $('year').textContent = new Date().getFullYear();
-  loadOrders();
-  expireOldOrders();
-  renderFilters();
-  renderProducts();
-  renderHistory();
-  initNav();
-  window.addEventListener('storage', e => {
-    if(e.key === LS_ORDERS){ loadOrders(); renderHistory(); }
-  });
+  loadOrders(); renderFilters(); renderProducts(); renderHistory();
+  
+  const burger = $('burger'); const links = $('navLinks');
+  burger.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
 }
-
 document.addEventListener('DOMContentLoaded', init);
