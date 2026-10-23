@@ -895,8 +895,7 @@ footer {
 
     updateSummary();
   }
-
-  function updateSummary() {
+function updateSummary() {
     const service = services[selectedService];
     const quantity = Number(quantitySelect.value) || 1;
     const total = service.price * quantity;
@@ -908,4 +907,164 @@ footer {
   }
 
   function makeOrder() {
-    const nickname = $("nickname").value.trim(
+    const nickname = $("nickname").value.trim();
+    const gameId = $("gameId").value.trim();
+    const quantity = Number(quantitySelect.value);
+    const notes = $("notes").value.trim();
+    const service = services[selectedService];
+
+    if (!nickname || !gameId) {
+      showToast("Lengkapi nickname dan ID game terlebih dahulu.");
+      return null;
+    }
+
+    if (!Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > service.max) {
+      showToast("Jumlah match tidak valid.");
+      return null;
+    }
+
+    return {
+      orderId: "RIF-" + Date.now().toString(36).toUpperCase(),
+      nickname: nickname,
+      gameId: gameId,
+      service: selectedService,
+      quantity: quantity,
+      price: service.price,
+      total: service.price * quantity,
+      notes: notes,
+      createdAt: new Date().toLocaleString("id-ID", {
+        timeZone: "Asia/Jakarta"
+      })
+    };
+  }
+
+  function showPayment(order) {
+    currentOrder = order;
+
+    $("payNickname").textContent = order.nickname;
+    $("payGameId").textContent = order.gameId;
+    $("payService").textContent = order.service;
+    $("payQuantity").textContent = order.quantity + " match";
+    $("payTotal").textContent = rupiah(order.total);
+    $("stepTotal").textContent = rupiah(order.total);
+
+    orderPanel.hidden = true;
+    paymentPanel.hidden = false;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function backToMenu() {
+    paymentPanel.hidden = true;
+    orderPanel.hidden = false;
+
+    window.scrollTo({
+      top: orderPanel.offsetTop - 85,
+      behavior: "smooth"
+    });
+  }
+
+  function openWhatsApp(order) {
+    const message = [
+      "KONFIRMASI PESANAN RANK VS BOT BY RIFHSK",
+      "",
+      "Nomor pesanan: " + order.orderId,
+      "Nickname: " + order.nickname,
+      "ID Game: " + order.gameId,
+      "Layanan: " + order.service,
+      "Jumlah match: " + order.quantity,
+      "Harga per match: " + rupiah(order.price),
+      "Total pembayaran: " + rupiah(order.total),
+      "Catatan: " + (order.notes || "-"),
+      "Waktu pesanan: " + order.createdAt + " WIB",
+      "",
+      "Status: Menunggu verifikasi pembayaran admin.",
+      "",
+      "Saya sudah melakukan pembayaran jika transaksi ini telah berhasil.",
+      "Mohon periksa pembayaran dan pesanan saya.",
+      "",
+      "Saya akan melampirkan bukti pembayaran secara manual."
+    ].join("\n");
+
+    const url = "https://wa.me/" + ADMIN_WA +
+      "?text=" + encodeURIComponent(message);
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  $("flexibleButton").addEventListener("click", function () {
+    selectService("FLEXIBLE");
+  });
+
+  $("noFlexibleButton").addEventListener("click", function () {
+    selectService("NO FLEXIBLE");
+  });
+
+  quantitySelect.addEventListener("change", updateSummary);
+
+  orderForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!orderForm.reportValidity()) return;
+
+    const order = makeOrder();
+    if (!order) return;
+
+    showPayment(order);
+  });
+
+  $("confirmPayment").addEventListener("click", function () {
+    if (!currentOrder) {
+      showToast("Data pesanan tidak ditemukan. Silakan ulangi.");
+      return;
+    }
+
+    openWhatsApp(currentOrder);
+  });
+
+  $("backButton").addEventListener("click", backToMenu);
+
+  function updateClock() {
+    const now = new Date();
+
+    $("clockTime").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(now) + " WIB";
+
+    $("clockDate").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      }).format(now);
+  }
+
+  $("year").textContent = new Date().getFullYear();
+
+  selectService("FLEXIBLE");
+  updateClock();
+  setInterval(updateClock, 1000);
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+ 
