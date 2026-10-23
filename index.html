@@ -1,459 +1,387 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIFHSK DKK - Topup Games & Produk Digital Murah #1 Indonesia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    :root {
-      --bg-body: #0f172a;
-      --bg-card: #1e293b;
-      --bg-nav: #0b1120;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --accent: #10b981;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --radius: 12px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
-
-    /* HEADER & SEARCH */
-    header { background: var(--bg-nav); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-    .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: #fff; }
-    .logo svg { width: 35px; height: 35px; border-radius: 8px; }
-    .nav-links { display: flex; gap: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); }
-    .nav-links a:hover { color: var(--primary); }
-    .btn-login { background: var(--primary); color: white; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
-    .btn-login:hover { background: var(--primary-hover); }
-
-    /* HERO & SEARCH BAR */
-    .hero { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 40px 0; text-align: center; border-bottom: 1px solid var(--border); }
-    .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-    .hero p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
-    .search-box { max-width: 600px; margin: 0 auto; position: relative; }
-    .search-box input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 50px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 15px; outline: none; transition: 0.2s; }
-    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
-    .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px; }
-
-    /* SECTION TITLE */
-    .section-title { margin: 40px 0 20px; display: flex; justify-content: space-between; align-items: flex-end; }
-    .section-title h2 { font-size: 22px; font-weight: 800; }
-    .section-title a { font-size: 14px; color: var(--primary); font-weight: 600; }
-
-    /* GRID PRODUK */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-    .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: 0.2s; cursor: pointer; }
-    .product-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-    .product-img { height: 120px; background: #2a3a55; display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; }
-    .product-tag { position: absolute; top: 10px; right: 10px; background: rgba(16, 185, 129, 0.2); color: var(--accent); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .product-info { padding: 15px; }
-    .product-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 5px; line-height: 1.3; }
-    .product-price { color: var(--text-muted); font-size: 12px; }
-    .product-price span { color: var(--primary); font-weight: 800; font-size: 14px; display: block; margin-top: 5px; }
-
-    /* TESTIMONI (Persis Seperti Referensi) */
-    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
-    .testi-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: var(--radius); }
-    .testi-quote { font-size: 14px; color: #e2e8f0; font-style: italic; margin-bottom: 15px; }
-    .testi-user { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--primary); }
-
-    /* FITUR (Kenapa ROFLKAKILIMA) */
-    .fitur-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .fitur-card { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: var(--radius); text-align: center; }
-    .fitur-card i { font-size: 35px; color: var(--primary); margin-bottom: 15px; }
-    .fitur-card h3 { font-size: 18px; margin-bottom: 10px; }
-    .fitur-card p { color: var(--text-muted); font-size: 14px; }
-
-    /* CARA PESAN */
-    .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .step-card { background: var(--bg-card); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); }
-    .step-num { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; margin-bottom: 15px; }
-    .step-card h3 { font-size: 16px; margin-bottom: 8px; }
-    .step-card p { color: var(--text-muted); font-size: 13px; }
-
-    /* TOAST NOTIFICATION */
-    .toast { position: fixed; bottom: 20px; left: 20px; background: var(--bg-card); border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; display: flex; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; font-size: 13px; animation: slideUp 0.5s ease; }
-    .toast i { color: var(--accent); font-size: 20px; }
-    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* MODAL CHECKOUT */
-    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(5px); }
-    .modal.active { display: flex; }
-    .modal-box { background: var(--bg-card); width: 100%; max-width: 450px; border-radius: var(--radius); padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); }
-    .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
-    .modal-head { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-    .modal-head h2 { font-size: 18px; }
-    .modal-head p { color: var(--text-muted); font-size: 13px; margin-top: 5px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #cbd5e1; }
-    .form-control { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-body); color: white; outline: none; font-size: 14px; }
-    .form-control:focus { border-color: var(--primary); }
-    .btn-action { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
-    .btn-action:hover { background: var(--primary-hover); }
-    .btn-back { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-    
-    .qris-area { display: none; text-align: center; }
-    .qris-total { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
-    .qris-img { width: 100%; max-width: 300px; border-radius: 8px; margin: 0 auto 15px; display: block; background: white; padding: 10px; }
-    
-    /* FOOTER */
-    footer { background: var(--bg-nav); border-top: 1px solid var(--border); padding: 30px 0; text-align: center; margin-top: 50px; }
-    footer p { color: var(--text-muted); font-size: 13px; }
-
-    .float-tg { position: fixed; bottom: 20px; right: 20px; background: #229ED9; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 15px rgba(34, 158, 217, 0.4); z-index: 99; transition: 0.2s; }
-    .float-tg:hover { transform: scale(1.1); }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero h1 { font-size: 22px; }
-      .product-grid { grid-template-columns: repeat(2, 1fr); }
-      .testi-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DGSTORE ID — Platform Lisensi Game Otomatis 24/7</title>
+<meta name="description" content="DGStore ID - Store terpercaya untuk kebutuhan cheat & tools gaming berkualitas. Pengiriman otomatis instan 24 jam, pembayaran QRIS realtime, garansi lisensi resmi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="container nav">
-      <div class="logo">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="#3b82f6"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="60" font-weight="900" font-family="Arial" fill="#ffffff">R</text>
-        </svg>
-        RIFHSK DKK
+<!-- ================= NAVBAR ================= -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#beranda" class="logo">
+      <span class="logo-mark">DG</span>
+      <span>DGSTORE<small>ID</small></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#beranda">Beranda</a></li>
+      <li><a href="#produk">Produk</a></li>
+      <li><a href="#lacak">Lacak Pesanan</a></li>
+      <li><a href="#riwayat">Riwayat</a></li>
+      <li><a href="#hwid">Reset HWID</a></li>
+    </ul>
+    <div class="nav-cta">
+      <span class="online-pill"><span class="dot"></span>Online 24/7</span>
+      <a href="#produk" class="btn btn-primary btn-sm">Beli Sekarang</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <header class="hero" id="beranda">
+    <div class="container">
+      <div class="hero-pills">
+        <span class="pill hot">⚡ Instan 1 Detik</span>
+        <span class="pill">🔁 Otomatis 24 Jam</span>
+        <span class="pill">🛡️ 100% Garansi</span>
+        <span class="pill">💳 QRIS Realtime</span>
       </div>
-      <div class="nav-links">
-        <a href="#produk">Produk</a>
-        <a href="#testimoni">Testimoni</a>
-        <a href="#keunggulan">Keunggulan</a>
+      <h1>Lisensi Game Premium,<br><span class="grad">Terkirim Otomatis.</span></h1>
+      <p class="lead">
+        Selamat datang di DGStore ID — store terpercaya untuk kebutuhan cheat dan tools gaming berkualitas.
+        Sistem otomatis 24 jam, lisensi resmi, dan pengiriman dalam hitungan detik.
+      </p>
+      <div class="hero-actions">
+        <a href="#produk" class="btn btn-primary">🛒 Lihat Semua Produk</a>
+        <a href="#lacak" class="btn btn-ghost">🔍 Lacak Pesanan</a>
       </div>
-      <button class="btn-login" onclick="document.getElementById('searchInput').focus()">Cari Produk</button>
+      <div class="stats">
+        <div class="stat"><strong class="grad">18</strong><span>Produk Tersedia</span></div>
+        <div class="stat"><strong class="grad">24/7</strong><span>Layanan Otomatis</span></div>
+        <div class="stat"><strong class="grad">1 Detik</strong><span>Pengiriman Lisensi</span></div>
+        <div class="stat"><strong class="grad">100%</strong><span>Garansi Lisensi</span></div>
+      </div>
     </div>
   </header>
 
-  <!-- HERO & SEARCH -->
-  <section class="hero">
+  <!-- ================= INFO BANNER ================= -->
+  <div class="container">
+    <div class="info-banner">
+      <span>🎮</span>
+      <span>Selamat datang di <strong>DGStore ID</strong> — Store terpercaya Anda untuk kebutuhan cheat dan tools gaming berkualitas. Semua transaksi diproses <strong>otomatis 24 jam</strong>.</span>
+    </div>
+  </div>
+
+  <!-- ================= KEUNGGULAN ================= -->
+  <section class="section" id="keunggulan">
     <div class="container">
-      <h1>Topup Games & Produk Digital Murah #1 Indonesia</h1>
-      <p>Proses instan 24 jam, pembayaran lengkap via QRIS. Aman dan terpercaya.</p>
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Cari produk (Contoh: Mobile Legends, Free Fire, Netflix)..." onkeyup="filterProducts()">
+      <div class="sec-head">
+        <span class="eyebrow">Kenapa Kami?</span>
+        <h2>Kenapa DGSTORE ID?</h2>
+        <p>Alasan ribuan gamer percaya dan memilih kami sebagai platform utama</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="f-icon">⚡</div>
+          <h3>Instant Delivery</h3>
+          <p>Key langsung dikirim otomatis ke email Anda dalam hitungan detik setelah pembayaran.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon">🔒</div>
+          <h3>Secure Payment</h3>
+          <p>Pembayaran aman via QRIS realtime, mendukung semua e-wallet dan m-banking.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon">✅</div>
+          <h3>Trusted Platform</h3>
+          <p>Diverifikasi pengguna dengan ribuan transaksi sukses dan ulasan positif.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon">🎧</div>
+          <h3>24/7 Support</h3>
+          <p>Dukungan cepat dan ramah kapan saja melalui WhatsApp maupun Telegram.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PRODUK -->
-  <div class="container" id="produk">
-    <div class="section-title">
-      <h2>Daftar Produk</h2>
-    </div>
-    <div class="product-grid" id="productGrid">
-      <!-- Produk 1 -->
-      <div class="product-card" data-name="Mobile Legends" onclick="openOrder('Mobile Legends 86 Diamonds', 20000)">
-        <div class="product-img">💎<span class="product-tag">Terlaris</span></div>
-        <div class="product-info">
-          <h3>Mobile Legends 86 Diamonds</h3>
-          <div class="product-price">Harga mulai <span>Rp 20.000</span></div>
-        </div>
-      </div>
-      <!-- Produk 2 -->
-      <div class="product-card" data-name="Free Fire" onclick="openOrder('Free Fire 70 Diamonds', 10000)">
-        <div class="product-img">🔥<span class="product-tag">Murah</span></div>
-        <div class="product-info">
-          <h3>Free Fire 70 Diamonds</h3>
-          <div class="product-price">Harga mulai <span>Rp 10.000</span></div>
-        </div>
-      </div>
-      <!-- Produk 3 -->
-      <div class="product-card" data-name="PUBG Mobile" onclick="openOrder('PUBG Mobile 60 UC', 15000)">
-        <div class="product-img">🎯<span class="product-tag">Instan</span></div>
-        <div class="product-info">
-          <h3>PUBG Mobile 60 UC</h3>
-          <div class="product-price">Harga mulai <span>Rp 15.000</span></div>
-        </div>
-      </div>
-      <!-- Produk 4 -->
-      <div class="product-card" data-name="Steam Wallet" onclick="openOrder('Steam Wallet Rp 12.000', 12000)">
-        <div class="product-img">🎮<span class="product-tag">Voucher</span></div>
-        <div class="product-info">
-          <h3>Steam Wallet Rp 12.000</h3>
-          <div class="product-price">Harga mulai <span>Rp 12.000</span></div>
-        </div>
-      </div>
-      <!-- Produk 5 -->
-      <div class="product-card" data-name="Netflix" onclick="openOrder('Netflix 1 Bulan', 45000)">
-        <div class="product-img">🎬<span class="product-tag">Premium</span></div>
-        <div class="product-info">
-          <h3>Netflix 1 Bulan</h3>
-          <div class="product-price">Harga mulai <span>Rp 45.000</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TESTIMONI (Sesuai Referensi) -->
-  <div class="container" id="testimoni">
-    <div class="section-title">
-      <h2>Apa Kata Mereka?</h2>
-      <a href="#">Lihat Semua</a>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="testi-quote">"Rw paket 1"</div>
-        <div class="testi-user">— 𝙼𝚒𝚣𝚞𝚔𝚒</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"p"</div>
-        <div class="testi-user">— p</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"Mantap"</div>
-        <div class="testi-user">— Hendra</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"gacor🔥"</div>
-        <div class="testi-user">— iqbal</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"Surfshark 60 days"</div>
-        <div class="testi-user">— Imbochil</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"terbaik"</div>
-        <div class="testi-user">— ryy</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"mantap Uda langganan disini next lebih di ganasin lagi stoknya mas rofkakilima"</div>
-        <div class="testi-user">— khalid</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"cara riset key"</div>
-        <div class="testi-user">— kepo</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote">"Very good"</div>
-        <div class="testi-user">— Kanjut</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- KEUNGGULAN (Sesuai Referensi) -->
-  <div class="container" id="keunggulan">
-    <div class="section-title">
-      <h2>Kenapa RIFHSK DKK?</h2>
-    </div>
-    <div class="fitur-grid">
-      <div class="fitur-card">
-        <i class="fas fa-tags"></i>
-        <h3>Harga Termurah</h3>
-        <p>Berbagai pilihan voucher game dengan harga terbaik dan kompetitif di Indonesia.</p>
-      </div>
-      <div class="fitur-card">
-        <i class="fas fa-bolt"></i>
-        <h3>Proses Instan 24 Jam</h3>
-        <p>Pembelian cepat, mudah, aman, dan dapat dipercaya kapan saja tanpa batas waktu.</p>
-      </div>
-      <div class="fitur-card">
-        <i class="fas fa-wallet"></i>
-        <h3>Pembayaran Lengkap</h3>
-        <p>Tersedia metode pembayaran termasuk QRIS, transfer bank, e-wallet, dan lainnya.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- CARA PESAN (Sesuai Referensi) -->
-  <div class="container" id="cara-pesan">
-    <div class="section-title">
-      <h2>Cara Mudah Memesan</h2>
-    </div>
-    <div class="step-grid">
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <h3>Pilih Produk</h3>
-        <p>Pilih produk dari daftar lalu klik untuk melanjutkan ke halaman pembelian.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <h3>Isi Data & Bayar</h3>
-        <p>Isi data dan scan QRIS yang muncul untuk menyelesaikan pembayaran.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <h3>Pembayaran Berhasil</h3>
-        <p>Setelah bayar, konfirmasi dan detail pesanan dikirim secara otomatis.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">4</div>
-        <h3>Produk Dikirim</h3>
-        <p>Kami langsung memproses dan mengirimkan produk ke Telegram kamu.</p>
-      </div>
-    </div>
-  </div>
-
-  <footer>
+  <!-- ================= PRODUK ================= -->
+  <section class="section" id="produk">
     <div class="container">
-      <p>&copy; 2026 RIFHSK DKK. All rights reserved.</p>
+      <div class="sec-head">
+        <span class="eyebrow">Produk</span>
+        <h2>Semua Produk <span class="grad" id="productCount">(18)</span></h2>
+        <p>Sewa lisensi premium 100% legal dan terpercaya. Pengiriman otomatis 24 jam penuh tanpa hambatan.</p>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="product-grid" id="productGrid"></div>
     </div>
-  </footer>
+  </section>
 
-  <!-- TOAST NOTIFIKASI (Bawah Kiri) -->
-  <div class="toast" id="liveToast">
-    <i class="fas fa-check-circle"></i>
-    <div>
-      <strong style="display:block; font-size:12px;">Beberapa saat yang lalu</strong>
-      <span style="color:var(--text-muted); font-size:11px;">Seseorang baru saja membeli produk.</span>
+  <!-- ================= POPULER ================= -->
+  <section class="section" id="populer">
+    <div class="container">
+      <div class="panel" style="background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(6,182,212,.05));border-color:rgba(139,92,246,.28)">
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <div style="font-size:1.7rem">🔥</div>
+          <div style="flex:1;min-width:240px">
+            <div class="eyebrow" style="margin-bottom:6px">Sedang Populer Hari Ini</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:6px">Telah dipesan sebanyak <span class="grad" id="orderCount">0</span> kali dalam 1 bulan terakhir</h3>
+            <p style="font-size:.86rem;color:var(--muted)">Proses otomatis instan! Pesanan Anda diproses oleh sistem tanpa perlu menunggu admin.</p>
+          </div>
+        </div>
+        <div class="feature-grid" style="margin-top:24px">
+          <div class="feature">
+            <div class="f-icon">📤</div>
+            <h3>Kirim Otomatis Instan</h3>
+            <p>Lisensi terbit otomatis dan langsung dikirim ke email tujuan dalam hitungan detik.</p>
+          </div>
+          <div class="feature">
+            <div class="f-icon">🛡️</div>
+            <h3>Garansi Full Durasi</h3>
+            <p>Jaminan lisensi aktif penuh sesuai durasi sewa yang dipilih tanpa ada kendala.</p>
+          </div>
+          <div class="feature">
+            <div class="f-icon">💬</div>
+            <h3>Bantuan &amp; Support 24/7</h3>
+            <p>Layanan aduan dan bantuan teknis aktif non-stop siap melayani Anda kapan saja.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LACAK ================= -->
+  <section class="section" id="lacak">
+    <div class="container">
+      <div class="sec-head">
+        <span class="eyebrow">Tracking Real-Time 24/7</span>
+        <h2>Lacak Status Pesanan</h2>
+        <p>Cek status pembayaran instan, unduh invoice resmi, dan ambil kode lisensi game Anda kapan saja secara mandiri.</p>
+      </div>
+      <div class="panel">
+        <div class="track-row">
+          <input id="trackInput" placeholder="Contoh: TRX-WEB-A1B2C3D4" autocomplete="off">
+          <button class="btn btn-primary" onclick="trackOrder()">🔍 Lacak Sekarang</button>
+        </div>
+        <div class="track-badges">
+          <span class="mini-badge">⚡ 100% Otomatis Instan</span>
+          <span class="mini-badge">🕐 24/7 Aktif Selamanya</span>
+          <span class="mini-badge">🔐 Aman Enkripsi Data</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RIWAYAT ================= -->
+  <section class="section" id="riwayat">
+    <div class="container">
+      <div class="sec-head">
+        <span class="eyebrow">Transaksi Tersimpan Otomatis</span>
+        <h2>Riwayat Pesanan</h2>
+        <p>Setiap pesanan atau pencarian invoice Anda akan otomatis muncul di sini secara instan.</p>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <span class="online-pill" style="color:var(--primary-2);background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.25)">
+            <span class="dot" style="background:var(--primary-2)"></span>Memuat riwayat perangkat...
+          </span>
+          <button class="btn btn-ghost btn-sm" onclick="clearHistory()">🗑️ Hapus Riwayat</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HWID ================= -->
+  <section class="section" id="hwid">
+    <div class="container">
+      <div class="sec-head">
+        <span class="eyebrow">Reset HWID Otomatis 24/7</span>
+        <h2>Reset Lisensi Perangkat</h2>
+        <p>Atur ulang kaitan Hardware ID (HWID) perangkat Anda secara mandiri saat berpindah PC / HP dalam hitungan detik.</p>
+      </div>
+      <div class="hwid-grid">
+        <div class="panel">
+          <div class="field" style="margin-bottom:14px">
+            <label>Kode Lisensi Baru</label>
+            <input id="hwidInput" placeholder="DG-XXXX-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase">
+          </div>
+          <button class="btn btn-primary btn-block" onclick="resetHWID()">🔄 Reset Lisensi Sekarang</button>
+          <div class="result-box" id="hwidResult"></div>
+          <p class="hint" style="text-align:left;margin-top:14px">
+            <strong style="color:var(--text)">Ketentuan System Reset:</strong> Maksimal 5 kali reset per 24 jam per kode lisensi.
+            Pastikan Anda tidak membagikan kunci lisensi Anda ke orang lain.
+          </p>
+        </div>
+        <div class="panel">
+          <div class="eyebrow" style="margin-bottom:4px">Langkah Mudah Reset</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:4px">1-2-3 Selesai!</h3>
+          <div class="hwid-steps">
+            <div class="hstep">
+              <span class="num">1</span>
+              <div><strong>Masukkan Kode Lisensi</strong><p>Tempel kode lisensi yang Anda terima setelah pembayaran.</p></div>
+            </div>
+            <div class="hstep">
+              <span class="num">2</span>
+              <div><strong>Klik Reset Lisensi</strong><p>Sistem akan memverifikasi kode dan melepas kaitan HWID lama.</p></div>
+            </div>
+            <div class="hstep">
+              <span class="num">3</span>
+              <div><strong>Login di Perangkat Baru</strong><p>Lisensi siap digunakan kembali di PC / HP baru Anda.</p></div>
+            </div>
+          </div>
+          <div class="track-badges" style="justify-content:flex-start;margin-top:18px">
+            <span class="mini-badge">⚡ Instan 100% Otomatis</span>
+            <span class="mini-badge">📅 5x / Hari Limit</span>
+            <span class="mini-badge">🔐 Aman Verifikasi Key</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#beranda" class="logo">
+          <span class="logo-mark">DG</span>
+          <span>DGSTORE<small>ID</small></span>
+        </a>
+        <p>Platform pembelian lisensi game otomatis &amp; seller tools #1 Indonesia. Sistem otomatis 24/7 dengan garansi lisensi resmi.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#produk">Produk</a></li>
+          <li><a href="#lacak">Lacak Pesanan</a></li>
+          <li><a href="#riwayat">Riwayat</a></li>
+          <li><a href="#hwid">Reset HWID</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Informasi</h4>
+        <ul>
+          <li><a href="#keunggulan">Kenapa Kami</a></li>
+          <li><a href="#populer">Produk Populer</a></li>
+          <li><a href="#lacak">Cek Invoice</a></li>
+          <li><a href="#hwid">Ketentuan Reset</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> DGSTORE ID — Sistem Otomatis 24/7. Semua hak dilindungi.</span>
+      <span>Demo template • Pembayaran disimulasikan</span>
     </div>
   </div>
+</footer>
 
-  <!-- FLOATING TELEGRAM -->
-  <a href="https://t.me/rifhskdkk" target="_blank" class="float-tg">
-    <i class="fab fa-telegram-plane"></i>
-  </a>
-
-  <!-- MODAL CHECKOUT -->
-  <div class="modal" id="orderModal">
-    <div class="modal-box">
-      <button class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
-      
-      <!-- STEP 1: FORM -->
-      <div id="step1">
-        <div class="modal-head">
-          <h2 id="mProductName">Nama Produk</h2>
-          <p id="mProductPrice">Rp 0</p>
-        </div>
-        
-        <form onsubmit="goToQris(event)">
-          <div class="form-group">
-            <label>Masukkan Nickname / Nama</label>
-            <input type="text" class="form-control" id="inputName" required placeholder="Contoh: Mizuki">
-          </div>
-          <div class="form-group">
-            <label>Masukkan User ID / Email / No. Tujuan</label>
-            <input type="text" class="form-control" id="inputTarget" required placeholder="Contoh: 12345678 (1234)">
-          </div>
-          <div class="form-group">
-            <label>Jumlah Pembelian</label>
-            <input type="number" class="form-control" id="inputQty" value="1" min="1" required oninput="updateTotal()">
-          </div>
-          <button type="submit" class="btn-action">Lanjut Pembayaran <i class="fas fa-arrow-right"></i></button>
-        </form>
+<!-- ================= MODAL CHECKOUT ================= -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('checkoutModal')" aria-label="Tutup">✕</button>
+    <div class="modal-head">
+      <span class="modal-icon" id="coIcon">🎯</span>
+      <div>
+        <h3 id="coProduct">Nama Produk</h3>
+        <p id="coCat">Kategori</p>
       </div>
+    </div>
+    <div class="field">
+      <label>Pilih Durasi Sewa</label>
+      <div class="duration-grid" id="durationGrid"></div>
+    </div>
+    <div class="field">
+      <label>Nama Pembeli</label>
+      <input id="coName" placeholder="Nama lengkap" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Email Tujuan (lisensi dikirim ke sini)</label>
+      <input id="coEmail" type="email" placeholder="email@contoh.com" autocomplete="email">
+    </div>
+    <div class="co-total">
+      <span>Total Pembayaran</span>
+      <strong id="coTotal">Rp 0</strong>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="submitCheckout()">Lanjut ke Pembayaran →</button>
+    <p class="hint">Pembayaran QRIS otomatis 24/7 • Pengiriman lisensi instan setelah lunas</p>
+  </div>
+</div>
 
-      <!-- STEP 2: QRIS -->
-      <div id="step2" class="qris-area">
-        <div class="modal-head">
-          <h2>Pembayaran QRIS</h2>
-          <p>Silakan scan kode di bawah</p>
-        </div>
-        
-        <div class="qris-total" id="qrisTotal">Rp 0</div>
-        
-        <!-- ⚠️ GANTI LINK GAMBAR DI BAWAH INI DENGAN GAMBAR QRIS ANDA -->
-        <img src="https://i.ibb.co.com/6cZqXKZ/qris-placeholder.png" alt="QRIS RIFHKAK" class="qris-img" onerror="this.src='https://via.placeholder.com/300x400/ffffff/000000?text=GANTI+GAMBAR+QRIS'">
-        
-        <p style="font-size: 12px; margin-bottom: 15px; color:var(--text-muted);">
-          NMID: ID1026586399622<br>
-          Atas Nama: <b>RIFHKAK - COURSE</b>
-        </p>
+<!-- ================= MODAL PEMBAYARAN ================= -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal modal-wide">
+    <button class="modal-close" onclick="closePayment()" aria-label="Tutup">✕</button>
 
-        <button onclick="sendToTelegram()" class="btn-action" style="background:#229ED9;">
-          <i class="fab fa-telegram-plane"></i> Saya Sudah Bayar
-        </button>
-        <button onclick="backToForm()" class="btn-back">Kembali</button>
+    <!-- PENDING -->
+    <div id="payPending">
+      <div class="pay-head">
+        <span class="status pending">Menunggu Pembayaran</span>
+        <h3>Total Tagihan: <span id="payTotal">Rp 0</span></h3>
+        <p id="payOrderId">TRX-...</p>
       </div>
+      <div class="qr-wrap">
+        <div id="qrcode"></div>
+        <div class="countdown">Sisa Waktu QRIS: <strong id="payTimer">15:00</strong></div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <div><b>Simpan Gambar QRIS</b>Ambil screenshot area barcode di atas.</div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div><b>Buka E-Wallet / M-Banking</b>BCA Mobile, Livin, BRImo, GoPay, OVO, DANA, ShopeePay, dll.</div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <div><b>Upload dari Galeri</b>Pilih menu Scan QRIS → ikon Galeri/Foto → unggah gambar QRIS.</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="simulatePay()">✅ Simulasi Pembayaran Berhasil</button>
+      <p class="hint">Mode demo: tombol di atas menandai pesanan lunas secara otomatis tanpa transaksi nyata.</p>
+    </div>
 
+    <!-- SUCCESS -->
+    <div id="paySuccess" class="pay-success hidden">
+      <div class="success-icon">✅</div>
+      <h3>Pembayaran Terverifikasi Lunas!</h3>
+      <p>Gunakan lisensi di bawah ini untuk mengaktifkan aplikasi.</p>
+      <div class="license-box">
+        <span id="licenseKey">DG-XXXX-XXXX-XXXX</span>
+        <button onclick="copyLicense()">Salin</button>
+      </div>
+      <div style="text-align:left;font-size:.8rem;color:var(--muted);background:var(--card-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Produk</span><b id="sucProduct" style="color:var(--text);text-align:right">-</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Durasi</span><b id="sucDuration" style="color:var(--text)">-</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Email</span><b id="sucEmail" style="color:var(--text);word-break:break-all;text-align:right">-</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>ID Referensi</span><b id="sucOrderId" style="color:var(--text);font-size:.72rem">-</b></div>
+      </div>
+      <button class="btn btn-ghost btn-block" onclick="closePayment()">Selesai</button>
+    </div>
+
+    <!-- EXPIRED -->
+    <div id="payExpired" class="pay-expired hidden">
+      <div class="x-icon">⏰</div>
+      <h3>Transaksi Batal / Kedaluwarsa</h3>
+      <p>Silakan buat pesanan baru untuk mendapatkan QRIS aktif.</p>
+      <div style="text-align:left;font-size:.8rem;color:var(--muted);background:var(--card-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Status</span><b style="color:var(--danger)">BATAL</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Layanan / Game</span><b id="expProduct" style="color:var(--text);text-align:right">-</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span>Paket / Varian</span><b id="expDuration" style="color:var(--text)">-</b></div>
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>ID Referensi</span><b id="expOrderId" style="color:var(--text);font-size:.72rem">-</b></div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="closePayment();document.getElementById('produk').scrollIntoView({behavior:'smooth'})">Buat Pesanan Baru</button>
     </div>
   </div>
+</div>
 
-  <script>
-    // State
-    let currentProduct = { name: '', price: 0 };
-    const TELEGRAM_USERNAME = "rifhskdkk"; // Username Telegram Anda
+<!-- ================= TOAST ================= -->
+<div class="toast-wrap" id="toastWrap"></div>
 
-    // Fitur Pencarian
-    function filterProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.product-card');
-      
-      cards.forEach(card => {
-        const name = card.getAttribute('data-name').toLowerCase();
-        if (name.includes(query)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function openOrder(name, price) {
-      currentProduct = { name, price };
-      document.getElementById('mProductName').innerText = name;
-      document.getElementById('mProductPrice').innerText = formatRupiah(price);
-      document.getElementById('inputQty').value = 1;
-      updateTotal();
-      
-      document.getElementById('step1').style.display = 'block';
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('orderModal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('orderModal').classList.remove('active');
-    }
-
-    function updateTotal() {
-      let qty = parseInt(document.getElementById('inputQty').value) || 1;
-      let total = currentProduct.price * qty;
-      document.getElementById('qrisTotal').innerText = formatRupiah(total);
-    }
-
-    function goToQris(event) {
-      event.preventDefault();
-      updateTotal();
-      document.getElementById('step1').style.display = 'none';
-      document.getElementById('step2').style.display = 'block';
-    }
-
-    function backToForm() {
-      document.getElementById('step1').style.display = 'block';
-      document.getElementById('step2').style.display = 'none';
-    }
-
-    function sendToTelegram() {
-      let name = document.getElementById('inputName').value;
-      let target = document.getElementById('inputTarget').value;
-      let qty = document.getElementById('inputQty').value;
-      let total = currentProduct.price * qty;
-
-      let text = `Halo Admin @rifhskdkk, saya sudah melakukan pembayaran via QRIS.\n\n*DETAIL PESANAN:*\nProduk: ${currentProduct.name}\nJumlah: ${qty}\nTotal: ${formatRupiah(total)}\n\n*DATA PEMBELI:*\nNama: ${name}\nID/Email/Tujuan: ${target}\n\nBerikut saya lampirkan bukti transfernya. Mohon segera diproses ya.`;
-
-      let url = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank');
-      
-      closeModal();
-    }
-
-    function formatRupiah(angka) {
-      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
-    }
-
-    // Sembunyikan Toast setelah 5 detik
-    setTimeout(() => {
-      document.getElementById('liveToast').style.display = 'none';
-    }, 5000);
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
-      
