@@ -2,21 +2,18 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10091f">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#061326">
 <title>RANK VS BOT BY RIFHSK</title>
 
 <style>
 :root {
-  --bg: #0b0714;
-  --panel: rgba(25, 16, 43, .90);
-  --purple: #a855f7;
-  --purple2: #7c3aed;
-  --pink: #ec4899;
-  --text: #f8f5ff;
-  --muted: #b8adc9;
-  --border: rgba(192, 132, 252, .24);
-  --green: #22c55e;
+  --blue: #168bff;
+  --cyan: #50c4ff;
+  --bg: #061326;
+  --glass: rgba(7, 22, 43, .76);
+  --text: #f4f8ff;
+  --muted: #b8cbe3;
 }
 
 * {
@@ -32,31 +29,31 @@ body {
   min-height: 100vh;
   color: var(--text);
   background:
-    radial-gradient(ellipse at top, #291348 0%, #10091f 48%, #080510 100%);
+    radial-gradient(ellipse at center, #102d50 0%, #061326 65%, #030914 100%);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
+/* LOGO BESAR SEBAGAI BACKGROUND */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("logo.png") center center / min(78vw, 480px) auto no-repeat;
-  opacity: .055;
+  z-index: -2;
   pointer-events: none;
+  background: url("logo.png") center 45% / min(90vw, 850px) auto no-repeat;
+  opacity: .17;
+  filter: drop-shadow(0 0 25px rgba(22,139,255,.3));
+}
+
+/* LAPISAN GELAP AGAR TEKS TERBACA */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
   z-index: -1;
-}
-
-button, input, select, textarea {
-  font: inherit;
-}
-
-button, a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-button {
-  cursor: pointer;
+  pointer-events: none;
+  background: rgba(2, 10, 23, .40);
 }
 
 a {
@@ -64,494 +61,283 @@ a {
   text-decoration: none;
 }
 
-.container {
-  width: min(100% - 28px, 720px);
-  margin: 0 auto;
-}
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(11, 7, 20, .91);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-
-.topbar-inner {
-  max-width: 900px;
-  margin: auto;
-  padding: 12px 16px;
+header {
+  width: min(1150px, calc(100% - 28px));
+  margin: 18px auto;
+  padding: 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  background: var(--glass);
+  border: 1px solid rgba(40,151,255,.75);
+  border-radius: 18px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 0;
+  gap: 12px;
 }
 
 .brand img {
-  width: 45px;
-  height: 45px;
+  width: 54px;
+  height: 54px;
   object-fit: contain;
-  background: transparent;
-  border-radius: 10px;
 }
 
 .brand-title {
+  font-size: 18px;
   font-weight: 900;
+}
+
+.brand-subtitle {
+  color: var(--cyan);
   font-size: 12px;
-  letter-spacing: 1px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.brand-sub {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 5px;
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.clock {
-  text-align: right;
-  flex-shrink: 0;
+nav a {
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #e3efff;
+  font-size: 13px;
+  font-weight: bold;
+  transition: .2s;
 }
 
-.clock-time {
-  color: #d8b4fe;
-  font-weight: 800;
-  font-size: 14px;
+nav a:hover {
+  background: rgba(22,139,255,.2);
+  color: var(--cyan);
 }
 
-.clock-date {
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 4px;
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 17px;
+  border: 1px solid #55baff;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #0878eb, #159fff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(22,139,255,.35);
+}
+
+.container {
+  width: min(1000px, calc(100% - 28px));
+  margin: 25px auto;
+}
+
+.glass {
+  padding: 25px;
+  margin-bottom: 18px;
+  background: var(--glass);
+  border: 1px solid rgba(40,151,255,.65);
+  border-radius: 22px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 12px 35px rgba(0,0,0,.22);
 }
 
 .hero {
   text-align: center;
-  padding: 36px 0 24px;
+  padding: 35px 20px;
 }
 
 .hero-logo {
-  width: 112px;
-  height: 112px;
+  width: 125px;
+  height: 125px;
   object-fit: contain;
-  background: transparent;
-  filter: drop-shadow(0 0 20px rgba(168, 85, 247, .38));
-  margin-bottom: 12px;
-}
-
-.badge {
-  display: inline-flex;
-  padding: 7px 12px;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  background: rgba(168, 85, 247, .09);
-  color: #e9d5ff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.4px;
+  filter: drop-shadow(0 0 18px rgba(22,139,255,.3));
 }
 
 h1 {
-  font-size: clamp(26px, 7vw, 39px);
-  margin: 15px 0 9px;
-  line-height: 1.15;
+  margin: 12px 0 5px;
+  font-size: clamp(28px, 6vw, 46px);
   font-weight: 950;
+  text-shadow: 0 0 22px rgba(22,139,255,.4);
 }
 
-.gradient-text {
-  background: linear-gradient(90deg, #c084fc, #f0abfc, #f9a8d4);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+.highlight {
+  color: var(--cyan);
 }
 
 .hero p {
+  max-width: 550px;
+  margin: 12px auto 20px;
   color: var(--muted);
   line-height: 1.7;
-  font-size: 13px;
-  max-width: 440px;
-  margin: 0 auto;
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 21px;
-  margin-bottom: 18px;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, .19);
-  backdrop-filter: blur(12px);
 }
 
 .section-title {
-  font-size: 17px;
-  font-weight: 900;
-  margin: 0 0 6px;
+  margin: 0 0 20px;
+  font-size: 23px;
 }
 
-.section-desc {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-  margin: 0 0 19px;
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 23px;
+  margin-right: 10px;
+  vertical-align: -4px;
+  border-radius: 5px;
+  background: var(--blue);
 }
 
-.service-grid {
+.grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.service-card {
-  position: relative;
-  text-align: left;
-  padding: 16px 12px;
-  border-radius: 15px;
-  color: var(--text);
-  background: rgba(255, 255, 255, .025);
-  border: 1px solid rgba(255, 255, 255, .10);
+.service {
+  padding: 20px;
+  border: 1px solid rgba(39,146,255,.65);
+  border-radius: 17px;
+  background: rgba(12,42,76,.60);
   transition: .2s;
 }
 
-.service-card.active {
-  border-color: var(--purple);
-  background: rgba(168, 85, 247, .13);
-  box-shadow: inset 0 0 0 1px rgba(168, 85, 247, .14);
+.service:hover {
+  border-color: var(--cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(22,139,255,.12);
 }
 
-.service-card .check {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: #d8b4fe;
-  font-size: 16px;
-}
-
-.service-name {
-  font-weight: 900;
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-.service-price {
-  font-size: 18px;
-  font-weight: 900;
-  color: #d8b4fe;
-}
-
-.service-unit {
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 4px;
-}
-
-.service-limit {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 10px;
-  padding: 5px 8px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, .06);
-  color: #e9d5ff;
-}
-
-.field {
-  margin-bottom: 15px;
-}
-
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid rgba(216, 180, 254, .20);
-  border-radius: 11px;
-  color: var(--text);
-  background: #130c21;
-  outline: none;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, .10);
-}
-
-.field input::placeholder,
-.field textarea::placeholder {
-  color: #81758f;
-}
-
-.field select option {
-  background: #130c21;
-  color: white;
-}
-
-.field textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.hint {
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.5;
-  margin-top: 6px;
-}
-
-.summary {
-  padding: 15px;
-  background: rgba(168, 85, 247, .08);
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  margin: 18px 0;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  font-size: 12px;
-  margin: 10px 0;
-}
-
-.summary-row span:first-child {
-  color: var(--muted);
-}
-
-.summary-total {
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-  margin-top: 14px;
-  align-items: center;
-}
-
-.summary-total span:last-child {
-  color: #d8b4fe;
-  font-size: 23px;
-  font-weight: 950;
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 15px 16px;
-  font-size: 13px;
-  font-weight: 900;
-  transition: transform .15s, opacity .15s;
-}
-
-.btn:active {
-  transform: scale(.98);
-}
-
-.btn-primary {
-  color: white;
-  background: linear-gradient(100deg, #7c3aed, #a855f7, #c026d3);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, .22);
-}
-
-.btn-whatsapp {
-  color: #04140a;
-  background: var(--green);
-}
-
-.btn-secondary {
-  color: #e9d5ff;
-  background: rgba(168, 85, 247, .10);
-  border: 1px solid var(--border);
-}
-
-.btn:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-.notice {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.7;
-  text-align: center;
-  margin: 12px 0 0;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-.payment-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.payment-icon {
-  width: 58px;
-  height: 58px;
+.service-icon {
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
-  margin: 0 auto 12px;
-  border-radius: 17px;
-  background: rgba(168, 85, 247, .14);
-  font-size: 28px;
-}
-
-.qris-frame {
-  background: white;
-  padding: 12px;
-  width: min(100%, 340px);
-  margin: 18px auto;
+  margin-bottom: 12px;
   border-radius: 14px;
+  background: rgba(22,139,255,.22);
+  font-size: 25px;
 }
 
-.qris-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+.service h3 {
+  margin: 0 0 7px;
 }
 
-.qris-caption {
-  color: #332447;
-  text-align: center;
-  font-weight: 900;
-  font-size: 12px;
-  margin: 10px 0 2px;
-}
-
-.payment-steps {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-  counter-reset: steps;
-}
-
-.payment-steps li {
-  counter-increment: steps;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(216, 180, 254, .10);
+.service p {
+  margin: 0 0 16px;
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.payment-steps li::before {
-  content: counter(steps);
-  min-width: 27px;
-  height: 27px;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  background: rgba(168, 85, 247, .16);
-  border: 1px solid var(--border);
-  color: #e9d5ff;
+.price {
+  color: var(--cyan);
+  font-size: 21px;
   font-weight: 900;
 }
 
-.payment-steps strong {
-  color: var(--text);
-}
-
-.status-box {
-  padding: 12px;
-  background: rgba(234, 179, 8, .07);
-  border: 1px solid rgba(234, 179, 8, .24);
-  color: #fde68a;
-  border-radius: 11px;
-  font-size: 11px;
-  line-height: 1.7;
-  margin: 15px 0;
-}
-
-.contact-grid {
+.steps {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.step {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(12,42,76,.55);
+  border: 1px solid rgba(39,146,255,.4);
+}
+
+.step strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--cyan);
+}
+
+.step span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.contact {
+  text-align: center;
+}
+
+.contact p {
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 footer {
-  padding: 25px 10px 35px;
+  padding: 25px 15px;
   text-align: center;
-  color: #8f829f;
-  font-size: 10px;
-  line-height: 1.8;
-}
-
-.footer-brand {
-  color: #d8b4fe;
-  font-weight: 900;
-  letter-spacing: 1px;
-  margin-bottom: 5px;
-}
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  z-index: 50;
-  width: max-content;
-  max-width: calc(100% - 32px);
-  background: #241536;
-  color: white;
-  border: 1px solid var(--border);
-  padding: 12px 16px;
-  border-radius: 12px;
+  color: var(--muted);
   font-size: 12px;
-  box-shadow: 0 10px 35px #0006;
 }
 
-@media (max-width: 430px) {
-  .panel {
-    padding: 17px;
-    border-radius: 17px;
+footer strong {
+  color: var(--cyan);
+}
+
+@media (max-width: 700px) {
+  header {
+    justify-content: center;
+    text-align: center;
   }
 
-  .service-grid {
-    gap: 8px;
+  .brand {
+    width: 100%;
+    justify-content: center;
   }
 
-  .service-card {
-    padding: 14px 10px;
+  nav {
+    width: 100%;
   }
 
-  .service-price {
-    font-size: 16px;
-  }
-
-  .brand-title {
-    font-size: 10px;
-  }
-
-  .brand img {
-    width: 38px;
-    height: 38px;
-  }
-
-  .clock-time {
+  nav a {
+    padding: 9px;
     font-size: 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .glass {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  body::before {
+    background-size: 125vw auto;
+    background-position: center 38%;
+    opacity: .12;
+  }
+
+  .hero-logo {
+    width: 105px;
+    height: 105px;
   }
 }
 </style>
@@ -559,512 +345,136 @@ footer {
 
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <img src="logo.png" alt="Logo RIFHSK"
-           onerror="this.style.display='none'">
-      <div>
-        <div class="brand-title">RANK VS BOT</div>
-        <div class="brand-sub">BY RIFHSK</div>
-      </div>
+<header>
+  <a class="brand" href="#home">
+    <img src="logo.png" alt="Logo RIFHSK">
+    <div>
+      <div class="brand-title">RANK VS BOT</div>
+      <div class="brand-subtitle">BY RIFHSK</div>
     </div>
+  </a>
 
-    <div class="clock">
-      <div class="clock-time" id="clockTime">00:00:00 WIB</div>
-      <div class="clock-date" id="clockDate">Memuat tanggal...</div>
-    </div>
-  </div>
+  <nav aria-label="Menu utama">
+    <a href="#home">⌂ Home</a>
+    <a href="#layanan">♛ Layanan</a>
+    <a href="#cara-order">☷ Cara Order</a>
+    <a href="#kontak">☏ Kontak</a>
+  </nav>
+
+  <a class="button"
+     href="https://wa.me/6285725209623"
+     target="_blank" rel="noopener">
+    Chat WhatsApp
+  </a>
 </header>
 
 <main class="container">
 
-  <section class="hero">
-    <img class="hero-logo" src="logo.png" alt="Logo RANK VS BOT"
-         onerror="this.style.display='none'">
+  <section class="glass hero" id="home">
+    <img class="hero-logo" src="logo.png" alt="RANK VS BOT BY RIFHSK">
 
-    <div><span class="badge">● ORDER SERVICE</span></div>
-
-    <h1>RANK VS BOT<br><span class="gradient-text">BY RIFHSK</span></h1>
+    <h1>RANK VS <span class="highlight">BOT</span></h1>
+    <div class="brand-subtitle">BY RIFHSK</div>
 
     <p>
-      Pilih layanan, lengkapi data pesanan, dan lanjutkan pembayaran
-      dengan mudah melalui QRIS.
+      Solusi untuk kebutuhan rank gaming kamu.
+      Pilih layanan yang sesuai dan hubungi admin
+      untuk informasi harga serta proses pemesanan.
     </p>
+
+    <a class="button" href="#layanan">Lihat Layanan ↓</a>
   </section>
 
-  <!-- MENU PESANAN -->
-  <section class="panel" id="orderPanel">
-    <h2 class="section-title">01. Pilih Layanan</h2>
-    <p class="section-desc">
-      Pilih layanan yang kamu inginkan. Harga dihitung otomatis.
-    </p>
+  <section class="glass" id="layanan">
+    <h2 class="section-title">Pilihan Layanan</h2>
 
-    <div class="service-grid">
-      <button type="button" class="service-card active"
-              id="flexibleButton" aria-pressed="true">
-        <span class="check" id="flexibleCheck">✓</span>
-        <div class="service-name">FLEXIBLE</div>
-        <div class="service-price">Rp2.500</div>
-        <div class="service-unit">per match</div>
-        <span class="service-limit">Maks. 5 match</span>
-      </button>
+    <div class="grid">
+      <article class="service">
+        <div class="service-icon">♛</div>
+        <h3>FLEXIBLE</h3>
+        <p>
+          Maksimal 5 match. Hubungi admin untuk
+          menyesuaikan kebutuhan pesanan.
+        </p>
+        <div class="price">Rp2.500 / match</div>
+        <br>
+        <a class="button"
+           href="https://wa.me/6285725209623?text=Halo%20admin%2C%20saya%20mau%20pesan%20layanan%20FLEXIBLE">
+          Pesan Sekarang
+        </a>
+      </article>
 
-      <button type="button" class="service-card"
-              id="noFlexibleButton" aria-pressed="false">
-        <span class="check" id="noFlexibleCheck" hidden>✓</span>
-        <div class="service-name">NO FLEXIBLE</div>
-        <div class="service-price">Rp3.500</div>
-        <div class="service-unit">per match</div>
-        <span class="service-limit">Maks. 10 match</span>
-      </button>
+      <article class="service">
+        <div class="service-icon">⚡</div>
+        <h3>NO FLEXIBLE</h3>
+        <p>
+          Maksimal 10 match. Hubungi admin untuk
+          informasi dan pemesanan.
+        </p>
+        <div class="price">Rp3.500 / match</div>
+        <br>
+        <a class="button"
+           href="https://wa.me/6285725209623?text=Halo%20admin%2C%20saya%20mau%20pesan%20layanan%20NO%20FLEXIBLE">
+          Pesan Sekarang
+        </a>
+      </article>
     </div>
-
-    <div style="height:22px"></div>
-
-    <h2 class="section-title">02. Data Pesanan</h2>
-    <p class="section-desc">
-      Pastikan nickname dan ID game benar sebelum melanjutkan.
-    </p>
-
-    <form id="orderForm">
-      <div class="field">
-        <label for="nickname">Nickname Game *</label>
-        <input id="nickname" name="nickname" type="text"
-               maxlength="50" placeholder="Masukkan nickname"
-               autocomplete="nickname" required>
-      </div>
-
-      <div class="field">
-        <label for="gameId">ID Game *</label>
-        <input id="gameId" name="gameId" type="text"
-               maxlength="40" placeholder="Masukkan ID game"
-               required>
-      </div>
-
-      <div class="field">
-        <label for="quantity">Jumlah Match *</label>
-        <select id="quantity" name="quantity" required>
-          <option value="1">1 Match</option>
-          <option value="2">2 Match</option>
-          <option value="3">3 Match</option>
-          <option value="4">4 Match</option>
-          <option value="5">5 Match</option>
-        </select>
-        <div class="hint" id="quantityHint">
-          Layanan Flexible tersedia maksimal 5 match.
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="notes">Catatan (opsional)</label>
-        <textarea id="notes" name="notes" maxlength="300"
-                  placeholder="Tulis catatan jika diperlukan..."></textarea>
-      </div>
-
-      <div class="summary">
-        <div class="summary-row">
-          <span>Layanan</span>
-          <strong id="summaryService">FLEXIBLE</strong>
-        </div>
-        <div class="summary-row">
-          <span>Harga per match</span>
-          <strong id="summaryPrice">Rp2.500</strong>
-        </div>
-        <div class="summary-row">
-          <span>Jumlah match</span>
-          <strong id="summaryQuantity">1 match</strong>
-        </div>
-        <div class="summary-row summary-total">
-          <span>TOTAL PEMBAYARAN</span>
-          <span id="totalPrice">Rp2.500</span>
-        </div>
-      </div>
-
-      <button class="btn btn-primary" type="submit" id="continueButton">
-        LANJUT KE PEMBAYARAN →
-      </button>
-
-      <p class="notice">
-        QRIS akan ditampilkan setelah kamu melanjutkan pembayaran.
-      </p>
-    </form>
   </section>
 
-  <!-- PEMBAYARAN: TERSEMBUNYI PADA AWAL -->
-  <section class="panel" id="paymentPanel" hidden>
-    <div class="payment-header">
-      <div class="payment-icon">▦</div>
-      <h2 class="section-title">Pembayaran QRIS</h2>
-      <p class="section-desc" style="margin-top:8px;margin-bottom:0">
-        Periksa rincian pesanan, lalu scan QRIS untuk membayar.
-      </p>
-    </div>
+  <section class="glass" id="cara-order">
+    <h2 class="section-title">Cara Order</h2>
 
-    <div class="summary">
-      <div class="summary-row">
-        <span>Nickname</span>
-        <strong id="payNickname">-</strong>
+    <div class="steps">
+      <div class="step">
+        <strong>01 — Pilih</strong>
+        <span>Pilih layanan yang kamu inginkan.</span>
       </div>
-      <div class="summary-row">
-        <span>ID Game</span>
-        <strong id="payGameId">-</strong>
+
+      <div class="step">
+        <strong>02 — Hubungi Admin</strong>
+        <span>Kirim detail pesanan melalui WhatsApp.</span>
       </div>
-      <div class="summary-row">
-        <span>Layanan</span>
-        <strong id="payService">-</strong>
-      </div>
-      <div class="summary-row">
-        <span>Jumlah match</span>
-        <strong id="payQuantity">-</strong>
-      </div>
-      <div class="summary-row summary-total">
-        <span>TOTAL BAYAR</span>
-        <span id="payTotal">Rp0</span>
+
+      <div class="step">
+        <strong>03 — Konfirmasi</strong>
+        <span>Ikuti petunjuk admin untuk menyelesaikan pesanan.</span>
       </div>
     </div>
+  </section>
 
-    <div class="qris-frame">
-      <img src="qris.jpg" id="qrisImage" alt="QRIS pembayaran"
-           onerror="this.style.display='none';document.getElementById('qrisError').hidden=false">
-      <div id="qrisError" hidden
-           style="color:#991b1b;text-align:center;padding:30px 8px;font-size:13px;line-height:1.6">
-        <strong>Gambar QRIS tidak ditemukan.</strong><br>
-        Pastikan file qris.jpg sudah diunggah ke folder utama repository.
-      </div>
-      <div class="qris-caption">SCAN QRIS UNTUK MEMBAYAR</div>
-    </div>
+  <section class="glass contact" id="kontak">
+    <h2 class="section-title">Hubungi Admin</h2>
+    <p>
+      Ada pertanyaan mengenai layanan atau pesanan?
+      Hubungi admin melalui WhatsApp.
+    </p>
 
-    <a class="btn btn-secondary" href="qris.jpg" download="qris.jpg"
-       style="margin-bottom:18px">
-      ↓ SIMPAN GAMBAR QRIS
+    <a class="button"
+       href="https://wa.me/6285725209623"
+       target="_blank" rel="noopener">
+      Chat Admin WhatsApp
     </a>
 
-    <h3 class="section-title">Cara Pembayaran</h3>
-
-    <ol class="payment-steps">
-      <li><span><strong>Buka aplikasi pembayaran.</strong><br>
-        Gunakan aplikasi yang mendukung QRIS.</span></li>
-      <li><span><strong>Pilih menu Scan QRIS.</strong><br>
-        Arahkan kamera ke kode QR di atas atau gunakan gambar yang disimpan jika aplikasi mendukungnya.</span></li>
-      <li><span><strong>Periksa nama penerima.</strong><br>
-        Pastikan nama penerima sesuai dengan informasi pembayaran yang resmi.</span></li>
-      <li><span><strong>Masukkan nominal yang benar.</strong><br>
-        Bayar sejumlah <strong id="stepTotal">Rp2.500</strong> jika QRIS mengizinkan nominal input manual.</span></li>
-      <li><span><strong>Selesaikan pembayaran.</strong><br>
-        Ikuti petunjuk aplikasi dan simpan bukti transaksi.</span></li>
-      <li><span><strong>Kirim konfirmasi ke admin.</strong><br>
-        Tekan tombol WhatsApp di bawah dan sertakan bukti pembayaran untuk diperiksa.</span></li>
-    </ol>
-
-    <div class="status-box">
-      ⚠️ Menekan tombol konfirmasi tidak membuktikan pembayaran berhasil.
-      Status pesanan tetap menunggu verifikasi admin sampai transaksi diperiksa.
-    </div>
-
-    <button class="btn btn-whatsapp" id="confirmPayment" type="button">
-      KONFIRMASI PEMBAYARAN VIA WHATSAPP
-    </button>
-
-    <p class="notice">
-      WhatsApp akan terbuka dengan detail pesanan. Lampirkan bukti pembayaran
-      secara manual sebelum mengirim pesan.
-    </p>
-
-    <button class="btn btn-secondary" id="backButton"
-            type="button" style="margin-top:12px">
-      ← KEMBALI KE MENU
-    </button>
-  </section>
-
-  <!-- KONTAK -->
-  <section class="panel">
-    <h2 class="section-title">Butuh Bantuan?</h2>
-    <p class="section-desc">
-      Hubungi admin jika mengalami kendala saat memesan atau membayar.
-    </p>
-
-    <div class="contact-grid">
-      <a class="btn btn-whatsapp"
-         href="https://wa.me/6285725209623"
+    <p>
+      <a href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
          target="_blank" rel="noopener">
-        CHAT ADMIN
+        Ikuti Channel WhatsApp
       </a>
-
-      <a class="btn btn-secondary"
-         href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-         target="_blank" rel="noopener">
-        CHANNEL WA
-      </a>
-    </div>
+    </p>
   </section>
 
 </main>
 
 <footer>
-  <div class="footer-brand">RANK VS BOT BY RIFHSK</div>
-  <div>© <span id="year"></span> · All rights reserved.</div>
-  <div>Harap periksa detail pesanan sebelum melakukan pembayaran.</div>
+  <strong>RANK VS BOT BY RIFHSK</strong><br>
+  Aman • Cepat • Terpercaya<br>
+  © <span id="year"></span> RIFHSK
 </footer>
 
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-
 <script>
-(function () {
-  "use strict";
-
-  const ADMIN_WA = "6285725209623";
-
-  const services = {
-    FLEXIBLE: {
-      price: 2500,
-      max: 5
-    },
-    "NO FLEXIBLE": {
-      price: 3500,
-      max: 10
-    }
-  };
-
-  let selectedService = "FLEXIBLE";
-  let currentOrder = null;
-  let toastTimer = null;
-
-  const $ = function (id) {
-    return document.getElementById(id);
-  };
-
-  const quantitySelect = $("quantity");
-  const orderForm = $("orderForm");
-  const orderPanel = $("orderPanel");
-  const paymentPanel = $("paymentPanel");
-
-  function rupiah(value) {
-    return "Rp" + Number(value).toLocaleString("id-ID");
-  }
-
-  function showToast(message) {
-    const toast = $("toast");
-    toast.textContent = message;
-    toast.hidden = false;
-
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      toast.hidden = true;
-    }, 3000);
-  }
-
-  function selectService(serviceName) {
-    if (!services[serviceName]) return;
-
-    selectedService = serviceName;
-
-    const isFlexible = serviceName === "FLEXIBLE";
-
-    $("flexibleButton").classList.toggle("active", isFlexible);
-    $("noFlexibleButton").classList.toggle("active", !isFlexible);
-
-    $("flexibleButton").setAttribute(
-      "aria-pressed", String(isFlexible)
-    );
-
-    $("noFlexibleButton").setAttribute(
-      "aria-pressed", String(!isFlexible)
-    );
-
-    $("flexibleCheck").hidden = !isFlexible;
-    $("noFlexibleCheck").hidden = isFlexible;
-
-    const max = services[selectedService].max;
-    const previousValue = Number(quantitySelect.value) || 1;
-
-    quantitySelect.innerHTML = "";
-
-    for (let i = 1; i <= max; i++) {
-      const option = document.createElement("option");
-      option.value = String(i);
-      option.textContent = i + " Match";
-      quantitySelect.appendChild(option);
-    }
-
-    quantitySelect.value = String(Math.min(previousValue, max));
-
-    $("quantityHint").textContent =
-      "Layanan " + selectedService + " tersedia maksimal " +
-      max + " match.";
-
-    updateSummary();
-  }
-function updateSummary() {
-    const service = services[selectedService];
-    const quantity = Number(quantitySelect.value) || 1;
-    const total = service.price * quantity;
-
-    $("summaryService").textContent = selectedService;
-    $("summaryPrice").textContent = rupiah(service.price);
-    $("summaryQuantity").textContent = quantity + " match";
-    $("totalPrice").textContent = rupiah(total);
-  }
-
-  function makeOrder() {
-    const nickname = $("nickname").value.trim();
-    const gameId = $("gameId").value.trim();
-    const quantity = Number(quantitySelect.value);
-    const notes = $("notes").value.trim();
-    const service = services[selectedService];
-
-    if (!nickname || !gameId) {
-      showToast("Lengkapi nickname dan ID game terlebih dahulu.");
-      return null;
-    }
-
-    if (!Number.isInteger(quantity) ||
-        quantity < 1 ||
-        quantity > service.max) {
-      showToast("Jumlah match tidak valid.");
-      return null;
-    }
-
-    return {
-      orderId: "RIF-" + Date.now().toString(36).toUpperCase(),
-      nickname: nickname,
-      gameId: gameId,
-      service: selectedService,
-      quantity: quantity,
-      price: service.price,
-      total: service.price * quantity,
-      notes: notes,
-      createdAt: new Date().toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta"
-      })
-    };
-  }
-
-  function showPayment(order) {
-    currentOrder = order;
-
-    $("payNickname").textContent = order.nickname;
-    $("payGameId").textContent = order.gameId;
-    $("payService").textContent = order.service;
-    $("payQuantity").textContent = order.quantity + " match";
-    $("payTotal").textContent = rupiah(order.total);
-    $("stepTotal").textContent = rupiah(order.total);
-
-    orderPanel.hidden = true;
-    paymentPanel.hidden = false;
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-  function backToMenu() {
-    paymentPanel.hidden = true;
-    orderPanel.hidden = false;
-
-    window.scrollTo({
-      top: orderPanel.offsetTop - 85,
-      behavior: "smooth"
-    });
-  }
-
-  function openWhatsApp(order) {
-    const message = [
-      "KONFIRMASI PESANAN RANK VS BOT BY RIFHSK",
-      "",
-      "Nomor pesanan: " + order.orderId,
-      "Nickname: " + order.nickname,
-      "ID Game: " + order.gameId,
-      "Layanan: " + order.service,
-      "Jumlah match: " + order.quantity,
-      "Harga per match: " + rupiah(order.price),
-      "Total pembayaran: " + rupiah(order.total),
-      "Catatan: " + (order.notes || "-"),
-      "Waktu pesanan: " + order.createdAt + " WIB",
-      "",
-      "Status: Menunggu verifikasi pembayaran admin.",
-      "",
-      "Saya sudah melakukan pembayaran jika transaksi ini telah berhasil.",
-      "Mohon periksa pembayaran dan pesanan saya.",
-      "",
-      "Saya akan melampirkan bukti pembayaran secara manual."
-    ].join("\n");
-
-    const url = "https://wa.me/" + ADMIN_WA +
-      "?text=" + encodeURIComponent(message);
-
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-
-  $("flexibleButton").addEventListener("click", function () {
-    selectService("FLEXIBLE");
-  });
-
-  $("noFlexibleButton").addEventListener("click", function () {
-    selectService("NO FLEXIBLE");
-  });
-
-  quantitySelect.addEventListener("change", updateSummary);
-
-  orderForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    if (!orderForm.reportValidity()) return;
-
-    const order = makeOrder();
-    if (!order) return;
-
-    showPayment(order);
-  });
-
-  $("confirmPayment").addEventListener("click", function () {
-    if (!currentOrder) {
-      showToast("Data pesanan tidak ditemukan. Silakan ulangi.");
-      return;
-    }
-
-    openWhatsApp(currentOrder);
-  });
-
-  $("backButton").addEventListener("click", backToMenu);
-
-  function updateClock() {
-    const now = new Date();
-
-    $("clockTime").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }).format(now) + " WIB";
-
-    $("clockDate").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      }).format(now);
-  }
-
-  $("year").textContent = new Date().getFullYear();
-
-  selectService("FLEXIBLE");
-  updateClock();
-  setInterval(updateClock, 1000);
-})();
+document.getElementById("year").textContent =
+  new Date().getFullYear();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
- 
