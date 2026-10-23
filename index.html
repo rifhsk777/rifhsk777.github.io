@@ -4,131 +4,85 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#061326">
-<title>RANK VS BOT BY RIFHSK</title>
+<title>RANK VS BOT | BY RIFHSK</title>
 
 <style>
 :root {
   --blue: #168bff;
-  --cyan: #50c4ff;
+  --cyan: #55c5ff;
   --bg: #061326;
-  --glass: rgba(7, 22, 43, .76);
+  --panel: rgba(5, 20, 40, .78);
+  --line: rgba(45, 153, 255, .65);
   --text: #f4f8ff;
-  --muted: #b8cbe3;
+  --muted: #b6c9e2;
 }
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
+  background: radial-gradient(ellipse at center, #102c4d, #061326 65%, #020711);
   color: var(--text);
-  background:
-    radial-gradient(ellipse at center, #102d50 0%, #061326 65%, #030914 100%);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
-
-/* LOGO BESAR SEBAGAI BACKGROUND */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background: url("logo.png") center 45% / min(90vw, 850px) auto no-repeat;
+  background: url("logo.png") center 43% / min(85vw, 850px) auto no-repeat;
   opacity: .17;
-  filter: drop-shadow(0 0 25px rgba(22,139,255,.3));
 }
-
-/* LAPISAN GELAP AGAR TEKS TERBACA */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: rgba(2, 10, 23, .40);
+  background: rgba(2, 9, 20, .48);
 }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-header {
-  width: min(1150px, calc(100% - 28px));
+.topbar {
+  width: min(1200px, calc(100% - 30px));
   margin: 18px auto;
-  padding: 15px;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
   flex-wrap: wrap;
-  background: var(--glass);
-  border: 1px solid rgba(40,151,255,.75);
-  border-radius: 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 19px;
   backdrop-filter: blur(16px);
-  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  box-shadow: 0 10px 35px #0005;
 }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 52px; height: 52px; object-fit: contain; }
+.brand strong { display: block; font-size: 17px; }
+.brand small { color: var(--cyan); letter-spacing: 2px; font-weight: bold; }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand img {
-  width: 54px;
-  height: 54px;
-  object-fit: contain;
-}
-
-.brand-title {
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.brand-subtitle {
-  color: var(--cyan);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
+nav { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
 nav a {
-  padding: 10px 12px;
-  border-radius: 10px;
-  color: #e3efff;
+  padding: 10px;
+  border-radius: 9px;
   font-size: 13px;
   font-weight: bold;
-  transition: .2s;
+  color: #e1efff;
 }
+nav a:hover { background: #168bff30; color: var(--cyan); }
 
-nav a:hover {
-  background: rgba(22,139,255,.2);
-  color: var(--cyan);
-}
-
-.button {
+.btn {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  padding: 12px 17px;
-  border: 1px solid #55baff;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #52baff;
   border-radius: 12px;
   background: linear-gradient(110deg, #0878eb, #159fff);
   color: white;
@@ -136,344 +90,438 @@ nav a:hover {
   cursor: pointer;
   transition: .2s;
 }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px #168bff55; }
 
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 22px rgba(22,139,255,.35);
-}
-
-.container {
-  width: min(1000px, calc(100% - 28px));
-  margin: 25px auto;
-}
-
-.glass {
-  padding: 25px;
+.container { width: min(1050px, calc(100% - 30px)); margin: 24px auto; }
+.card {
+  min-width: 0;
   margin-bottom: 18px;
-  background: var(--glass);
-  border: 1px solid rgba(40,151,255,.65);
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 22px;
   backdrop-filter: blur(15px);
-  box-shadow: 0 12px 35px rgba(0,0,0,.22);
+  box-shadow: 0 12px 35px #0003;
 }
+.hero { text-align: center; padding: 30px 20px; }
+.hero-logo { width: 110px; height: 110px; object-fit: contain; }
+.hero h1 { margin: 8px 0 0; font-size: clamp(30px, 6vw, 47px); }
+.cyan { color: var(--cyan); }
+.eyebrow { color: var(--cyan); font-size: 12px; font-weight: bold; letter-spacing: 4px; }
+.hero p { color: var(--muted); line-height: 1.7; }
+.clock { font-weight: bold; font-size: 15px; }
+#date { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
-.hero {
-  text-align: center;
-  padding: 35px 20px;
-}
-
-.hero-logo {
-  width: 125px;
-  height: 125px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(22,139,255,.3));
-}
-
-h1 {
-  margin: 12px 0 5px;
-  font-size: clamp(28px, 6vw, 46px);
-  font-weight: 950;
-  text-shadow: 0 0 22px rgba(22,139,255,.4);
-}
-
-.highlight {
-  color: var(--cyan);
-}
-
-.hero p {
-  max-width: 550px;
-  margin: 12px auto 20px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.section-title {
-  margin: 0 0 20px;
-  font-size: 23px;
-}
-
-.section-title::before {
+h2 { margin: 0 0 18px; font-size: 22px; }
+h2::before {
   content: "";
   display: inline-block;
   width: 5px;
-  height: 23px;
+  height: 22px;
+  background: var(--blue);
+  border-radius: 5px;
   margin-right: 10px;
   vertical-align: -4px;
-  border-radius: 5px;
-  background: var(--blue);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+.dashboard { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; align-items: start; }
+.dashboard .card { margin: 0; }
+.price-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 25px; }
+.price-card {
+  min-width: 0;
+  padding: 15px 10px;
+  text-align: left;
+  color: white;
+  background: #0c2949b8;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  cursor: pointer;
 }
-
-.service {
-  padding: 20px;
-  border: 1px solid rgba(39,146,255,.65);
-  border-radius: 17px;
-  background: rgba(12,42,76,.60);
-  transition: .2s;
-}
-
-.service:hover {
+.price-card.active {
+  background: linear-gradient(135deg, #125b9cdd, #092443e8);
   border-color: var(--cyan);
-  transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(22,139,255,.12);
+  box-shadow: 0 0 18px #168bff25;
 }
+.price-card span, .price-card strong, .price-card small { display: block; }
+.price-card span { font-size: 13px; font-weight: bold; }
+.price-card strong { margin: 8px 0 4px; font-size: clamp(17px, 3vw, 23px); }
+.price-card small { color: var(--muted); font-size: 11px; line-height: 1.5; }
 
-.service-icon {
-  width: 48px;
-  height: 48px;
+form { display: grid; gap: 9px; }
+label { margin-top: 5px; font-size: 13px; font-weight: bold; }
+input, select, textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  color: white;
+  background: #020e20d9;
+  border: 1px solid #6284a955;
+  border-radius: 11px;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px #168bff22; }
+input::placeholder, textarea::placeholder { color: #829ab6; }
+select option { background: #061326; color: white; }
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 15px;
+  margin: 10px 0;
+  background: #0b3155a8;
+  border: 1px solid #168bff70;
+  border-radius: 13px;
+}
+.total strong { color: var(--cyan); font-size: 24px; }
+.full { width: 100%; }
+
+.info { text-align: center; }
+.info-logo {
+  min-height: 180px;
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
-  border-radius: 14px;
-  background: rgba(22,139,255,.22);
-  font-size: 25px;
 }
-
-.service h3 {
-  margin: 0 0 7px;
-}
-
-.service p {
-  margin: 0 0 16px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.price {
-  color: var(--cyan);
-  font-size: 21px;
-  font-weight: 900;
-}
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.step {
-  padding: 16px;
-  border-radius: 14px;
-  background: rgba(12,42,76,.55);
-  border: 1px solid rgba(39,146,255,.4);
-}
-
-.step strong {
-  display: block;
-  margin-bottom: 7px;
-  color: var(--cyan);
-}
-
-.step span {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.contact {
-  text-align: center;
-}
-
-.contact p {
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-footer {
-  padding: 25px 15px;
-  text-align: center;
-  color: var(--muted);
+.info-logo img { width: min(220px, 80%); max-height: 200px; object-fit: contain; }
+.info h2 { margin-bottom: 5px; }
+.info h2::before { display: none; }
+.info h3 { margin: 0; color: var(--cyan); letter-spacing: 3px; }
+.info p { color: var(--muted); line-height: 1.7; }
+.features { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 22px; }
+.feature {
+  padding: 13px 5px;
+  background: #0b2a49a8;
+  border: 1px solid #168bff50;
+  border-radius: 12px;
   font-size: 12px;
 }
+.feature span { display: block; font-size: 23px; margin-bottom: 7px; }
+.feature strong { display: block; }
 
-footer strong {
-  color: var(--cyan);
-}
+.payment { text-align: center; }
+.payment h2 { text-align: left; }
+.payment p { color: var(--muted); line-height: 1.6; }
+.qris { display: block; width: min(100%, 300px); padding: 8px; margin: 18px auto; background: white; border-radius: 14px; }
+.payment-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.secondary { background: #0b3155; }
+.warning { font-size: 12px; color: #ffe0a0 !important; }
 
-@media (max-width: 700px) {
-  header {
-    justify-content: center;
-    text-align: center;
-  }
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.step { padding: 16px; background: #0b2948a8; border: 1px solid #168bff50; border-radius: 13px; }
+.step strong { color: var(--cyan); }
+.step p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 
-  .brand {
-    width: 100%;
-    justify-content: center;
-  }
+.contact { text-align: center; }
+.contact p { color: var(--muted); }
 
-  nav {
-    width: 100%;
-  }
+footer { text-align: center; padding: 24px 10px; color: var(--muted); font-size: 12px; }
+footer strong { color: var(--cyan); }
 
-  nav a {
-    padding: 9px;
-    font-size: 12px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .steps {
-    grid-template-columns: 1fr;
-  }
-
-  .glass {
-    padding: 18px;
-    border-radius: 18px;
-  }
-
-  body::before {
-    background-size: 125vw auto;
-    background-position: center 38%;
-    opacity: .12;
-  }
-
-  .hero-logo {
-    width: 105px;
-    height: 105px;
-  }
+@media (max-width: 760px) {
+  .topbar { justify-content: center; }
+  .brand { width: 100%; justify-content: center; }
+  nav { width: 100%; }
+  nav a { font-size: 12px; padding: 8px; }
+  .dashboard { grid-template-columns: 1fr; }
+  .card { padding: 18px; border-radius: 18px; }
+  .steps { grid-template-columns: 1fr; }
+  body::before { background-size: 125vw auto; opacity: .12; }
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<header class="topbar">
   <a class="brand" href="#home">
     <img src="logo.png" alt="Logo RIFHSK">
     <div>
-      <div class="brand-title">RANK VS BOT</div>
-      <div class="brand-subtitle">BY RIFHSK</div>
+      <strong>RANK VS BOT</strong>
+      <small>BY RIFHSK</small>
     </div>
   </a>
 
-  <nav aria-label="Menu utama">
+  <nav>
     <a href="#home">⌂ Home</a>
-    <a href="#layanan">♛ Layanan</a>
-    <a href="#cara-order">☷ Cara Order</a>
+    <a href="#layanan">♛ Harga</a>
+    <a href="#cara-order">▤ Cara Order</a>
+    <a href="#keunggulan">☆ Info</a>
     <a href="#kontak">☏ Kontak</a>
   </nav>
 
-  <a class="button"
-     href="https://wa.me/6285725209623"
-     target="_blank" rel="noopener">
+  <a class="btn" href="https://wa.me/6285725209623" target="_blank" rel="noopener">
     Chat WhatsApp
   </a>
 </header>
 
 <main class="container">
 
-  <section class="glass hero" id="home">
-    <img class="hero-logo" src="logo.png" alt="RANK VS BOT BY RIFHSK">
+<section class="card hero" id="home">
+  <img class="hero-logo" src="logo.png" alt="RIFHSK">
+  <div class="eyebrow">WELCOME TO</div>
+  <h1>RANK VS <span class="cyan">BOT</span></h1>
+  <div class="cyan"><strong>BY RIFHSK</strong></div>
+  <p>LAYANAN RANK MATCH MOBILE LEGENDS</p>
+  <div class="clock" id="clock">Memuat waktu...</div>
+  <div id="date"></div>
+</section>
 
-    <h1>RANK VS <span class="highlight">BOT</span></h1>
-    <div class="brand-subtitle">BY RIFHSK</div>
+<div class="dashboard">
 
-    <p>
-      Solusi untuk kebutuhan rank gaming kamu.
-      Pilih layanan yang sesuai dan hubungi admin
-      untuk informasi harga serta proses pemesanan.
-    </p>
+<section class="card" id="layanan">
+  <h2>Pilih Layanan</h2>
 
-    <a class="button" href="#layanan">Lihat Layanan ↓</a>
-  </section>
+  <div class="price-list">
+    <button type="button" class="price-card active" data-service="FLEXIBLE" data-price="2500" data-max="5">
+      <span>♛ FLEXIBLE</span>
+      <strong>Rp2.500</strong>
+      <small>Per match · Maksimal 5</small>
+    </button>
 
-  <section class="glass" id="layanan">
-    <h2 class="section-title">Pilihan Layanan</h2>
+    <button type="button" class="price-card" data-service="NO FLEXIBLE" data-price="3500" data-max="10">
+      <span>⚡ NO FLEXIBLE</span>
+      <strong>Rp3.500</strong>
+      <small>Per match · Maksimal 10</small>
+    </button>
+  </div>
 
-    <div class="grid">
-      <article class="service">
-        <div class="service-icon">♛</div>
-        <h3>FLEXIBLE</h3>
-        <p>
-          Maksimal 5 match. Hubungi admin untuk
-          menyesuaikan kebutuhan pesanan.
-        </p>
-        <div class="price">Rp2.500 / match</div>
-        <br>
-        <a class="button"
-           href="https://wa.me/6285725209623?text=Halo%20admin%2C%20saya%20mau%20pesan%20layanan%20FLEXIBLE">
-          Pesan Sekarang
-        </a>
-      </article>
+  <h2>Formulir Pemesanan</h2>
 
-      <article class="service">
-        <div class="service-icon">⚡</div>
-        <h3>NO FLEXIBLE</h3>
-        <p>
-          Maksimal 10 match. Hubungi admin untuk
-          informasi dan pemesanan.
-        </p>
-        <div class="price">Rp3.500 / match</div>
-        <br>
-        <a class="button"
-           href="https://wa.me/6285725209623?text=Halo%20admin%2C%20saya%20mau%20pesan%20layanan%20NO%20FLEXIBLE">
-          Pesan Sekarang
-        </a>
-      </article>
+  <form id="orderForm">
+    <label for="nickname">Nickname Game</label>
+    <input id="nickname" name="nickname" maxlength="40" placeholder="Masukkan nickname" required>
+
+    <label for="gameId">ID Game</label>
+    <input id="gameId" name="gameId" maxlength="40" placeholder="Masukkan ID game" required>
+
+    <label for="quantity">Jumlah Match</label>
+    <select id="quantity" name="quantity">
+      <option value="1">1 Match</option>
+      <option value="2">2 Match</option>
+      <option value="3">3 Match</option>
+      <option value="4">4 Match</option>
+      <option value="5">5 Match</option>
+      <option value="6">6 Match</option>
+      <option value="7">7 Match</option>
+      <option value="8">8 Match</option>
+      <option value="9">9 Match</option>
+      <option value="10">10 Match</option>
+    </select>
+
+    <label for="notes">Catatan (opsional)</label>
+    <textarea id="notes" name="notes" rows="3" maxlength="300" placeholder="Catatan tambahan"></textarea>
+
+    <div class="total">
+      <span>Total Pembayaran</span>
+      <strong id="total">Rp2.500</strong>
     </div>
-  </section>
 
-  <section class="glass" id="cara-order">
-    <h2 class="section-title">Cara Order</h2>
+    <button class="btn full" type="submit">Lanjut ke Pembayaran</button>
+  </form>
+</section>
 
-    <div class="steps">
-      <div class="step">
-        <strong>01 — Pilih</strong>
-        <span>Pilih layanan yang kamu inginkan.</span>
-      </div>
+<aside class="card info" id="keunggulan">
+  <div class="info-logo">
+    <img src="logo.png" alt="Logo RANK VS BOT">
+  </div>
+  <h2>RANK VS BOT</h2>
+  <h3>BY RIFHSK</h3>
+  <p>
+    Pilih layanan sesuai kebutuhanmu. Isi data pesanan dengan benar,
+    lalu hubungi admin untuk melanjutkan pemesanan.
+  </p>
 
-      <div class="step">
-        <strong>02 — Hubungi Admin</strong>
-        <span>Kirim detail pesanan melalui WhatsApp.</span>
-      </div>
+  <div class="features">
+    <div class="feature"><span>🛡️</span><strong>Aman</strong></div>
+    <div class="feature"><span>⚡</span><strong>Cepat</strong></div>
+    <div class="feature"><span>⭐</span><strong>Terpercaya</strong></div>
+  </div>
+</aside>
 
-      <div class="step">
-        <strong>03 — Konfirmasi</strong>
-        <span>Ikuti petunjuk admin untuk menyelesaikan pesanan.</span>
-      </div>
-    </div>
-  </section>
+</div>
 
-  <section class="glass contact" id="kontak">
-    <h2 class="section-title">Hubungi Admin</h2>
-    <p>
-      Ada pertanyaan mengenai layanan atau pesanan?
-      Hubungi admin melalui WhatsApp.
-    </p>
+<section class="card payment" id="pembayaran" hidden>
+  <h2>Pembayaran QRIS</h2>
+  <p>Periksa detail pesananmu. Scan QRIS dan bayar sesuai nominal yang tertera.</p>
 
-    <a class="button"
-       href="https://wa.me/6285725209623"
-       target="_blank" rel="noopener">
-      Chat Admin WhatsApp
-    </a>
+  <div id="orderSummary"></div>
 
-    <p>
-      <a href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-         target="_blank" rel="noopener">
-        Ikuti Channel WhatsApp
-      </a>
-    </p>
-  </section>
+  <img class="qris" src="qris.jpg" alt="QRIS pembayaran">
+
+  <div class="payment-actions">
+    <a class="btn secondary" href="qris.jpg" download="QRIS-RIFHSK.jpg">Download QRIS</a>
+    <a class="btn" id="whatsappOrder" href="#" target="_blank" rel="noopener">Kirim Pesanan ke WhatsApp</a>
+  </div>
+
+  <p class="warning">
+    Pastikan pembayaran sudah benar. Kirim bukti pembayaran kepada admin melalui WhatsApp.
+  </p>
+</section>
+
+<section class="card" id="cara-order">
+  <h2>Cara Order</h2>
+  <div class="steps">
+    <div class="step"><strong>01 — Pilih layanan</strong><p>Pilih FLEXIBLE atau NO FLEXIBLE dan jumlah match.</p></div>
+    <div class="step"><strong>02 — Isi data</strong><p>Masukkan nickname, ID game, dan catatan jika diperlukan.</p></div>
+    <div class="step"><strong>03 — Bayar & hubungi admin</strong><p>Scan QRIS, bayar sesuai total, lalu kirim detail dan bukti pembayaran ke WhatsApp.</p></div>
+  </div>
+</section>
+
+<section class="card contact" id="kontak">
+  <h2>Hubungi Admin</h2>
+  <p>Butuh bantuan? Hubungi admin atau ikuti channel kami.</p>
+  <a class="btn" href="https://wa.me/6285725209623" target="_blank" rel="noopener">Chat Admin</a>
+  <a class="btn secondary" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l" target="_blank" rel="noopener">WhatsApp Channel</a>
+</section>
+
+<footer>
+  <strong>RANK VS BOT BY RIFHSK</strong>
+  <p>Aman · Cepat · Terpercaya</p>
+  <div>© <span id="year"></span> RIFHSK</div>
+</footer>
 
 </main>
 
-<footer>
-  <strong>RANK VS BOT BY RIFHSK</strong><br>
-  Aman • Cepat • Terpercaya<br>
-  © <span id="year"></span> RIFHSK
-</footer>
-
 <script>
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+(() => {
+  const prices = {
+    "FLEXIBLE": 2500,
+    "NO FLEXIBLE": 3500
+  };
+
+  let service = "FLEXIBLE";
+  let maxMatches = 5;
+
+  const form = document.getElementById("orderForm");
+  const quantity = document.getElementById("quantity");
+  const total = document.getElementById("total");
+  const payment = document.getElementById("pembayaran");
+  const summary = document.getElementById("orderSummary");
+  const waButton = document.getElementById("whatsappOrder");
+
+  const rupiah = value => new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(value);
+
+  function updateTotal() {
+    const count = Number(quantity.value);
+    total.textContent = rupiah(prices[service] * count);
+  }
+
+  document.querySelectorAll(".price-card").forEach(button => {
+    button.addEventListener("click", () => {
+      service = button.dataset.service;
+      maxMatches = Number(button.dataset.max);
+
+      document.querySelectorAll(".price-card").forEach(item => {
+        item.classList.toggle("active", item === button);
+      });
+
+      [...quantity.options].forEach(option => {
+        option.disabled = Number(option.value) > maxMatches;
+      });
+
+      if (Number(quantity.value) > maxMatches) {
+        quantity.value = String(maxMatches);
+      }
+
+      updateTotal();
+    });
+  });
+
+  quantity.addEventListener("change", updateTotal);
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const nickname = document.getElementById("nickname").value.trim();
+    const gameId = document.getElementById("gameId").value.trim();
+    const notes = document.getElementById("notes").value.trim();
+    const count = Number(quantity.value);
+    const amount = prices[service] * count;
+
+    if (!nickname || !gameId) {
+      alert("Mohon isi nickname dan ID game terlebih dahulu.");
+      return;
+    }
+
+    if (count < 1 || count > maxMatches) {
+      alert("Jumlah match tidak sesuai dengan layanan yang dipilih.");
+      return;
+    }
+
+    const details = [
+      "HALO ADMIN, SAYA INGIN MEMESAN",
+      "",
+      "Layanan: " + service,
+      "Nickname: " + nickname,
+      "ID Game: " + gameId,
+      "Jumlah: " + count + " match",
+      "Total: " + rupiah(amount),
+      "Catatan: " + (notes || "-"),
+      "",
+      "Saya akan mengirim bukti pembayaran setelah melakukan pembayaran."
+    ].join("\n");
+
+    summary.replaceChildren();
+
+    const lines = [
+      ["Layanan", service],
+      ["Nickname", nickname],
+      ["ID Game", gameId],
+      ["Jumlah Match", String(count)],
+      ["Total", rupiah(amount)],
+      ["Catatan", notes || "-"]
+    ];
+
+    lines.forEach(([label, value]) => {
+      const row = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      row.append(strong, document.createTextNode(value));
+      summary.appendChild(row);
+    });
+
+    waButton.href = "https://wa.me/6285725209623?text=" + encodeURIComponent(details);
+    payment.hidden = false;
+    payment.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById("clock").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(now) + " WIB";
+
+    document.getElementById("date").textContent =
+      new Intl.DateTimeFormat("id-ID", {
+        timeZone: "Asia/Jakarta",
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(now);
+  }
+
+  document.getElementById("year").textContent =
+    new Intl.DateTimeFormat("en", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric"
+    }).format(new Date());
+
+  updateClock();
+  setInterval(updateClock, 1000);
+  updateTotal();
+})();
 </script>
 
 </body>
