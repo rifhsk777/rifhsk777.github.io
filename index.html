@@ -1,634 +1,911 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#100923">
-<title>RANK VS BOT BY RIFHSK</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10091f">
+<title>RANK VS BOT BY RIFHSK</title>
+
+<style>
 :root {
-  --bg: #0b0715;
-  --panel: #171027;
-  --purple: #9b5cff;
-  --pink: #d14cff;
-  --text: #f7f2ff;
-  --muted: #b9adce;
-  --line: rgba(202,164,255,.2);
+  --bg: #0b0714;
+  --panel: rgba(25, 16, 43, .90);
+  --purple: #a855f7;
+  --purple2: #7c3aed;
+  --pink: #ec4899;
+  --text: #f8f5ff;
+  --muted: #b8adc9;
+  --border: rgba(192, 132, 252, .24);
+  --green: #22c55e;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
   background:
-    radial-gradient(ellipse at 50% -10%, #462078, transparent 45%),
-    linear-gradient(160deg, #0b0715, #10091f 55%, #090611);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  line-height: 1.6;
+    radial-gradient(ellipse at top, #291348 0%, #10091f 48%, #080510 100%);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
-a { color: inherit; }
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 14px max(16px, calc((100% - 680px)/2));
-  border-bottom: 1px solid var(--line);
-  background: rgba(10,6,20,.8);
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("logo.png") center center / min(78vw, 480px) auto no-repeat;
+  opacity: .055;
+  pointer-events: none;
+  z-index: -1;
 }
 
-#clock { font-weight: 800; }
-#date { font-size: 12px; color: var(--muted); }
+button, input, select, textarea {
+  font: inherit;
+}
 
-.channel-btn,
-.download-btn {
-  display: inline-block;
-  padding: 10px 13px;
-  border-radius: 10px;
-  background: linear-gradient(120deg, #8544f5, #c34cff);
-  font-size: 12px;
-  font-weight: 800;
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
   text-decoration: none;
 }
 
 .container {
-  width: min(100% - 24px, 620px);
-  margin: 22px auto 35px;
+  width: min(100% - 28px, 720px);
+  margin: 0 auto;
 }
 
-.card {
-  margin-bottom: 16px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(31,21,50,.97), rgba(18,12,31,.98));
-  box-shadow: 0 15px 40px #0003;
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(11, 7, 20, .91);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-inner {
+  max-width: 900px;
+  margin: auto;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 10px;
+}
+
+.brand-title {
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.clock {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.clock-time {
+  color: #d8b4fe;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.clock-date {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .hero {
   text-align: center;
-  padding: 28px 18px;
+  padding: 36px 0 24px;
+}
+
+.hero-logo {
+  width: 112px;
+  height: 112px;
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, .38));
+  margin-bottom: 12px;
 }
 
 .badge {
-  display: inline-block;
-  padding: 5px 11px;
-  border: 1px solid var(--line);
+  display: inline-flex;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
   border-radius: 30px;
-  color: #e5caff;
-  background: #a15bff20;
+  background: rgba(168, 85, 247, .09);
+  color: #e9d5ff;
   font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.logo {
-  display: block;
-  width: min(160px, 55%);
-  max-height: 160px;
-  object-fit: contain;
-  margin: 14px auto;
-  filter: drop-shadow(0 0 20px #a44fff44);
+  font-weight: 800;
+  letter-spacing: 1.4px;
 }
 
 h1 {
-  margin: 5px 0;
-  font-size: clamp(28px, 7vw, 40px);
-  line-height: 1.2;
-  letter-spacing: 1px;
+  font-size: clamp(26px, 7vw, 39px);
+  margin: 15px 0 9px;
+  line-height: 1.15;
+  font-weight: 950;
 }
 
-.subtitle {
-  margin: 5px 0;
-  color: #c99aff;
-  font-weight: 900;
-  letter-spacing: 4px;
+.gradient-text {
+  background: linear-gradient(90deg, #c084fc, #f0abfc, #f9a8d4);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
-.muted { color: var(--muted); font-size: 13px; }
-
-h2 { margin: 0 0 15px; font-size: 20px; }
-
-.price-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.price-card {
-  min-width: 0;
-  padding: 15px 8px;
-  color: var(--text);
-  background: #100b1c;
-  border: 1px solid #45305f;
-  border-radius: 14px;
-  cursor: pointer;
-  font: inherit;
-  text-align: center;
-}
-
-.price-card span,
-.price-card strong,
-.price-card small {
-  display: block;
-}
-
-.price-card span { font-size: 12px; font-weight: 900; }
-
-.price-card strong {
-  margin: 5px 0;
-  color: #d6a9ff;
-  font-size: 21px;
-}
-
-.price-card small { color: var(--muted); font-size: 11px; }
-
-.price-card.active {
-  border-color: #b678ff;
-  background: linear-gradient(145deg, #3a1e5c, #211333);
-  box-shadow: 0 0 0 2px #a65bff25;
-}
-
-label {
-  display: block;
-  margin: 13px 0 6px;
+.hero p {
+  color: var(--muted);
+  line-height: 1.7;
   font-size: 13px;
-  font-weight: 750;
+  max-width: 440px;
+  margin: 0 auto;
 }
 
-input,
-select,
-textarea {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  padding: 12px 13px;
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 21px;
+  margin-bottom: 18px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, .19);
+  backdrop-filter: blur(12px);
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+
+.section-desc {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 19px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.service-card {
+  position: relative;
+  text-align: left;
+  padding: 16px 12px;
+  border-radius: 15px;
   color: var(--text);
-  background: #0d0817;
-  border: 1px solid #443157;
+  background: rgba(255, 255, 255, .025);
+  border: 1px solid rgba(255, 255, 255, .10);
+  transition: .2s;
+}
+
+.service-card.active {
+  border-color: var(--purple);
+  background: rgba(168, 85, 247, .13);
+  box-shadow: inset 0 0 0 1px rgba(168, 85, 247, .14);
+}
+
+.service-card .check {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #d8b4fe;
+  font-size: 16px;
+}
+
+.service-name {
+  font-weight: 900;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.service-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #d8b4fe;
+}
+
+.service-unit {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.service-limit {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 10px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .06);
+  color: #e9d5ff;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(216, 180, 254, .20);
   border-radius: 11px;
-  font: inherit;
-  font-size: 14px;
+  color: var(--text);
+  background: #130c21;
   outline: none;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #b16aff;
-  box-shadow: 0 0 0 3px #a45cff20;
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, .10);
 }
 
-select option { background: #160e25; }
-textarea { resize: vertical; }
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #81758f;
+}
 
-.total-box {
+.field select option {
+  background: #130c21;
+  color: white;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+.summary {
+  padding: 15px;
+  background: rgba(168, 85, 247, .08);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  margin: 18px 0;
+}
+
+.summary-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin: 18px 0;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #a45cff13;
+  gap: 15px;
+  font-size: 12px;
+  margin: 10px 0;
 }
 
-.total-box span { color: var(--muted); font-size: 13px; }
-.total-box strong { color: #d6a9ff; font-size: 21px; }
+.summary-row span:first-child {
+  color: var(--muted);
+}
 
-.order-btn {
+.summary-total {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.summary-total span:last-child {
+  color: #d8b4fe;
+  font-size: 23px;
+  font-weight: 950;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  padding: 14px;
   border: 0;
   border-radius: 12px;
+  padding: 15px 16px;
+  font-size: 13px;
+  font-weight: 900;
+  transition: transform .15s, opacity .15s;
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+.btn-primary {
   color: white;
-  background: linear-gradient(110deg, #7e3ff2, #d14cff);
-  font: inherit;
-  font-weight: 900;
-  cursor: pointer;
+  background: linear-gradient(100deg, #7c3aed, #a855f7, #c026d3);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, .22);
 }
 
-.order-btn:active { transform: scale(.99); }
-
-.payment-intro { color: var(--muted); font-size: 13px; }
-
-.qris {
-  display: block;
-  width: min(100%, 290px);
-  max-height: 380px;
-  object-fit: contain;
-  margin: 18px auto;
-  padding: 8px;
-  background: white;
-  border-radius: 13px;
+.btn-whatsapp {
+  color: #04140a;
+  background: var(--green);
 }
 
-.qris-missing {
-  display: none;
-  padding: 13px;
-  color: #f6d9a0;
-  background: #f4a62312;
-  border: 1px solid #f4a62335;
-  border-radius: 10px;
-  font-size: 12px;
+.btn-secondary {
+  color: #e9d5ff;
+  background: rgba(168, 85, 247, .10);
+  border: 1px solid var(--border);
 }
 
-.download-wrap {
-  margin: 12px 0 20px;
-  text-align: center;
-}
-
-.download-btn {
-  background: #302044;
-  border: 1px solid #65428a;
-}
-
-.steps {
-  display: grid;
-  gap: 11px;
-  margin-top: 17px;
-}
-
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 13px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: #100b1b80;
-}
-
-.step-number {
-  flex: 0 0 32px;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #8544f5, #c34cff);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.step-content { min-width: 0; flex: 1; }
-
-.step h3 { margin: 1px 0 4px; font-size: 14px; }
-
-.step p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
 .notice {
-  margin-top: 15px;
-  padding: 12px;
-  color: #f6d9a0;
-  background: #f4a62312;
-  border: 1px solid #f4a62335;
-  border-radius: 11px;
-  font-size: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.7;
+  text-align: center;
+  margin: 12px 0 0;
 }
 
-.contact-btn {
-  display: block;
-  margin-top: 14px;
-  padding: 12px;
-  border: 1px solid #23784a;
-  border-radius: 11px;
-  color: white;
-  background: #123b2a;
+[hidden] {
+  display: none !important;
+}
+
+.payment-header {
   text-align: center;
-  text-decoration: none;
-  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.payment-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  border-radius: 17px;
+  background: rgba(168, 85, 247, .14);
+  font-size: 28px;
+}
+
+.qris-frame {
+  background: white;
+  padding: 12px;
+  width: min(100%, 340px);
+  margin: 18px auto;
+  border-radius: 14px;
+}
+
+.qris-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.qris-caption {
+  color: #332447;
+  text-align: center;
+  font-weight: 900;
+  font-size: 12px;
+  margin: 10px 0 2px;
+}
+
+.payment-steps {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  counter-reset: steps;
+}
+
+.payment-steps li {
+  counter-increment: steps;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(216, 180, 254, .10);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.payment-steps li::before {
+  content: counter(steps);
+  min-width: 27px;
+  height: 27px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: rgba(168, 85, 247, .16);
+  border: 1px solid var(--border);
+  color: #e9d5ff;
   font-weight: 900;
 }
 
-footer {
-  padding: 8px 0 20px;
-  color: #8f83a4;
-  text-align: center;
+.payment-steps strong {
+  color: var(--text);
+}
+
+.status-box {
+  padding: 12px;
+  background: rgba(234, 179, 8, .07);
+  border: 1px solid rgba(234, 179, 8, .24);
+  color: #fde68a;
+  border-radius: 11px;
   font-size: 11px;
+  line-height: 1.7;
+  margin: 15px 0;
 }
 
-@media (max-width: 420px) {
-  .topbar { padding: 12px; }
-  .container { width: calc(100% - 18px); margin-top: 13px; }
-  .card { padding: 16px; border-radius: 16px; }
-  .hero { padding: 23px 12px; }
-  .price-card strong { font-size: 18px; }
-  .total-box strong { font-size: 18px; }
-  .step { padding: 11px; gap: 9px; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
-</style></head><body>
+
+footer {
+  padding: 25px 10px 35px;
+  text-align: center;
+  color: #8f829f;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.footer-brand {
+  color: #d8b4fe;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  background: #241536;
+  color: white;
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  box-shadow: 0 10px 35px #0006;
+}
+
+@media (max-width: 430px) {
+  .panel {
+    padding: 17px;
+    border-radius: 17px;
+  }
+
+  .service-grid {
+    gap: 8px;
+  }
+
+  .service-card {
+    padding: 14px 10px;
+  }
+
+  .service-price {
+    font-size: 16px;
+  }
+
+  .brand-title {
+    font-size: 10px;
+  }
+
+  .brand img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .clock-time {
+    font-size: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
 <header class="topbar">
-  <div>
-    <div id="clock">Memuat waktu...</div>
-    <div id="date"></div>
-  </div><a class="channel-btn"
-href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
-target="_blank" rel="noopener noreferrer">
-WHATSAPP CHANNEL ↗
-</a>
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="logo.png" alt="Logo RIFHSK"
+           onerror="this.style.display='none'">
+      <div>
+        <div class="brand-title">RANK VS BOT</div>
+        <div class="brand-sub">BY RIFHSK</div>
+      </div>
+    </div>
 
-</header><main class="container">  <section class="card hero">
-    <span class="badge">RANK MATCH SERVICE</span>
-    <img class="logo" src="logo.png" alt="Logo RIFHSK"
+    <div class="clock">
+      <div class="clock-time" id="clockTime">00:00:00 WIB</div>
+      <div class="clock-date" id="clockDate">Memuat tanggal...</div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <img class="hero-logo" src="logo.png" alt="Logo RANK VS BOT"
          onerror="this.style.display='none'">
-    <h1>RANK VS BOT</h1>
-    <p class="subtitle">BY RIFHSK</p>
-    <p class="muted">Layanan Rank Match · Pemesanan Mudah · Konfirmasi WhatsApp</p>
-  </section>  <section class="card" id="order">
-    <h2>🎮 Form Pemesanan</h2><div class="price-list">
-  <button type="button" class="price-card active"
-          data-service="FLEXIBLE" data-price="2500">
-    <span>FLEXIBLE</span>
-    <strong>Rp2.500</strong>
-    <small>Maksimal 5 match</small>
-  </button>
 
-  <button type="button" class="price-card"
-          data-service="NO FLEXIBLE" data-price="3500">
-    <span>NO FLEXIBLE</span>
-    <strong>Rp3.500</strong>
-    <small>Maksimal 10 match</small>
-  </button>
-</div>
+    <div><span class="badge">● ORDER SERVICE</span></div>
 
-<form id="orderForm">
-  <label for="nickname">Nickname Game *</label>
-  <input id="nickname" name="nickname" type="text"
-         placeholder="Masukkan nickname game"
-         maxlength="40" autocomplete="nickname" required>
+    <h1>RANK VS BOT<br><span class="gradient-text">BY RIFHSK</span></h1>
 
-  <label for="gameId">ID Game *</label>
-  <input id="gameId" name="gameId" type="text"
-         placeholder="Masukkan ID game dan server jika ada"
-         maxlength="50" required>
+    <p>
+      Pilih layanan, lengkapi data pesanan, dan lanjutkan pembayaran
+      dengan mudah melalui QRIS.
+    </p>
+  </section>
 
-  <label for="quantity">Jumlah Match *</label>
-  <select id="quantity" name="quantity">
-    <option value="1">1 Match</option>
-    <option value="2">2 Match</option>
-    <option value="3">3 Match</option>
-    <option value="4">4 Match</option>
-    <option value="5">5 Match</option>
-    <option value="6" hidden disabled>6 Match</option>
-    <option value="7" hidden disabled>7 Match</option>
-    <option value="8" hidden disabled>8 Match</option>
-    <option value="9" hidden disabled>9 Match</option>
-    <option value="10" hidden disabled>10 Match</option>
-  </select>
+  <!-- MENU PESANAN -->
+  <section class="panel" id="orderPanel">
+    <h2 class="section-title">01. Pilih Layanan</h2>
+    <p class="section-desc">
+      Pilih layanan yang kamu inginkan. Harga dihitung otomatis.
+    </p>
 
-  <label for="notes">Catatan (opsional)</label>
-  <textarea id="notes" name="notes" rows="3"
-            maxlength="300"
-            placeholder="Tulis catatan tambahan jika ada"></textarea>
+    <div class="service-grid">
+      <button type="button" class="service-card active"
+              id="flexibleButton" aria-pressed="true">
+        <span class="check" id="flexibleCheck">✓</span>
+        <div class="service-name">FLEXIBLE</div>
+        <div class="service-price">Rp2.500</div>
+        <div class="service-unit">per match</div>
+        <span class="service-limit">Maks. 5 match</span>
+      </button>
 
-  <div class="total-box">
-    <span>Total Pembayaran</span>
-    <strong id="total">Rp2.500</strong>
-  </div>
-
-  <button class="order-btn" type="submit">
-    PESAN SEKARANG VIA WHATSAPP →
-  </button>
-</form>
-
-  </section>  <section class="card" id="payment">
-    <h2>💳 Pembayaran QRIS</h2>
-    <p class="payment-intro">
-      Ikuti tata cara pembayaran berikut. Konfirmasikan nominal dan QRIS
-      kepada admin sebelum melakukan transaksi.
-    </p><img class="qris" id="qrisImage" src="qris.jpg"
-     alt="QRIS pembayaran RIFHSK"
-     onerror="this.style.display='none';document.getElementById('qrisMissing').style.display='block'">
-
-<div class="qris-missing" id="qrisMissing">
-  Gambar QRIS belum tersedia. Hubungi admin melalui WhatsApp untuk
-  meminta QRIS pembayaran yang benar.
-</div>
-
-<div class="download-wrap">
-  <a class="download-btn" href="qris.jpg" download="QRIS-RIFHSK.jpg">
-    ⬇ DOWNLOAD QRIS
-  </a>
-</div>
-
-<div class="steps">
-  <div class="step">
-    <div class="step-number">01</div>
-    <div class="step-content">
-      <h3>Pilih Layanan</h3>
-      <p>Pilih FLEXIBLE atau NO FLEXIBLE, lalu isi nickname, ID game,
-         dan jumlah match yang dipesan.</p>
+      <button type="button" class="service-card"
+              id="noFlexibleButton" aria-pressed="false">
+        <span class="check" id="noFlexibleCheck" hidden>✓</span>
+        <div class="service-name">NO FLEXIBLE</div>
+        <div class="service-price">Rp3.500</div>
+        <div class="service-unit">per match</div>
+        <span class="service-limit">Maks. 10 match</span>
+      </button>
     </div>
-  </div>
 
-  <div class="step">
-    <div class="step-number">02</div>
-    <div class="step-content">
-      <h3>Periksa Total Harga</h3>
-      <p>FLEXIBLE Rp2.500 per match dan NO FLEXIBLE Rp3.500 per match.
-         Periksa total yang muncul di form.</p>
+    <div style="height:22px"></div>
+
+    <h2 class="section-title">02. Data Pesanan</h2>
+    <p class="section-desc">
+      Pastikan nickname dan ID game benar sebelum melanjutkan.
+    </p>
+
+    <form id="orderForm">
+      <div class="field">
+        <label for="nickname">Nickname Game *</label>
+        <input id="nickname" name="nickname" type="text"
+               maxlength="50" placeholder="Masukkan nickname"
+               autocomplete="nickname" required>
+      </div>
+
+      <div class="field">
+        <label for="gameId">ID Game *</label>
+        <input id="gameId" name="gameId" type="text"
+               maxlength="40" placeholder="Masukkan ID game"
+               required>
+      </div>
+
+      <div class="field">
+        <label for="quantity">Jumlah Match *</label>
+        <select id="quantity" name="quantity" required>
+          <option value="1">1 Match</option>
+          <option value="2">2 Match</option>
+          <option value="3">3 Match</option>
+          <option value="4">4 Match</option>
+          <option value="5">5 Match</option>
+        </select>
+        <div class="hint" id="quantityHint">
+          Layanan Flexible tersedia maksimal 5 match.
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Catatan (opsional)</label>
+        <textarea id="notes" name="notes" maxlength="300"
+                  placeholder="Tulis catatan jika diperlukan..."></textarea>
+      </div>
+
+      <div class="summary">
+        <div class="summary-row">
+          <span>Layanan</span>
+          <strong id="summaryService">FLEXIBLE</strong>
+        </div>
+        <div class="summary-row">
+          <span>Harga per match</span>
+          <strong id="summaryPrice">Rp2.500</strong>
+        </div>
+        <div class="summary-row">
+          <span>Jumlah match</span>
+          <strong id="summaryQuantity">1 match</strong>
+        </div>
+        <div class="summary-row summary-total">
+          <span>TOTAL PEMBAYARAN</span>
+          <span id="totalPrice">Rp2.500</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" id="continueButton">
+        LANJUT KE PEMBAYARAN →
+      </button>
+
+      <p class="notice">
+        QRIS akan ditampilkan setelah kamu melanjutkan pembayaran.
+      </p>
+    </form>
+  </section>
+
+  <!-- PEMBAYARAN: TERSEMBUNYI PADA AWAL -->
+  <section class="panel" id="paymentPanel" hidden>
+    <div class="payment-header">
+      <div class="payment-icon">▦</div>
+      <h2 class="section-title">Pembayaran QRIS</h2>
+      <p class="section-desc" style="margin-top:8px;margin-bottom:0">
+        Periksa rincian pesanan, lalu scan QRIS untuk membayar.
+      </p>
     </div>
-  </div>
 
-  <div class="step">
-    <div class="step-number">03</div>
-    <div class="step-content">
-      <h3>Kirim Pesanan ke Admin</h3>
-      <p>Tekan tombol pemesanan WhatsApp. Pesan yang terbuka berisi
-         detail pesanan kamu.</p>
+    <div class="summary">
+      <div class="summary-row">
+        <span>Nickname</span>
+        <strong id="payNickname">-</strong>
+      </div>
+      <div class="summary-row">
+        <span>ID Game</span>
+        <strong id="payGameId">-</strong>
+      </div>
+      <div class="summary-row">
+        <span>Layanan</span>
+        <strong id="payService">-</strong>
+      </div>
+      <div class="summary-row">
+        <span>Jumlah match</span>
+        <strong id="payQuantity">-</strong>
+      </div>
+      <div class="summary-row summary-total">
+        <span>TOTAL BAYAR</span>
+        <span id="payTotal">Rp0</span>
+      </div>
     </div>
-  </div>
 
-  <div class="step">
-    <div class="step-number">04</div>
-    <div class="step-content">
-      <h3>Lakukan Pembayaran</h3>
-      <p>Setelah admin mengonfirmasi pesanan, scan QRIS yang telah
-         dipastikan benar dan bayar sesuai nominal.</p>
+    <div class="qris-frame">
+      <img src="qris.jpg" id="qrisImage" alt="QRIS pembayaran"
+           onerror="this.style.display='none';document.getElementById('qrisError').hidden=false">
+      <div id="qrisError" hidden
+           style="color:#991b1b;text-align:center;padding:30px 8px;font-size:13px;line-height:1.6">
+        <strong>Gambar QRIS tidak ditemukan.</strong><br>
+        Pastikan file qris.jpg sudah diunggah ke folder utama repository.
+      </div>
+      <div class="qris-caption">SCAN QRIS UNTUK MEMBAYAR</div>
     </div>
-  </div>
 
-  <div class="step">
-    <div class="step-number">05</div>
-    <div class="step-content">
-      <h3>Kirim Bukti Pembayaran</h3>
-      <p>Kirim screenshot bukti transaksi kepada admin melalui
-         WhatsApp untuk diverifikasi.</p>
+    <a class="btn btn-secondary" href="qris.jpg" download="qris.jpg"
+       style="margin-bottom:18px">
+      ↓ SIMPAN GAMBAR QRIS
+    </a>
+
+    <h3 class="section-title">Cara Pembayaran</h3>
+
+    <ol class="payment-steps">
+      <li><span><strong>Buka aplikasi pembayaran.</strong><br>
+        Gunakan aplikasi yang mendukung QRIS.</span></li>
+      <li><span><strong>Pilih menu Scan QRIS.</strong><br>
+        Arahkan kamera ke kode QR di atas atau gunakan gambar yang disimpan jika aplikasi mendukungnya.</span></li>
+      <li><span><strong>Periksa nama penerima.</strong><br>
+        Pastikan nama penerima sesuai dengan informasi pembayaran yang resmi.</span></li>
+      <li><span><strong>Masukkan nominal yang benar.</strong><br>
+        Bayar sejumlah <strong id="stepTotal">Rp2.500</strong> jika QRIS mengizinkan nominal input manual.</span></li>
+      <li><span><strong>Selesaikan pembayaran.</strong><br>
+        Ikuti petunjuk aplikasi dan simpan bukti transaksi.</span></li>
+      <li><span><strong>Kirim konfirmasi ke admin.</strong><br>
+        Tekan tombol WhatsApp di bawah dan sertakan bukti pembayaran untuk diperiksa.</span></li>
+    </ol>
+
+    <div class="status-box">
+      ⚠️ Menekan tombol konfirmasi tidak membuktikan pembayaran berhasil.
+      Status pesanan tetap menunggu verifikasi admin sampai transaksi diperiksa.
     </div>
-  </div>
 
-  <div class="step">
-    <div class="step-number">06</div>
-    <div class="step-content">
-      <h3>Tunggu Konfirmasi</h3>
-      <p>Pesanan diproses setelah pembayaran berhasil diverifikasi
-         dan admin mengonfirmasi pesanan.</p>
+    <button class="btn btn-whatsapp" id="confirmPayment" type="button">
+      KONFIRMASI PEMBAYARAN VIA WHATSAPP
+    </button>
+
+    <p class="notice">
+      WhatsApp akan terbuka dengan detail pesanan. Lampirkan bukti pembayaran
+      secara manual sebelum mengirim pesan.
+    </p>
+
+    <button class="btn btn-secondary" id="backButton"
+            type="button" style="margin-top:12px">
+      ← KEMBALI KE MENU
+    </button>
+  </section>
+
+  <!-- KONTAK -->
+  <section class="panel">
+    <h2 class="section-title">Butuh Bantuan?</h2>
+    <p class="section-desc">
+      Hubungi admin jika mengalami kendala saat memesan atau membayar.
+    </p>
+
+    <div class="contact-grid">
+      <a class="btn btn-whatsapp"
+         href="https://wa.me/6285725209623"
+         target="_blank" rel="noopener">
+        CHAT ADMIN
+      </a>
+
+      <a class="btn btn-secondary"
+         href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l"
+         target="_blank" rel="noopener">
+        CHANNEL WA
+      </a>
     </div>
-  </div>
-</div>
+  </section>
 
-<div class="notice">
-  ⚠️ Pastikan nama merchant dan nominal pembayaran benar sebelum
-  membayar. Jangan bagikan PIN, kata sandi, atau kode OTP.
-  Simpan bukti transaksi sampai pesanan selesai.
-</div>
+</main>
 
-<a class="contact-btn"
-   href="https://wa.me/6285725209623"
-   target="_blank" rel="noopener noreferrer">
-  CHAT ADMIN RIFHSK DI WHATSAPP ↗
-</a>
+<footer>
+  <div class="footer-brand">RANK VS BOT BY RIFHSK</div>
+  <div>© <span id="year"></span> · All rights reserved.</div>
+  <div>Harap periksa detail pesanan sebelum melakukan pembayaran.</div>
+</footer>
 
-  </section>  <footer>
-    © <span id="year"></span> RANK VS BOT BY RIFHSK · All Rights Reserved
-  </footer>
-</main><script>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
 (function () {
   "use strict";
 
   const ADMIN_WA = "6285725209623";
+
+  const services = {
+    FLEXIBLE: {
+      price: 2500,
+      max: 5
+    },
+    "NO FLEXIBLE": {
+      price: 3500,
+      max: 10
+    }
+  };
+
   let selectedService = "FLEXIBLE";
-  let selectedPrice = 2500;
+  let currentOrder = null;
+  let toastTimer = null;
 
-  const cards = document.querySelectorAll(".price-card");
-  const quantityInput = document.getElementById("quantity");
-  const totalElement = document.getElementById("total");
-  const orderForm = document.getElementById("orderForm");
+  const $ = function (id) {
+    return document.getElementById(id);
+  };
 
-  function formatRupiah(amount) {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0
-    }).format(amount);
+  const quantitySelect = $("quantity");
+  const orderForm = $("orderForm");
+  const orderPanel = $("orderPanel");
+  const paymentPanel = $("paymentPanel");
+
+  function rupiah(value) {
+    return "Rp" + Number(value).toLocaleString("id-ID");
   }
 
-  function updateTotal() {
-    const quantity = Number(quantityInput.value);
-    totalElement.textContent = formatRupiah(selectedPrice * quantity);
+  function showToast(message) {
+    const toast = $("toast");
+    toast.textContent = message;
+    toast.hidden = false;
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.hidden = true;
+    }, 3000);
   }
 
-  function updateQuantityOptions() {
-    const maxMatch = selectedService === "NO FLEXIBLE" ? 10 : 5;
+  function selectService(serviceName) {
+    if (!services[serviceName]) return;
 
-    Array.from(quantityInput.options).forEach(function (option) {
-      const unavailable = Number(option.value) > maxMatch;
-      option.disabled = unavailable;
-      option.hidden = unavailable;
-    });
+    selectedService = serviceName;
 
-    if (Number(quantityInput.value) > maxMatch) {
-      quantityInput.value = String(maxMatch);
+    const isFlexible = serviceName === "FLEXIBLE";
+
+    $("flexibleButton").classList.toggle("active", isFlexible);
+    $("noFlexibleButton").classList.toggle("active", !isFlexible);
+
+    $("flexibleButton").setAttribute(
+      "aria-pressed", String(isFlexible)
+    );
+
+    $("noFlexibleButton").setAttribute(
+      "aria-pressed", String(!isFlexible)
+    );
+
+    $("flexibleCheck").hidden = !isFlexible;
+    $("noFlexibleCheck").hidden = isFlexible;
+
+    const max = services[selectedService].max;
+    const previousValue = Number(quantitySelect.value) || 1;
+
+    quantitySelect.innerHTML = "";
+
+    for (let i = 1; i <= max; i++) {
+      const option = document.createElement("option");
+      option.value = String(i);
+      option.textContent = i + " Match";
+      quantitySelect.appendChild(option);
     }
 
-    updateTotal();
+    quantitySelect.value = String(Math.min(previousValue, max));
+
+    $("quantityHint").textContent =
+      "Layanan " + selectedService + " tersedia maksimal " +
+      max + " match.";
+
+    updateSummary();
   }
 
-  cards.forEach(function (card) {
-    card.addEventListener("click", function () {
-      cards.forEach(function (item) {
-        item.classList.remove("active");
-      });
+  function updateSummary() {
+    const service = services[selectedService];
+    const quantity = Number(quantitySelect.value) || 1;
+    const total = service.price * quantity;
 
-      card.classList.add("active");
-      selectedService = card.dataset.service;
-      selectedPrice = Number(card.dataset.price);
-
-      updateQuantityOptions();
-    });
-  });
-
-  quantityInput.addEventListener("change", updateTotal);
-
-  orderForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const nickname = document.getElementById("nickname").value.trim();
-    const gameId = document.getElementById("gameId").value.trim();
-    const quantity = Number(quantityInput.value);
-    const notes = document.getElementById("notes").value.trim();
-    const maxMatch = selectedService === "NO FLEXIBLE" ? 10 : 5;
-
-    if (!nickname || !gameId) {
-      alert("Nickname dan ID Game wajib diisi.");
-      return;
-    }
-
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity > maxMatch) {
-      alert("Jumlah match tidak sesuai dengan layanan yang dipilih.");
-      return;
-    }
-
-    const total = selectedPrice * quantity;
-
-    const message = [
-      "HALO ADMIN RIFHSK!",
-      "",
-      "SAYA INGIN MELAKUKAN PEMESANAN:",
-      "",
-      "Nickname: " + nickname,
-      "ID Game: " + gameId,
-      "Layanan: " + selectedService,
-      "Jumlah Match: " + quantity,
-      "Harga per Match: " + formatRupiah(selectedPrice),
-      "Total Pembayaran: " + formatRupiah(total),
-      "Catatan: " + (notes || "-"),
-      "",
-      "Mohon konfirmasi pesanan dan instruksi pembayaran. Terima kasih."
-    ].join("\n");
-
-    const whatsappURL =
-      "https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(message);
-
-    const opened = window.open(whatsappURL, "_blank");
-
-    if (!opened) {
-      window.location.href = whatsappURL;
-    }
-  });
-
-  function updateClock() {
-    const now = new Date();
-
-    document.getElementById("clock").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }).format(now) + " WIB";
-
-    document.getElementById("date").textContent =
-      new Intl.DateTimeFormat("id-ID", {
-        timeZone: "Asia/Jakarta",
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      }).format(now);
+    $("summaryService").textContent = selectedService;
+    $("summaryPrice").textContent = rupiah(service.price);
+    $("summaryQuantity").textContent = quantity + " match";
+    $("totalPrice").textContent = rupiah(total);
   }
 
-  updateClock();
-  setInterval(updateClock, 1000);
-
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-  updateTotal();
-})();
-</script></body>
-</html>
+  function makeOrder() {
+    const nickname = $("nickname").value.trim(
