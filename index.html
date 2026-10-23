@@ -2,254 +2,507 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RFSTORE — Platform Lisensi Game Otomatis 24/7</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Hubungkan ke file CSS -->
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b18">
+<title>JOKIFLEX | Joki Gendong VS Bot</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:#080b18;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+header{
+  padding:20px;
+  text-align:center;
+  background:#10152b;
+  border-bottom:1px solid #292f50;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  color:#a855f7;
+}
+
+.logo span{color:white}
+
+.hero{
+  text-align:center;
+  padding:45px 18px;
+  background:radial-gradient(circle at top,#30205c,#080b18 72%);
+}
+
+.status{
+  display:inline-block;
+  padding:8px 15px;
+  color:#4ade80;
+  border:1px solid #22c55e;
+  border-radius:30px;
+  font-size:12px;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(30px,7vw,45px);
+  line-height:1.2;
+}
+
+.hero h1 span{color:#a855f7}
+
+.hero p{
+  color:#adb6d0;
+  line-height:1.8;
+  margin-top:15px;
+}
+
+.container{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.heading{
+  text-align:center;
+  margin:15px 0 25px;
+}
+
+.heading p{
+  margin-top:10px;
+  color:#9da7c3;
+  font-size:14px;
+}
+
+.packages{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#12172b;
+  padding:22px;
+  border:1px solid #2a3152;
+  border-radius:16px;
+}
+
+.card:hover{border-color:#a855f7}
+
+.tag{
+  color:#c084fc;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.card h3{
+  margin:13px 0;
+  font-size:20px;
+}
+
+.price{
+  color:#fff;
+  font-size:29px;
+  font-weight:bold;
+  margin:15px 0;
+}
+
+.price small{
+  color:#a4aec9;
+  font-size:12px;
+  font-weight:normal;
+}
+
+ul{
+  list-style:none;
+  margin-bottom:20px;
+  color:#d4d9e9;
+  font-size:14px;
+  line-height:2;
+}
+
+li:before{
+  content:"✓ ";
+  color:#4ade80;
+}
+
+button,.button{
+  display:block;
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:9px;
+  background:linear-gradient(90deg,#9333ea,#6366f1);
+  color:white;
+  text-align:center;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+button:hover,.button:hover{opacity:.85}
+
+.section{
+  background:#12172b;
+  border:1px solid #2a3152;
+  padding:22px;
+  border-radius:16px;
+  margin-top:25px;
+}
+
+.section h2{
+  font-size:22px;
+  margin-bottom:18px;
+}
+
+label{
+  display:block;
+  margin:15px 0 8px;
+  color:#cbd2e7;
+  font-size:14px;
+}
+
+input,select,textarea{
+  display:block;
+  width:100%;
+  padding:13px;
+  background:#090d1c;
+  border:1px solid #343c60;
+  border-radius:9px;
+  color:white;
+  font-size:15px;
+  outline:none;
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:#a855f7;
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:16px;
+  margin:20px 0;
+  background:#090d1c;
+  border-radius:10px;
+}
+
+.total strong{
+  color:#4ade80;
+  font-size:23px;
+}
+
+.qris{
+  text-align:center;
+}
+
+.qris p{
+  color:#adb6d0;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.qris img{
+  display:block;
+  width:100%;
+  max-width:320px;
+  height:auto;
+  margin:20px auto;
+  padding:8px;
+  background:white;
+  border-radius:12px;
+}
+
+.telegram{background:#168bd0}
+
+.note{
+  font-size:12px;
+  color:#9da7c3;
+  line-height:1.8;
+  margin-top:15px;
+}
+
+footer{
+  padding:25px 15px;
+  margin-top:30px;
+  border-top:1px solid #242a43;
+  color:#7e89a8;
+  text-align:center;
+  font-size:12px;
+  line-height:1.8;
+}
+
+@media(max-width:520px){
+  .packages{grid-template-columns:1fr}
+  .card{padding:20px}
+  .container{padding:15px}
+}
+</style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="#beranda" class="logo"><span class="logo-mark">RF</span><span>RFSTORE<small>ID</small></span></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#beranda">Beranda</a></li>
-      <li><a href="#produk">Produk</a></li>
-      <li><a href="#lacak">Lacak Pesanan</a></li>
-      <li><a href="#riwayat">Riwayat</a></li>
-    </ul>
-    <div class="nav-cta">
-      <span class="online-pill"><span class="dot"></span>Online 24/7</span>
-      <a href="https://t.me/rifhskdkk" target="_blank" class="btn btn-tg btn-sm">💬 Telegram Admin</a>
-      <button class="burger" id="burger" aria-label="Menu">☰</button>
-    </div>
-  </div>
-</nav>
+<header>
+  <div class="logo">JOKI<span>FLEX</span> ⚡</div>
+</header>
 
-<main>
-  <!-- HERO -->
-  <header class="hero" id="beranda">
-    <div class="container">
-      <div class="hero-pills">
-        <span class="pill hot">⚡ Instan 1 Detik</span>
-        <span class="pill">🔁 Otomatis 24 Jam</span>
-        <span class="pill">🛡️ 100% Garansi</span>
-        <span class="pill">💳 QRIS Realtime</span>
-      </div>
-      <h1>Lisensi Game Premium,<br><span class="grad">Terkirim Otomatis.</span></h1>
-      <p class="lead">Selamat datang di RFSTORE — store terpercaya untuk kebutuhan cheat dan tools gaming berkualitas. Sistem otomatis, lisensi resmi, dan proses cepat.</p>
-      <div class="hero-actions">
-        <a href="#produk" class="btn btn-primary">🛒 Lihat Semua Produk</a>
-        <a href="#lacak" class="btn btn-ghost">🔍 Lacak Pesanan</a>
-      </div>
-      <div class="stats">
-        <div class="stat"><strong class="grad">18</strong><span>Produk Tersedia</span></div>
-        <div class="stat"><strong class="grad">24/7</strong><span>Layanan Otomatis</span></div>
-        <div class="stat"><strong class="grad">1 Detik</strong><span>Pengiriman Lisensi</span></div>
-        <div class="stat"><strong class="grad">100%</strong><span>Garansi Lisensi</span></div>
-      </div>
-    </div>
-  </header>
+<section class="hero">
+  <div class="status">● OPEN ORDER</div>
+  <h1>JOKI GENDONG<br><span>VS BOT</span></h1>
+  <p>
+    Pilih paket joki sesuai kebutuhanmu.<br>
+    Isi pesanan dan hubungi admin melalui Telegram.
+  </p>
+</section>
 
-  <!-- INFO -->
-  <div class="container">
-    <div class="info-banner">
-      <span>🎮</span>
-      <span>Selamat datang di <strong>RFSTORE</strong> — Store terpercaya Anda. Semua transaksi diproses <strong>otomatis 24 jam</strong> via sistem terintegrasi.</span>
-    </div>
+<main class="container">
+
+  <div class="heading">
+    <h2>🔥 DAFTAR PAKET</h2>
+    <p>Pilih paket, harga otomatis sesuai pilihanmu.</p>
   </div>
 
-  <!-- KEUNGGULAN -->
-  <section class="section" id="keunggulan">
-    <div class="container">
-      <div class="sec-head">
-        <span class="eyebrow">Kenapa Kami?</span>
-        <h2>Kenapa RFSTORE?</h2>
-        <p>Alasan ribuan gamer percaya dan memilih kami sebagai platform utama</p>
+  <div class="packages">
+
+    <article class="card">
+      <div class="tag">PAKET FLEX</div>
+      <h3>⚡ Flex 1 Match</h3>
+      <div class="price">Rp3.000 <small>/ match</small></div>
+      <ul>
+        <li>1 match</li>
+        <li>Mode Flex</li>
+        <li>Konfirmasi jadwal</li>
+      </ul>
+      <button onclick="pilih('flex1')">PILIH PAKET</button>
+    </article>
+
+    <article class="card">
+      <div class="tag">PAKET NO FLEX</div>
+      <h3>🔥 No Flex 1 Match</h3>
+      <div class="price">Rp5.000 <small>/ match</small></div>
+      <ul>
+        <li>1 match</li>
+        <li>Mode No Flex</li>
+        <li>Konfirmasi jadwal</li>
+      </ul>
+      <button onclick="pilih('noflex1')">PILIH PAKET</button>
+    </article>
+
+    <article class="card">
+      <div class="tag">PAKET HEMAT</div>
+      <h3>💎 Flex 5 Match</h3>
+      <div class="price">Rp12.000 <small>/ 5 match</small></div>
+      <ul>
+        <li>5 match</li>
+        <li>Mode Flex</li>
+        <li>Paket hemat</li>
+      </ul>
+      <button onclick="pilih('flex5')">PILIH PAKET</button>
+    </article>
+
+    <article class="card">
+      <div class="tag">PAKET NO FLEX</div>
+      <h3>👑 No Flex 5 Match</h3>
+      <div class="price">Rp20.000 <small>/ 5 match</small></div>
+      <ul>
+        <li>5 match</li>
+        <li>Mode No Flex</li>
+        <li>Konfirmasi jadwal</li>
+      </ul>
+      <button onclick="pilih('noflex5')">PILIH PAKET</button>
+    </article>
+
+  </div>
+
+  <section class="section" id="form-order">
+    <h2>📝 Form Pemesanan</h2>
+
+    <form id="formPesanan" onsubmit="kirimPesanan(event)">
+
+      <label for="nama">Nama / Nickname</label>
+      <input id="nama" required maxlength="60"
+        placeholder="Masukkan nickname">
+
+      <label for="paket">Pilih Paket</label>
+      <select id="paket" onchange="hitung()">
+        <option value="flex1">Flex — Rp3.000 / match</option>
+        <option value="noflex1">No Flex — Rp5.000 / match</option>
+        <option value="flex5">Flex — Rp12.000 / 5 match</option>
+        <option value="noflex5">No Flex — Rp20.000 / 5 match</option>
+      </select>
+
+      <label for="game">ID Game</label>
+      <input id="game" required maxlength="100"
+        placeholder="Masukkan ID game">
+
+      <label for="jadwal">Jadwal Bermain</label>
+      <input id="jadwal" maxlength="100"
+        placeholder="Contoh: malam pukul 20.00">
+
+      <label for="catatan">Catatan Tambahan</label>
+      <textarea id="catatan" rows="3" maxlength="500"
+        placeholder="Catatan tambahan (opsional)"></textarea>
+
+      <div class="total">
+        <span>Total Pembayaran</span>
+        <strong id="total">Rp3.000</strong>
       </div>
-      <div class="feature-grid">
-        <div class="feature"><div class="f-icon">⚡</div><h3>Instant Delivery</h3><p>Key langsung dikirim otomatis ke layar Anda dalam hitungan detik setelah pembayaran.</p></div>
-        <div class="feature"><div class="f-icon">🔒</div><h3>Secure Payment</h3><p>Pembayaran aman via QRIS (Semua E-Wallet & M-Banking).</p></div>
-        <div class="feature"><div class="f-icon">✅</div><h3>Trusted Platform</h3><p>Diverifikasi pengguna dengan ribuan transaksi sukses dan ulasan positif.</p></div>
-        <div class="feature"><div class="f-icon">🎧</div><h3>24/7 Support</h3><p>Dukungan cepat dan ramah kapan saja melalui Telegram.</p></div>
-      </div>
-    </div>
+
+      <button type="submit" class="telegram">
+        📲 LANJUT ORDER VIA TELEGRAM
+      </button>
+
+    </form>
+
+    <p class="note">
+      Setelah menekan tombol, detail pesanan akan disalin jika
+      fitur clipboard tersedia. Tempel detail tersebut di chat
+      Telegram admin untuk konfirmasi.
+    </p>
   </section>
 
-  <!-- PRODUK -->
-  <section class="section" id="produk">
-    <div class="container">
-      <div class="sec-head">
-        <span class="eyebrow">Produk</span>
-        <h2>Semua Produk <span class="grad" id="productCount">(18)</span></h2>
-        <p>Sewa lisensi premium 100% legal. Pengiriman cepat tanpa hambatan.</p>
-      </div>
-      <div class="filters" id="filters"></div>
-      <div class="product-grid" id="productGrid"></div>
-    </div>
+  <section class="section qris">
+    <h2>💳 PEMBAYARAN QRIS</h2>
+    <p>
+      Scan QRIS berikut menggunakan aplikasi pembayaran yang mendukung
+      QRIS. Periksa nama penerima dan nominal sebelum membayar.
+    </p>
+
+    <img src="./qris.jpg"
+      alt="QRIS pembayaran"
+      onerror="this.style.display='none';document.getElementById('qrisError').style.display='block';">
+
+    <p id="qrisError" style="display:none;color:#fca5a5">
+      Gambar QRIS belum ditemukan. Upload file qris.jpg ke folder
+      yang sama dengan index.html di GitHub.
+    </p>
+
+    <a href="./qris.jpg" target="_blank" class="button">
+      LIHAT QRIS UKURAN PENUH
+    </a>
+
+    <p class="note">
+      Pastikan pembayaran berhasil dan nama penerima benar.
+      Kirim bukti pembayaran ke admin Telegram.
+      Website ini belum memverifikasi pembayaran secara otomatis.
+    </p>
   </section>
 
-  <!-- LACAK -->
-  <section class="section" id="lacak">
-    <div class="container">
-      <div class="sec-head">
-        <span class="eyebrow">Tracking Real-Time</span>
-        <h2>Lacak Status Pesanan</h2>
-        <p>Cek status pembayaran instan dan lihat detail pesanan Anda kapan saja secara mandiri.</p>
-      </div>
-      <div class="panel">
-        <div class="track-row">
-          <input id="trackInput" placeholder="Contoh: TRX-WEB-A1B2C3D4" autocomplete="off">
-          <button class="btn btn-primary" onclick="trackOrder()">🔍 Lacak Sekarang</button>
-        </div>
-        <div class="track-badges">
-          <span class="mini-badge">⚡ 100% Otomatis</span>
-          <span class="mini-badge">🕐 24/7 Aktif</span>
-          <span class="mini-badge">🔐 Aman</span>
-        </div>
-      </div>
-    </div>
+  <section class="section">
+    <h2>📞 ADMIN</h2>
+    <p style="color:#adb6d0;margin-bottom:15px">
+      Hubungi admin untuk konfirmasi pesanan dan pembayaran.
+    </p>
+
+    <a class="button telegram"
+      href="https://t.me/rifhskdkk"
+      target="_blank" rel="noopener">
+      TELEGRAM @rifhskdkk
+    </a>
   </section>
 
-  <!-- RIWAYAT -->
-  <section class="section" id="riwayat">
-    <div class="container">
-      <div class="sec-head">
-        <span class="eyebrow">Transaksi Tersimpan</span>
-        <h2>Riwayat Pesanan</h2>
-        <p>Setiap pesanan Anda akan otomatis muncul di sini secara instan.</p>
-      </div>
-      <div class="panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-          <span class="online-pill" style="color:var(--primary-2);background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.25)">
-            <span class="dot" style="background:var(--primary-2)"></span>Memuat riwayat...
-          </span>
-          <button class="btn btn-ghost btn-sm" onclick="clearHistory()">🗑️ Hapus</button>
-        </div>
-        <div class="history-list" id="historyList"></div>
-      </div>
-    </div>
-  </section>
 </main>
 
-<!-- FOOTER -->
 <footer>
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <a href="#beranda" class="logo"><span class="logo-mark">RF</span><span>RFSTORE<small>ID</small></span></a>
-        <p>Platform pembelian lisensi game otomatis & seller tools #1 Indonesia. Sistem otomatis 24/7 dengan garansi lisensi resmi.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Navigasi</h4>
-        <ul>
-          <li><a href="#beranda">Beranda</a></li>
-          <li><a href="#produk">Produk</a></li>
-          <li><a href="#lacak">Lacak Pesanan</a></li>
-          <li><a href="#riwayat">Riwayat</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h4>Bantuan</h4>
-        <ul>
-          <li><a href="https://t.me/rifhskdkk" target="_blank">Hubungi Admin (Telegram)</a></li>
-          <li><a href="#lacak">Cek Invoice</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© <span id="year">2026</span> RFSTORE ID — Sistem Otomatis 24/7.</span>
-    </div>
-  </div>
+  © <span id="tahun"></span> JOKIFLEX<br>
+  Joki Gendong VS Bot
 </footer>
 
-<!-- MODAL CHECKOUT -->
-<div class="modal-overlay" id="checkoutModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('checkoutModal')">✕</button>
-    <div class="modal-head">
-      <span class="modal-icon" id="coIcon">🎯</span>
-      <div><h3 id="coProduct">Nama Produk</h3><p id="coCat">Kategori</p></div>
-    </div>
-    <div class="field">
-      <label>Pilih Durasi Sewa</label>
-      <div class="duration-grid" id="durationGrid"></div>
-    </div>
-    <div class="field">
-      <label>Nama Pembeli</label>
-      <input id="coName" placeholder="Nama lengkap" autocomplete="name">
-    </div>
-    <div class="field">
-      <label>Email / No. WhatsApp</label>
-      <input id="coContact" placeholder="email@contoh.com / 08xxxx" autocomplete="email">
-    </div>
-    <div class="co-total">
-      <span>Total Pembayaran</span>
-      <strong id="coTotal">Rp 0</strong>
-    </div>
-    <button class="btn btn-primary btn-block" onclick="submitCheckout()">Lanjut ke Pembayaran →</button>
-    <p class="hint">Sistem Pembayaran Aman & Terenkripsi</p>
-  </div>
-</div>
+<script>
+const daftarPaket = {
+  flex1: {
+    nama: "Flex 1 Match",
+    harga: 3000
+  },
+  noflex1: {
+    nama: "No Flex 1 Match",
+    harga: 5000
+  },
+  flex5: {
+    nama: "Flex 5 Match",
+    harga: 12000
+  },
+  noflex5: {
+    nama: "No Flex 5 Match",
+    harga: 20000
+  }
+};
 
-<!-- MODAL PEMBAYARAN (AUTO DELIVERY) -->
-<div class="modal-overlay" id="paymentModal">
-  <div class="modal modal-wide">
-    <button class="modal-close" onclick="closePayment()">✕</button>
+function formatRupiah(angka) {
+  return "Rp" + angka.toLocaleString("id-ID");
+}
 
-    <!-- 1. TAMPILAN QRIS -->
-    <div id="payPending">
-      <div class="pay-head">
-        <span class="status pending">Menunggu Pembayaran</span>
-        <h3>Total: <span id="payTotal">Rp 0</span></h3>
-        <p id="payOrderId">TRX-...</p>
-      </div>
-      
-      <div class="qr-wrap">
-        <!-- PASTIKAN GAMBAR QRIS SUDAH DIUPLOAD DENGAN NAMA qris.jpg -->
-        <img src="qris.jpg" alt="QRIS RFSTORE" class="qris-img" onerror="this.src='https://via.placeholder.com/280x350/12121c/8a8aa0?text=Upload+qris.jpg'">
-        <p style="font-size:.75rem;color:var(--warning);text-align:center;font-weight:600;">⚠️ Transfer nominal <u>PERSIS</u> seperti di atas.</p>
-      </div>
+function hitung() {
+  const id = document.getElementById("paket").value;
+  document.getElementById("total").textContent =
+    formatRupiah(daftarPaket[id].harga);
+}
 
-      <button class="btn btn-success btn-block" onclick="processPayment()" style="margin-top:10px; font-size:1rem; padding:15px;">✅ Saya Sudah Transfer</button>
-      <p class="hint" style="margin-top:8px">Klik tombol di atas jika Anda sudah melakukan transfer.</p>
-    </div>
+function pilih(id) {
+  document.getElementById("paket").value = id;
+  hitung();
 
-    <!-- 2. TAMPILAN LOADING (VERIFIKASI) -->
-    <div id="payLoading" class="hidden" style="text-align:center; padding: 40px 0;">
-      <div class="spinner"></div>
-      <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:6px">Memverifikasi Pembayaran...</h3>
-      <p style="font-size:.85rem; color:var(--muted)">Menghubungkan ke server bank untuk mengecek mutasi.</p>
-    </div>
+  document.getElementById("form-order").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
 
-    <!-- 3. TAMPILAN SUKSES (KODE LISENSI) -->
-    <div id="paySuccess" class="hidden">
-      <div class="success-icon">✅</div>
-      <div style="text-align:center;margin-bottom:20px">
-        <h3 style="font-size:1.12rem;font-weight:800;margin-bottom:6px">Pembayaran Berhasil!</h3>
-        <p style="font-size:.82rem;color:var(--muted)">Ini kode lisensi Anda. Simpan baik-baik.</p>
-      </div>
-      <div class="license-box">
-        <span id="licenseKey">RF-XXXX-XXXX-XXXX</span>
-        <button onclick="copyLicense()">Salin</button>
-      </div>
-      <div style="text-align:left;font-size:.8rem;color:var(--muted);background:var(--card-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Produk</span><b id="sucProduct" style="color:var(--text)">-</b></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Durasi</span><b id="sucDuration" style="color:var(--text)">-</b></div>
-        <div style="display:flex;justify-content:space-between"><span>Kontak</span><b id="sucEmail" style="color:var(--text)">-</b></div>
-      </div>
-      <button class="btn btn-ghost btn-block" onclick="closePayment()">Tutup</button>
-    </div>
-  </div>
-</div>
+async function kirimPesanan(event) {
+  event.preventDefault();
 
-<div class="toast-wrap" id="toastWrap"></div>
+  const nama = document.getElementById("nama").value.trim();
+  const game = document.getElementById("game").value.trim();
+  const jadwal = document.getElementById("jadwal").value.trim();
+  const catatan = document.getElementById("catatan").value.trim();
+  const id = document.getElementById("paket").value;
 
-<!-- Hubungkan ke file JS -->
-<script src="script.js"></script>
+  if (!nama || !game) {
+    alert("Nama dan ID game wajib diisi.");
+    return;
+  }
+
+  const p = daftarPaket[id];
+
+  const detail =
+`HALO ADMIN JOKIFLEX!
+
+Saya ingin memesan Joki Gendong VS Bot.
+
+Nama: ${nama}
+ID Game: ${game}
+Paket: ${p.nama}
+Total: ${formatRupiah(p.harga)}
+Jadwal: ${jadwal || "-"}
+Catatan: ${catatan || "-"}
+
+Mohon konfirmasi pesanan saya.`;
+
+  try {
+    await navigator.clipboard.writeText(detail);
+    alert("Detail pesanan berhasil disalin. Tempel pesan di chat Telegram admin.");
+  } catch (error) {
+    prompt("Salin detail pesanan ini, lalu kirim ke Telegram:", detail);
+  }
+
+  window.open(
+    "https://t.me/rifhskdkk",
+    "_blank",
+    "noopener"
+  );
+}
+
+document.getElementById("tahun").textContent =
+  new Date().getFullYear();
+
+hitung();
+</script>
+
 </body>
 </html>
