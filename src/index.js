@@ -69,12 +69,14 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // Gunakan nama secret yang kamu punya.
-    const ADMIN_PASSWORD = env.rifhsk854;
-    const ADMIN_TOKEN_SECRET = env.rifhsk862;
+    // Binding secret token dari Cloudflare.
+    const TOKEN_SECRET = env.rifhsk862;
 
     if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders,
+      });
     }
 
     if (path === "/") {
@@ -86,39 +88,42 @@ export default {
     }
 
     if (path === "/api/health") {
-      return response({ ok: true, service: "rank-vs-bot-api" });
+      return response({
+        ok: true,
+        service: "rank-vs-bot-api",
+      });
     }
 
     if (path === "/api/debug-secrets") {
       return response({
-        marker: "RANK-VS-BOT-854862",
-        passwordExists: Boolean(ADMIN_PASSWORD),
-        tokenSecretExists: Boolean(ADMIN_TOKEN_SECRET),
+        marker: "RANK-VS-BOT-FULL-854862",
+        tokenSecretExists: Boolean(TOKEN_SECRET),
         databaseExists: Boolean(env.DB),
       });
     }
 
+    // LOGIN ADMIN
     if (path === "/api/admin/login" && request.method === "POST") {
-      if (!ADMIN_PASSWORD || !ADMIN_TOKEN_SECRET) {
+      const body = await readBody(request);
+
+      // Password panel sesuai permintaan.
+      const ADMIN_PASSWORD = "rifhsk854";
+
+      if (!TOKEN_SECRET) {
         return response({
           success: false,
-          error: "Secret rifhsk854 atau rifhsk862 belum terbaca.",
-          passwordExists: Boolean(ADMIN_PASSWORD),
-          tokenSecretExists: Boolean(ADMIN_TOKEN_SECRET),
+          error: "Secret token belum tersedia di Worker aktif.",
         }, 500);
       }
 
-      const body = await readBody(request);
-      const password = String(body.password || "");
-
-      if (password !== ADMIN_PASSWORD) {
+      if (String(body.password || "") !== ADMIN_PASSWORD) {
         return response({
           success: false,
           error: "Password admin salah.",
         }, 401);
       }
 
-      const token = await createToken(ADMIN_TOKEN_SECRET);
+      const token = await createToken(TOKEN_SECRET);
 
       return response({
         success: true,
@@ -127,20 +132,22 @@ export default {
       });
     }
 
+    // VERIFIKASI SESI ADMIN
     if (path === "/api/admin/verify" && request.method === "GET") {
       const authorization = request.headers.get("Authorization") || "";
       const token = authorization.replace(/^Bearer\s+/i, "");
 
-      if (!(await verifyToken(token, ADMIN_TOKEN_SECRET))) {
+      if (!(await verifyToken(token, TOKEN_SECRET))) {
         return response({
           success: false,
-          error: "Sesi admin tidak valid atau kedaluwarsa.",
+          error: "Sesi admin tidak valid atau sudah kedaluwarsa.",
         }, 401);
       }
 
       return response({ success: true });
     }
 
+    // MEMBUAT PESANAN
     if (path === "/api/orders" && request.method === "POST") {
       if (!env.DB) {
         return response({
@@ -150,6 +157,7 @@ export default {
       }
 
       const body = await readBody(request);
+
       const nickname = String(body.nickname || "").trim();
       const gameId = String(body.gameId || body.game_id || "").trim();
       const service = String(body.service || "").trim().toUpperCase();
@@ -171,16 +179,22 @@ export default {
         }, 400);
       }
 
-      const max = service === "NO FLEXIBLE" ? 10 : 5;
+      const maxQuantity = service === "NO FLEXIBLE" ? 10 : 5;
 
-      if (!Number.isInteger(quantity) || quantity < 1 || quantity > max) {
+      if (
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > maxQuantity
+      ) {
         return response({
           success: false,
-          error: `Jumlah match harus 1 sampai ${max}.`,
+          error: `Jumlah match harus 1 sampai ${maxQuantity}.`,
         }, 400);
       }
 
-      const total = quantity * (service === "FLEXIBLE" ? 2500 : 3500);
+      const total =
+        quantity * (service === "FLEXIBLE" ? 2500 : 3500);
+
       const orderId = `RVB-${Date.now()}`;
 
       try {
@@ -200,8 +214,10 @@ export default {
         `).run();
 
         await env.DB.prepare(`
-          INSERT INTO orders
-          (id, nickname, game_id, service, quantity, schedule, notes, total)
+          INSERT INTO orders (
+            id, nickname, game_id, service, quantity,
+            schedule, notes, total
+          )
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
           orderId,
@@ -236,11 +252,12 @@ export default {
       }
     }
 
+    // DAFTAR PESANAN UNTUK ADMIN
     if (path === "/api/admin/orders" && request.method === "GET") {
       const authorization = request.headers.get("Authorization") || "";
       const token = authorization.replace(/^Bearer\s+/i, "");
 
-      if (!(await verifyToken(token, ADMIN_TOKEN_SECRET))) {
+      if (!(await verifyToken(token, TOKEN_SECRET))) {
         return response({
           success: false,
           error: "Akses admin ditolak.",
