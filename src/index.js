@@ -15,7 +15,45 @@ function json(data, status = 200) {
   });
 }
 
-async function signToken(password, secret) {
+function normalizePath(path) {
+  return path.replace(/\/+$/, "") || "/";
+}
+
+function base64urlEncode(value) {
+  const bytes = new TextEncoder().encode(value);
+  let binary = "";
+
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  return btoa(binary)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+function base64urlDecode(value) {
+  const base64 = value
+    .replace(/-/g, "+")
+    .replace(/_/g, "/");
+
+  const padded = base64 + "=".repeat((4 - base64.length % 4) % 4);
+  const binary = atob(padded);
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+
+  return new TextDecoder().decode(bytes);
+}
+
+async function signToken(secret) {
+  const payload = {
+    role: "admin",
+    exp: Math.floor(Date.now() / 1000) + 86400,
+    nonce: crypto.randomUUID(),
+  };
+
+  const encoded = base64urlEncode(JSON.stringify(payload));
+
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret),
@@ -24,33 +62,15 @@ async function signToken(password, secret) {
     ["sign"]
   );
 
-  const payload = {
-    role: "admin",
-    exp: Math.floor(Date.now() / 1000) + 86400,
-    nonce: crypto.randomUUID(),
-  };
-
-  const encoded = btoa(
-    String.fromCharCode(
-      ...new TextEncoder().encode(JSON.stringify(payload))
-    )
-  )
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-
   const signature = await crypto.subtle.sign(
     "HMAC",
     key,
     new TextEncoder().encode(encoded)
   );
 
-  const sig = btoa(
+  const sig = base64urlEncode(
     String.fromCharCode(...new Uint8Array(signature))
-  )
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  );
 
   return `${encoded}.${sig}`;
 }
@@ -75,9 +95,9 @@ async function verifyToken(token, secret) {
     const signatureBytes = Uint8Array.from(
       atob(
         signature.replace(/-/g, "+").replace(/_/g, "/") +
-          "=".repeat((4 - (signature.length % 4)) % 4)
+        "=".repeat((4 - signature.length % 4) % 4)
       ),
-      (c) => c.charCodeAt(0)
+      c => c.charCodeAt(0)
     );
 
     const valid = await crypto.subtle.verify(
@@ -89,47 +109,33 @@ async function verifyToken(token, secret) {
 
     if (!valid) return false;
 
-    const payloadBytes = Uint8Array.from(
-      atob(
-        encoded.replace(/-/g, "+").replace(/_/g, "/") +
-          "=".repeat((4 - (encoded.length % 4)) % 4)
-      ),
-      (c) => c.charCodeAt(0)
-    );
+    const payload = JSON.parse(base64urlDecode(encoded));
 
-    const payload = JSON.parse(
-      new TextDecoder().decode(payloadBytes)
-    );
-
-    return (
-      payload.role === "admin" &&
-      payload.exp > Math.floor(Date.now() / 1000)
-    );
+    return payload.role === "admin" &&
+      Number(payload.exp) > Math.floor(Date.now() / 1000);
   } catch {
     return false;
   }
 }
 
-function getBearerToken(request) {
-  const authorization = request.headers.get("Authorization") || "";
-  return authorization.startsWith("Bearer ")
-    ? authorization.slice(7).trim()
+function bearerToken(request) {
+  const header = request.headers.get("Authorization") || "";
+  return header.startsWith("Bearer ")
+    ? header.slice(7).trim()
     : "";
 }
 
-async function requireAdmin(request, env) {
+async function isAdmin(request, env) {
   if (!env.ADMIN_TOKEN_SECRET) return false;
 
   return verifyToken(
-    getBearerToken(request),
+    bearerToken(request),
     env.ADMIN_TOKEN_SECRET
   );
 }
 
 function maskNickname(nickname) {
-  if (!nickname) return "Pelanggan";
-
-  const value = String(nickname).trim();
+  const value = String(nickname || "Pelanggan").trim();
 
   if (value.length <= 2) {
     return value.charAt(0) + "***";
@@ -138,10 +144,18 @@ function maskNickname(nickname) {
   return value.slice(0, 2) + "***";
 }
 
+async function readJson(request) {
+  try {
+    return await request.json();
+  } catch {
+    return null;
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const path = url.pathname.replace(/\/+$/, "") || "/";
+    const path = normalizePath(url.pathname);
 
     if (request.method === "OPTIONS") {
       return new Response(null, {
@@ -151,9 +165,16 @@ export default {
     }
 
     try {
-      // ==========================================
-      // HEALTH CHECK
-      // ==========================================
+      // HALAMAN UTAMA API
+      if (path === "/" && request.method === "GET") {
+        return json({
+          success: true,
+          service: "RANK VS BOT API",
+          health: "/api/health",
+        });
+      }
+
+      // STATUS WORKER
       if (path === "/api/health" && request.method === "GET") {
         return json({
           ok: true,
@@ -161,10 +182,7 @@ export default {
         });
       }
 
-      // ==========================================
-      // SECRET DIAGNOSTIC
-      // Tidak menampilkan nilai secret.
-      // ==========================================
+      // DIAGNOSTIK: TIDAK PERNAH MENAMPILKAN NILAI SECRET
       if (
         path === "/api/debug-secrets" &&
         request.method === "GET"
@@ -172,68 +190,48 @@ export default {
         return json({
           passwordExists: Boolean(env.ADMIN_PASSWORD),
           tokenSecretExists: Boolean(env.ADMIN_TOKEN_SECRET),
-          environment: env.ENVIRONMENT || "unknown",
+          databaseExists: Boolean(env.DB),
         });
       }
 
-      // ==========================================
-      // ADMIN LOGIN
-      // ==========================================
+      // LOGIN ADMIN
       if (
         path === "/api/admin/login" &&
         request.method === "POST"
       ) {
-        if (!env.ADMIN_PASSWORD || !env.ADMIN_TOKEN_SECRET) {
-          return json(
-            {
-              success: false,
-              error:
-                "Secret belum terbaca: " +
-                [
-                  !env.ADMIN_PASSWORD && "ADMIN_PASSWORD",
-                  !env.ADMIN_TOKEN_SECRET &&
-                    "ADMIN_TOKEN_SECRET",
-                ]
-                  .filter(Boolean)
-                  .join(", "),
+        if (
+          typeof env.ADMIN_PASSWORD !== "string" ||
+          env.ADMIN_PASSWORD.length === 0 ||
+          typeof env.ADMIN_TOKEN_SECRET !== "string" ||
+          env.ADMIN_TOKEN_SECRET.length === 0
+        ) {
+          return json({
+            success: false,
+            error: "Konfigurasi secret belum terbaca oleh Worker aktif.",
+            diagnostic: {
+              passwordExists: Boolean(env.ADMIN_PASSWORD),
+              tokenSecretExists: Boolean(env.ADMIN_TOKEN_SECRET),
             },
-            500
-          );
+          }, 500);
         }
 
-        let body;
+        const body = await readJson(request);
 
-        try {
-          body = await request.json();
-        } catch {
-          return json(
-            {
-              success: false,
-              error: "Format permintaan login tidak valid.",
-            },
-            400
-          );
+        if (!body || typeof body.password !== "string") {
+          return json({
+            success: false,
+            error: "Password tidak ditemukan dalam permintaan.",
+          }, 400);
         }
 
-        const suppliedPassword =
-          typeof body.password === "string"
-            ? body.password
-            : "";
-
-        if (suppliedPassword !== env.ADMIN_PASSWORD) {
-          return json(
-            {
-              success: false,
-              error: "Password admin salah.",
-            },
-            401
-          );
+        if (body.password !== env.ADMIN_PASSWORD) {
+          return json({
+            success: false,
+            error: "Password admin salah.",
+          }, 401);
         }
 
-        const token = await signToken(
-          env.ADMIN_PASSWORD,
-          env.ADMIN_TOKEN_SECRET
-        );
+        const token = await signToken(env.ADMIN_TOKEN_SECRET);
 
         return json({
           success: true,
@@ -242,9 +240,7 @@ export default {
         });
       }
 
-      // ==========================================
-      // PUBLIC RECENT ORDERS
-      // ==========================================
+      // DAFTAR PESANAN TERBARU UNTUK PUBLIK
       if (
         path === "/api/orders/recent" &&
         request.method === "GET"
@@ -253,6 +249,7 @@ export default {
           return json({
             success: true,
             orders: [],
+            warning: "Database belum terhubung.",
           });
         }
 
@@ -263,7 +260,7 @@ export default {
           LIMIT 10
         `).all();
 
-        const orders = (result.results || []).map((order) => ({
+        const orders = (result.results || []).map(order => ({
           ...order,
           nickname: maskNickname(order.nickname),
         }));
@@ -274,35 +271,25 @@ export default {
         });
       }
 
-      // ==========================================
-      // CREATE ORDER
-      // ==========================================
+      // MEMBUAT PESANAN
       if (
         path === "/api/orders" &&
         request.method === "POST"
       ) {
         if (!env.DB) {
-          return json(
-            {
-              success: false,
-              error: "Database belum terhubung.",
-            },
-            500
-          );
+          return json({
+            success: false,
+            error: "Database D1 belum terhubung.",
+          }, 500);
         }
 
-        let body;
+        const body = await readJson(request);
 
-        try {
-          body = await request.json();
-        } catch {
-          return json(
-            {
-              success: false,
-              error: "Data pesanan tidak valid.",
-            },
-            400
-          );
+        if (!body) {
+          return json({
+            success: false,
+            error: "Format data pesanan tidak valid.",
+          }, 400);
         }
 
         const nickname = String(body.nickname || "").trim();
@@ -315,23 +302,17 @@ export default {
         const notes = String(body.notes || "").trim();
 
         if (!nickname || !gameId) {
-          return json(
-            {
-              success: false,
-              error: "Nickname dan ID Game wajib diisi.",
-            },
-            400
-          );
+          return json({
+            success: false,
+            error: "Nickname dan ID Game wajib diisi.",
+          }, 400);
         }
 
         if (!["FLEXIBLE", "NO FLEXIBLE"].includes(service)) {
-          return json(
-            {
-              success: false,
-              error: "Layanan tidak valid.",
-            },
-            400
-          );
+          return json({
+            success: false,
+            error: "Layanan tidak valid.",
+          }, 400);
         }
 
         if (
@@ -339,37 +320,37 @@ export default {
           quantity < 1 ||
           quantity > 10
         ) {
-          return json(
-            {
-              success: false,
-              error: "Jumlah match harus antara 1 sampai 10.",
-            },
-            400
-          );
+          return json({
+            success: false,
+            error: "Jumlah match harus 1 sampai 10.",
+          }, 400);
         }
 
-        const pricePerMatch =
-          service === "FLEXIBLE" ? 2500 : 3500;
-        const total = pricePerMatch * quantity;
+        const price = service === "FLEXIBLE" ? 2500 : 3500;
+        const total = price * quantity;
         const id = crypto.randomUUID();
 
         await env.DB.prepare(`
           INSERT INTO rank_vs_bot_orders
-            (
-              id,
-              nickname,
-              game_id,
-              service,
-              quantity,
-              schedule,
-              notes,
-              total,
-              status,
-              created_at
-            )
+          (id, nickname, game_id, service, quantity, schedule,
+           notes, total, status, created_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-        `)
-          .bind(
+        `).bind(
+          id,
+          nickname,
+          gameId,
+          service,
+          quantity,
+          schedule,
+          notes,
+          total,
+          "MENUNGGU"
+        ).run();
+
+        return json({
+          success: true,
+          message: "Pesanan berhasil dibuat.",
+          order: {
             id,
             nickname,
             gameId,
@@ -378,55 +359,28 @@ export default {
             schedule,
             notes,
             total,
-            "MENUNGGU"
-          )
-          .run();
-
-        return json(
-          {
-            success: true,
-            message: "Pesanan berhasil dibuat.",
-            order: {
-              id,
-              nickname,
-              gameId,
-              service,
-              quantity,
-              schedule,
-              notes,
-              total,
-              status: "MENUNGGU",
-            },
+            status: "MENUNGGU",
           },
-          201
-        );
+        }, 201);
       }
 
-      // ==========================================
-      // ADMIN: GET ALL ORDERS
-      // ==========================================
+      // ADMIN: MENGAMBIL SEMUA PESANAN
       if (
         path === "/api/admin/orders" &&
         request.method === "GET"
       ) {
-        if (!(await requireAdmin(request, env))) {
-          return json(
-            {
-              success: false,
-              error: "Token admin tidak valid atau kedaluwarsa.",
-            },
-            401
-          );
+        if (!(await isAdmin(request, env))) {
+          return json({
+            success: false,
+            error: "Sesi admin tidak valid atau sudah kedaluwarsa.",
+          }, 401);
         }
 
         if (!env.DB) {
-          return json(
-            {
-              success: false,
-              error: "Database belum terhubung.",
-            },
-            500
-          );
+          return json({
+            success: false,
+            error: "Database D1 belum terhubung.",
+          }, 500);
         }
 
         const result = await env.DB.prepare(`
@@ -442,46 +396,33 @@ export default {
         });
       }
 
-      // ==========================================
-      // ADMIN: UPDATE ORDER STATUS
-      // ==========================================
+      // ADMIN: MENGUBAH STATUS PESANAN
       const statusMatch = path.match(
         /^\/api\/admin\/orders\/([^/]+)\/status$/
       );
 
       if (statusMatch && request.method === "PATCH") {
-        if (!(await requireAdmin(request, env))) {
-          return json(
-            {
-              success: false,
-              error: "Token admin tidak valid atau kedaluwarsa.",
-            },
-            401
-          );
+        if (!(await isAdmin(request, env))) {
+          return json({
+            success: false,
+            error: "Sesi admin tidak valid atau sudah kedaluwarsa.",
+          }, 401);
         }
 
         if (!env.DB) {
-          return json(
-            {
-              success: false,
-              error: "Database belum terhubung.",
-            },
-            500
-          );
+          return json({
+            success: false,
+            error: "Database D1 belum terhubung.",
+          }, 500);
         }
 
-        let body;
+        const body = await readJson(request);
 
-        try {
-          body = await request.json();
-        } catch {
-          return json(
-            {
-              success: false,
-              error: "Data status tidak valid.",
-            },
-            400
-          );
+        if (!body) {
+          return json({
+            success: false,
+            error: "Format data status tidak valid.",
+          }, 400);
         }
 
         const allowedStatuses = [
@@ -497,13 +438,10 @@ export default {
           .toUpperCase();
 
         if (!allowedStatuses.includes(status)) {
-          return json(
-            {
-              success: false,
-              error: "Status pesanan tidak dikenal.",
-            },
-            400
-          );
+          return json({
+            success: false,
+            error: "Status pesanan tidak dikenal.",
+          }, 400);
         }
 
         const orderId = decodeURIComponent(statusMatch[1]);
@@ -512,18 +450,13 @@ export default {
           UPDATE rank_vs_bot_orders
           SET status = ?
           WHERE id = ?
-        `)
-          .bind(status, orderId)
-          .run();
+        `).bind(status, orderId).run();
 
         if (!result.meta || result.meta.changes === 0) {
-          return json(
-            {
-              success: false,
-              error: "Pesanan tidak ditemukan.",
-            },
-            404
-          );
+          return json({
+            success: false,
+            error: "Pesanan tidak ditemukan.",
+          }, 404);
         }
 
         return json({
@@ -533,25 +466,19 @@ export default {
         });
       }
 
-      return json(
-        {
-          success: false,
-          error: "Endpoint tidak ditemukan.",
-          path,
-        },
-        404
-      );
-    } catch (error) {
-      // Jangan kirim detail internal atau secret ke browser.
-      console.error("Worker error:", error);
+      return json({
+        success: false,
+        error: "Endpoint tidak ditemukan.",
+        path,
+      }, 404);
 
-      return json(
-        {
-          success: false,
-          error: "Terjadi kesalahan pada server.",
-        },
-        500
-      );
+    } catch (error) {
+      console.error("RANK VS BOT API error:", error);
+
+      return json({
+        success: false,
+        error: "Terjadi kesalahan pada server atau database.",
+      }, 500);
     }
   },
 };
