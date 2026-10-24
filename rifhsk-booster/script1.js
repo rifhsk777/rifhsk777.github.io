@@ -90,25 +90,6 @@ updateClock();
   addEventListener('resize', () => { resize(); F = Array.from({length: COUNT()}, mk); });
 })();
 
-function openCheck() {
-  $('check-modal').classList.add('active');
-  $('check-result').innerHTML = '';
-  $('check-id').value = '';
-  setTimeout(() => $('check-id').focus(), 100);
-}
-function closeCheck() { $('check-modal').classList.remove('active'); }
-function checkStatus() {
-  const id = $('check-id').value.trim().toUpperCase();
-  if(!id) { toast('Masukkan Order ID', 'error'); return; }
-  const orders = getOrders();
-  const order = orders.find(o => o.id.toUpperCase() === id);
-  if(!order) {
-    $('check-result').innerHTML = '<div style="color:var(--accent);padding:12px;text-align:center;background:rgba(255,45,117,.08);border:1px solid rgba(255,45,117,.3);border-radius:10px;font-size:13px">❌ Order tidak ditemukan.</div>';
-    return;
-  }
-  $('check-result').innerHTML = '<div style="background:rgba(6,10,18,.7);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:left;font-size:13px"><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Order ID</span><b style="color:var(--primary)">' + esc(order.id) + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Nickname</span><b>' + esc(order.nickname) + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Paket</span><b>' + esc(PKG_LABEL[order.pkg]) + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Match</span><b>' + order.matches + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Jadwal</span><b>' + esc(order.schedule) + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;gap:10px"><span style="color:var(--muted)">Total</span><b style="color:var(--green)">' + fmtRp(order.total) + '</b></div><div style="display:flex;justify-content:space-between;padding:5px 0;align-items:center;gap:10px"><span style="color:var(--muted)">Status</span><span class="feed-status st-' + order.status + '">' + statusLabel(order.status) + '</span></div></div>';
-}
-
 let currentOrder = null;
 function showPayment(o) {
   if(!o) { toast('Belum ada order aktif.', 'error'); return; }
@@ -179,13 +160,6 @@ const updT = () => {
 if(mi) mi.addEventListener('input', updT);
 document.querySelectorAll('input[name="pkg"]').forEach(r => r.addEventListener('change', updT));
 
-function selectPackage(p) {
-  const el = document.querySelector('input[name="pkg"][value="' + p + '"]');
-  if(el) { el.checked = true; updT(); }
-  const o = $('order');
-  if(o) o.scrollIntoView({ behavior: 'smooth' });
-}
-
 if(form) {
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -217,4 +191,4 @@ if(form) {
     toast('Order dibuat! Lanjut ke pembayaran...', 'success');
     showPayment(o);
   });
-  }
+}
