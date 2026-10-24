@@ -1,5 +1,4 @@
 const ALLOWED_ORIGINS = [
-  "https://rifhsk777.github.io",
   "https://rifhskboy.github.io"
 ];
 
