@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
   <title>RANK VS BOT MAX 75 | RIFHSK</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
+
 <body>
   <div class="background-overlay"></div>
 
   <header class="topbar">
-    <a class="brand" href="#dashboard" data-page="dashboard">
+    <a href="#dashboard" class="brand" data-page="dashboard">
       <span class="brand-mark">R</span>
       <span>
         <strong>RIFHSK</strong>
@@ -19,33 +21,72 @@
       </span>
     </a>
 
-    <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+    <button class="menu-toggle" id="menuToggle" type="button">
+      ☰
+    </button>
 
     <nav class="nav" id="mainNav">
-      <button class="nav-link active" data-page="dashboard" type="button">Dashboard</button>
-      <button class="nav-link" data-page="order" type="button">Pesan Jasa</button>
-      <button class="nav-link" data-page="payment" type="button">Pembayaran</button>
-      <button class="nav-link" data-page="history" type="button">Riwayat</button>
+      <button class="nav-link active" data-page="dashboard" type="button">
+        Dashboard
+      </button>
+
+      <button class="nav-link" data-page="order" type="button">
+        Pesan Jasa
+      </button>
+
+      <button class="nav-link" data-page="payment" type="button">
+        Pembayaran
+      </button>
+
+      <button class="nav-link" data-page="history" type="button">
+        Riwayat
+      </button>
     </nav>
   </header>
 
   <main class="container">
+
+    <!-- DASHBOARD -->
     <section class="page active" id="page-dashboard">
       <div class="hero glass">
-        <div>
-          <span class="eyebrow">● LAYANAN ONLINE</span>
-          <h1>RANK VS BOT<br><span>MAX 75</span></h1>
-          <p>Pesan layanan dengan mudah. Pilih paket, isi data, dan lanjutkan konfirmasi melalui WhatsApp.</p>
+        <div class="hero-copy">
+          <span class="eyebrow">
+            <span class="status-dot"></span>
+            LAYANAN ONLINE
+          </span>
+
+          <h1>
+            RANK VS BOT<br>
+            <span>MAX 75</span>
+          </h1>
+
+          <p>
+            Selamat datang di RIFHSK. Pilih layanan yang tersedia,
+            buat pesanan, dan lanjutkan konfirmasi melalui WhatsApp.
+          </p>
+
           <div class="hero-actions">
-            <button class="btn btn-primary" data-page="order" type="button">Pesan Sekarang →</button>
-            <button class="btn btn-ghost" data-page="payment" type="button">Pembayaran</button>
+            <button class="btn btn-primary" data-page="order" type="button">
+              Pesan Sekarang →
+            </button>
+
+            <button class="btn btn-ghost" data-page="payment" type="button">
+              Metode Pembayaran
+            </button>
           </div>
         </div>
 
         <div class="hero-logo">
-          <img src="logo.jpg" alt="Logo RIFHSK"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-          <div class="logo-fallback">RIF<br>HSK</div>
+          <img
+            src="logo.jpg"
+            alt="Logo RIFHSK"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"
+          >
+
+          <div class="logo-fallback">
+            RIF<br>HSK
+          </div>
+
           <span class="logo-caption">OFFICIAL SERVICE</span>
         </div>
       </div>
@@ -55,6 +96,8 @@
           <span class="eyebrow">PILIH LAYANAN</span>
           <h2>Paket tersedia</h2>
         </div>
+
+        <span class="muted">Pilih paket untuk mulai memesan.</span>
       </div>
 
       <div class="package-grid">
@@ -62,44 +105,101 @@
           <span class="package-tag">PAKET 01</span>
           <h3>Basic</h3>
           <p class="muted">Paket layanan dasar.</p>
+
           <div class="price">Rp10.000</div>
-          <button class="btn btn-primary full" data-package="Basic" type="button">Pilih Paket</button>
+
+          <button
+            class="btn btn-primary full"
+            data-package="Basic"
+            type="button"
+          >
+            Pilih Paket
+          </button>
         </article>
 
         <article class="package-card glass featured">
           <span class="package-tag">PALING DIPILIH</span>
           <h3>Pro</h3>
           <p class="muted">Paket layanan pilihan.</p>
+
           <div class="price">Rp25.000</div>
-          <button class="btn btn-primary full" data-package="Pro" type="button">Pilih Paket</button>
+
+          <button
+            class="btn btn-primary full"
+            data-package="Pro"
+            type="button"
+          >
+            Pilih Paket
+          </button>
         </article>
 
         <article class="package-card glass">
           <span class="package-tag">PAKET 03</span>
           <h3>Max 75</h3>
-          <p class="muted">Paket maksimal.</p>
+          <p class="muted">Paket layanan maksimal.</p>
+
           <div class="price">Rp50.000</div>
-          <button class="btn btn-primary full" data-package="Max 75" type="button">Pilih Paket</button>
+
+          <button
+            class="btn btn-primary full"
+            data-package="Max 75"
+            type="button"
+          >
+            Pilih Paket
+          </button>
         </article>
+      </div>
+
+      <div class="notice glass">
+        <span>ⓘ</span>
+        <p>
+          Harga paket merupakan contoh. Sesuaikan dengan harga jasa
+          yang kamu tawarkan.
+        </p>
       </div>
     </section>
 
+    <!-- FORM PESANAN -->
     <section class="page" id="page-order">
       <div class="section-heading">
-        <h2>Buat pesanan</h2>
-        <button class="btn btn-ghost" data-page="dashboard" type="button">← Kembali</button>
+        <div>
+          <span class="eyebrow">FORM PEMESANAN</span>
+          <h2>Buat pesanan</h2>
+        </div>
+
+        <button class="btn btn-ghost" data-page="dashboard" type="button">
+          ← Kembali
+        </button>
       </div>
 
       <div class="form-layout">
         <form class="glass form-card" id="orderForm">
           <label for="customerName">Nama pelanggan</label>
-          <input id="customerName" required maxlength="80" placeholder="Nama kamu">
+          <input
+            id="customerName"
+            type="text"
+            placeholder="Masukkan nama kamu"
+            maxlength="80"
+            required
+          >
 
           <label for="customerWa">Nomor WhatsApp</label>
-          <input id="customerWa" type="tel" inputmode="tel" required placeholder="08xxxxxxxxxx">
+          <input
+            id="customerWa"
+            type="tel"
+            inputmode="tel"
+            placeholder="Contoh: 081234567890"
+            required
+          >
 
           <label for="gameId">ID / detail pesanan</label>
-          <input id="gameId" required maxlength="150" placeholder="Masukkan ID atau detail">
+          <input
+            id="gameId"
+            type="text"
+            placeholder="Masukkan ID atau detail pesanan"
+            maxlength="150"
+            required
+          >
 
           <label for="packageSelect">Pilih paket</label>
           <select id="packageSelect" required>
@@ -110,69 +210,126 @@
           </select>
 
           <label for="orderNote">Catatan tambahan</label>
-          <textarea id="orderNote" rows="3" placeholder="Opsional"></textarea>
+          <textarea
+            id="orderNote"
+            rows="3"
+            placeholder="Opsional"
+          ></textarea>
 
-          <button class="btn btn-primary full" type="submit">Kirim Pesanan ke WhatsApp ↗</button>
-          <p class="muted">Periksa detail pesanan sebelum mengirim pesan WhatsApp.</p>
+          <button class="btn btn-primary full" type="submit">
+            Buat Pesanan via WhatsApp ↗
+          </button>
+
+          <p class="form-hint">
+            Pastikan detail pesanan benar. WhatsApp akan terbuka
+            untuk konfirmasi sebelum pesan dikirim.
+          </p>
         </form>
 
         <aside class="glass summary-card">
           <span class="eyebrow">RINGKASAN</span>
           <h3>Pesanan kamu</h3>
+
           <div class="summary-row">
-            <span>Paket</span><strong id="summaryPackage">Belum dipilih</strong>
+            <span>Paket</span>
+            <strong id="summaryPackage">Belum dipilih</strong>
           </div>
+
           <div class="summary-row">
-            <span>Total</span><strong id="summaryPrice">Rp0</strong>
+            <span>Total</span>
+            <strong id="summaryPrice">Rp0</strong>
           </div>
+
           <div class="summary-row">
-            <span>Status</span><strong class="pending">Menunggu konfirmasi</strong>
+            <span>Status</span>
+            <strong class="pending">Menunggu konfirmasi</strong>
           </div>
+
+          <div class="summary-line"></div>
+
+          <p class="muted">
+            Pembayaran dilakukan setelah detail pesanan dikonfirmasi.
+          </p>
         </aside>
       </div>
     </section>
 
+    <!-- PEMBAYARAN -->
     <section class="page" id="page-payment">
       <div class="section-heading">
-        <h2>Pembayaran QRIS</h2>
-        <button class="btn btn-ghost" data-page="dashboard" type="button">← Kembali</button>
+        <div>
+          <span class="eyebrow">PEMBAYARAN</span>
+          <h2>Metode pembayaran</h2>
+        </div>
+
+        <button class="btn btn-ghost" data-page="dashboard" type="button">
+          ← Kembali
+        </button>
       </div>
 
       <div class="payment-layout">
         <div class="glass payment-card">
           <span class="eyebrow">QRIS</span>
           <h3>Scan untuk membayar</h3>
+
           <div class="qris-frame">
-            <img src="qris.jpg" alt="QRIS pembayaran"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-            <div class="qris-fallback">Letakkan file<br><b>qris.jpg</b><br>di folder website</div>
+            <img
+              src="qris.jpg"
+              alt="QRIS pembayaran"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"
+            >
+
+            <div class="qris-fallback">
+              QRIS BELUM TERSEDIA<br>
+              <b>Tambahkan file qris.jpg</b>
+            </div>
           </div>
-          <p class="muted">Pastikan nama penerima dan nominal benar sebelum membayar.</p>
+
+          <p class="muted">
+            Pastikan nama penerima dan nominal pembayaran sudah benar.
+          </p>
         </div>
 
         <div class="glass payment-info">
           <h3>Langkah pembayaran</h3>
+
           <ol>
-            <li>Buat pesanan terlebih dahulu.</li>
-            <li>Scan kode QRIS.</li>
+            <li>Buat pesanan melalui formulir.</li>
+            <li>Konfirmasi nominal kepada admin.</li>
+            <li>Scan QRIS untuk membayar.</li>
             <li>Simpan bukti pembayaran.</li>
-            <li>Kirim bukti ke admin WhatsApp.</li>
+            <li>Kirim bukti kepada admin.</li>
           </ol>
-          <button class="btn btn-primary full" data-page="order" type="button">Buat Pesanan</button>
+
+          <button class="btn btn-primary full" data-page="order" type="button">
+            Buat Pesanan
+          </button>
         </div>
       </div>
     </section>
 
+    <!-- RIWAYAT -->
     <section class="page" id="page-history">
       <div class="section-heading">
-        <h2>Riwayat pesanan</h2>
-        <button class="btn btn-primary" data-page="order" type="button">+ Pesanan Baru</button>
+        <div>
+          <span class="eyebrow">PESANAN TERSIMPAN</span>
+          <h2>Riwayat pesanan</h2>
+        </div>
+
+        <button class="btn btn-primary" data-page="order" type="button">
+          + Pesanan Baru
+        </button>
       </div>
+
       <div class="glass history-card">
         <div id="historyList"></div>
-        <button class="btn btn-ghost" id="clearHistory" type="button">Hapus Riwayat</button>
+
+        <button class="btn btn-ghost" id="clearHistory" type="button">
+          Hapus Riwayat
+        </button>
       </div>
     </section>
+
   </main>
 
   <footer>
