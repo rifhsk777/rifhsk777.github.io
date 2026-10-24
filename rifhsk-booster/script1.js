@@ -32,16 +32,16 @@ function getOrders() {
   try {
     let list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     const now = Date.now();
+    // Hanya filter berdasarkan umur (7 hari), TIDAK memotong list jadi max 7
     list = list.filter(o => (now - new Date(o.createdAt).getTime()) < WEEK_MS);
     list.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-    if(list.length > MAX_ORDERS) list = list.slice(0, MAX_ORDERS);
     return list;
   } catch(e) { return []; }
 }
 
 function saveOrders(list) {
   list.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-  if(list.length > MAX_ORDERS) list = list.slice(0, MAX_ORDERS);
+  // Simpan semua list tanpa memotong
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
