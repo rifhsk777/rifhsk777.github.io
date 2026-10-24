@@ -1,4 +1,4 @@
-// Config dari Firebase kamu
+// Config Firebase milikmu
 const firebaseConfig = {
   apiKey: "AIzaSyCTZFaLrEeiMVD7_qe4OzAuoQx5qTFwU34",
   authDomain: "rifhskboy.firebaseapp.com",
@@ -9,6 +9,6 @@ const firebaseConfig = {
   appId: "1:315839861932:web:126dc031d07e3a6dccfb09"
 };
 
-// Inisialisasi Firebase (Format Compat)
+// Inisialisasi Firebase (Format Compat agar bisa jalan tanpa modul)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
