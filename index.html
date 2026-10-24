@@ -1,58 +1,476 @@
-<!-- Bagian Live Order -->
-<section class="live-order-section">
-  <h2>LIVE ORDER</h2>
-  <div id="live-orders">
-    Memuat pesanan...
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06111a">
+<title>RANK VS BOT — Joki Rank</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"><style>
+:root {
+  --cyan:#42f5e9;
+  --green:#5cff9d;
+  --bg:#06111a;
+  --text:#eefcff;
+  --muted:#a8c0ca;
+  --glass:rgba(4,16,25,.76);
+  --border:rgba(92,245,233,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;color:var(--text);
+  background:linear-gradient(rgba(2,9,16,.68),rgba(2,9,16,.86)),
+  url("logo.jpg") center/cover fixed no-repeat var(--bg);
+  font-family:Poppins,sans-serif;overflow-x:hidden
+}
+button,input,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+button{color:inherit}
+a{color:inherit;text-decoration:none}
+.page{width:min(100% - 26px,560px);margin:auto;padding-bottom:30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:17px 0}
+.clock{color:var(--cyan);font:700 12px Orbitron,sans-serif;letter-spacing:1px}
+.clock-label{display:block;color:var(--muted);font:500 9px Poppins,sans-serif;margin-bottom:4px}
+.online{display:flex;align-items:center;gap:7px;border:1px solid #5cff9d55;border-radius:20px;padding:8px 11px;background:#051e1788;color:var(--green);font-size:10px}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.hero{text-align:center;padding:28px 8px 23px}
+.hero-tag{display:inline-block;padding:7px 12px;border:1px solid var(--border);border-radius:20px;background:#05141d88;color:var(--cyan);font-size:9px;letter-spacing:2px;margin-bottom:15px}
+h1{font:800 clamp(28px,8vw,42px)/1.2 Orbitron,sans-serif;text-shadow:0 0 22px #42f5e940}
+h1 span,.heading span{color:var(--cyan)}
+.hero-subtitle{margin-top:12px;color:#c0d5dc;font-size:12px;line-height:1.8}
+.divider{width:75px;height:3px;margin:20px auto 0;border-radius:10px;background:linear-gradient(90deg,var(--cyan),var(--green))}
+.panel{margin-top:16px;padding:19px;border:1px solid var(--border);border-radius:18px;background:var(--glass);box-shadow:0 12px 35px #0003;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.heading{font:700 13px Orbitron,sans-serif;letter-spacing:1px;margin-bottom:15px}
+.desc{margin-top:-7px;margin-bottom:16px;color:var(--muted);font-size:11px;line-height:1.8}
+.service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.service-card{padding:16px 10px;border:1px solid #7daab939;border-radius:13px;background:#010a1199;text-align:left;cursor:pointer}
+.service-card.active{border-color:var(--cyan);background:#42f5e91a;box-shadow:0 0 13px #42f5e914}
+.service-name{display:block;font:700 12px Orbitron,sans-serif;margin-bottom:9px}
+.service-price{display:block;color:var(--cyan);font:700 17px Orbitron,sans-serif}
+.service-unit{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.form-group{margin-bottom:17px;min-width:0}
+.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+label,.choice-title{display:block;margin-bottom:8px;color:#c6dce4;font-size:10px;font-weight:600;letter-spacing:1px}
+input,textarea{width:100%;min-width:0;padding:12px;outline:none;border:1px solid #7daab940;border-radius:10px;background:#010910c9;color:white;font-size:12px}
+input:focus,textarea:focus{border-color:var(--cyan)}
+input::placeholder,textarea::placeholder{color:#77909b}
+textarea{min-height:78px;resize:vertical}
+.choice-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.choice-btn,.schedule-btn{min-height:42px;padding:7px 3px;border:1px solid #5af5e940;border-radius:10px;background:#010910c9;color:#eafcff;font-size:11px;cursor:pointer}
+.choice-btn.active{border-color:var(--cyan);background:#42f5e926;color:var(--cyan)}
+.schedule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.schedule-btn.active{border-color:var(--green);background:#5cff9d1a;color:var(--green)}
+.total-box{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 0 17px;padding:15px 13px;border:1px solid #42f5e940;border-radius:12px;background:#42f5e90e}
+.total-label{font-size:10px;color:#c6dce4;letter-spacing:.7px}
+.total-price{color:var(--green);font:700 18px Orbitron,sans-serif;text-align:right}
+.btn{display:flex;width:100%;min-height:47px;justify-content:center;align-items:center;gap:8px;padding:12px 15px;border:0;border-radius:11px;font-size:11px;font-weight:700;letter-spacing:.4px;text-align:center;cursor:pointer}
+.btn-primary{background:linear-gradient(100deg,var(--cyan),#8affc6);color:#031219}
+.btn-secondary{border:1px solid var(--border);background:#020d21a6;color:var(--cyan)}
+.btn-whatsapp{background:#20c969;color:#03190c}
+.stack{display:grid;gap:10px}
+#paymentSection[hidden]{display:none!important}
+.payment-intro{margin-bottom:15px;color:#c6dce4;font-size:11px;line-height:1.8}
+.payment-total{margin:14px 0;padding:15px;border:1px solid #5cff9d40;border-radius:12px;background:#5cff9d12;text-align:center}
+.payment-total span{display:block;margin-bottom:7px;color:var(--muted);font-size:10px;letter-spacing:1px}
+.payment-total strong{color:var(--green);font:700 25px Orbitron,sans-serif}
+.qris-frame{display:flex;justify-content:center;align-items:center;margin:14px 0;padding:12px;border:1px solid var(--border);border-radius:14px;background:#fff}
+.qris-frame img{display:block;width:100%;max-width:300px;height:auto;object-fit:contain}
+.steps{padding-left:20px;margin:15px 0 18px;color:#d2e4e9;font-size:11px;line-height:2}
+.note{margin-bottom:15px;color:#ffdf8a;font-size:10px;line-height:1.8}
+.features{display:grid;gap:9px}
+.feature{display:flex;gap:10px;padding:11px;border:1px solid #7daab926;border-radius:10px;background:#01091070;color:#dceef2;font-size:11px;line-height:1.6}
+.feature b{color:var(--green)}
+.contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.contact-card{display:flex;min-height:54px;justify-content:center;align-items:center;padding:12px 8px;border:1px solid var(--border);border-radius:11px;background:#020d2199;color:var(--cyan);font-size:10px;font-weight:600;text-align:center}
+.live-order-item{padding:12px;margin-bottom:9px;border:1px solid #42f5e92c;border-radius:10px;background:#0109108c}
+.live-order-item:last-child{margin-bottom:0}
+.live-order-item strong{color:var(--cyan);font:600 11px Orbitron,sans-serif}
+.live-order-item p{margin:7px 0;color:#e7f8fb;font-size:11px}
+.live-order-item small{color:var(--green);font-size:10px}
+.live-muted{color:var(--muted);font-size:11px;line-height:1.8}
+footer{padding:23px 10px 10px;color:#94adb7;font-size:9px;line-height:1.9;text-align:center}
+.footer-title{color:var(--cyan);font:700 11px Orbitron,sans-serif}
+.toast{position:fixed;z-index:100;right:15px;bottom:18px;left:15px;width:fit-content;max-width:calc(100% - 30px);margin:auto;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:#031119f5;color:var(--cyan);font-size:11px;text-align:center;opacity:0;pointer-events:none;transform:translateY(12px);transition:.25s}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:380px){.page{width:calc(100% - 20px)}.panel{padding:15px}.form-row{grid-template-columns:1fr;gap:0}.service-price{font-size:15px}.total-price{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style></head><body>
+<main class="page"><header class="topbar">
+  <div class="clock">
+    <span class="clock-label">WAKTU INDONESIA BARAT</span>
+    <span id="liveClock">--:--:-- WIB</span>
   </div>
-</section>
+  <div class="online"><span class="online-dot"></span> ONLINE</div>
+</header><section class="hero">
+  <div class="hero-tag">PROFESSIONAL RANK SERVICE</div>
+  <h1>RANK <span>VS BOT</span></h1>
+  <p class="hero-subtitle">Layanan Joki Rank Mobile Legends<br>CEPAT • AMAN • SESUAI JADWAL</p>
+  <div class="divider"></div>
+</section><section class="panel" id="services">
+  <h2 class="heading">PILIH <span>LAYANAN</span></h2>
+  <p class="desc">Tekan layanan untuk memilih harga per match.</p>
+  <div class="service-grid">
+    <button type="button" class="service-card active" data-service="FLEXIBLE" data-price="2500" aria-pressed="true">
+      <span class="service-name">FLEXIBLE</span>
+      <span class="service-price">Rp2.500</span>
+      <span class="service-unit">Per match</span>
+    </button>
+    <button type="button" class="service-card" data-service="NO FLEXIBLE" data-price="3500" aria-pressed="false">
+      <span class="service-name">NO FLEXIBLE</span>
+      <span class="service-price">Rp3.500</span>
+      <span class="service-unit">Per match</span>
+    </button>
+  </div>
+</section><section class="panel" id="orderPanel">
+  <h2 class="heading">FORM <span>PEMESANAN</span></h2>
+  <p class="desc">Lengkapi data pesanan sebelum melanjutkan ke pembayaran.</p>  <form id="orderForm">
+    <div class="form-group">
+      <span class="choice-title">JUMLAH MATCH</span>
+      <div class="choice-grid" id="quantityChoices">
+        <button type="button" class="choice-btn active" data-qty="1">1</button>
+        <button type="button" class="choice-btn" data-qty="2">2</button>
+        <button type="button" class="choice-btn" data-qty="3">3</button>
+        <button type="button" class="choice-btn" data-qty="4">4</button>
+        <button type="button" class="choice-btn" data-qty="5">5</button>
+        <button type="button" class="choice-btn" data-qty="6">6</button>
+        <button type="button" class="choice-btn" data-qty="7">7</button>
+        <button type="button" class="choice-btn" data-qty="8">8</button>
+        <button type="button" class="choice-btn" data-qty="9">9</button>
+        <button type="button" class="choice-btn" data-qty="10">10</button>
+      </div>
+      <input type="hidden" id="quantity" value="1">
+    </div><div class="form-row">
+  <div class="form-group">
+    <label for="nickname">NICKNAME</label>
+    <input id="nickname" maxlength="60" placeholder="Masukkan nickname" autocomplete="off" required>
+  </div>
+  <div class="form-group">
+    <label for="gameId">ID GAME / SERVER</label>
+    <input id="gameId" maxlength="60" placeholder="ID game / server" autocomplete="off" required>
+  </div>
+</div>
 
-<!-- JavaScript harus berada di dalam tag script -->
-<script>
+<div class="form-group">
+  <span class="choice-title">JADWAL PEMESANAN</span>
+  <div class="schedule-grid" id="scheduleChoices">
+    <button type="button" class="schedule-btn active" data-schedule="SEKARANG">SEKARANG</button>
+    <button type="button" class="schedule-btn" data-schedule="PAGI">PAGI</button>
+    <button type="button" class="schedule-btn" data-schedule="SIANG">SIANG</button>
+    <button type="button" class="schedule-btn" data-schedule="MALAM">MALAM</button>
+  </div>
+  <input type="hidden" id="schedule" value="SEKARANG">
+</div>
+
+<div class="form-group">
+  <label for="notes">CATATAN TAMBAHAN</label>
+  <textarea id="notes" maxlength="500" placeholder="Catatan tambahan (opsional)"></textarea>
+</div>
+
+<div class="total-box">
+  <div class="total-label">TOTAL PEMBAYARAN</div>
+  <div class="total-price" id="totalPrice">Rp2.500</div>
+</div>
+<button class="btn btn-primary" type="submit" id="continuePayment">LANJUT KE PEMBAYARAN →</button>
+
+  </form>
+</section><section class="panel" id="paymentSection" hidden>
+  <h2 class="heading">PEMBAYARAN <span>QRIS</span></h2>
+  <p class="payment-intro">Periksa total pembayaran, lalu scan QRIS menggunakan aplikasi pembayaran yang mendukung QRIS.</p>  <div class="payment-total">
+    <span>TOTAL YANG HARUS DIBAYAR</span>
+    <strong id="paymentTotal">Rp2.500</strong>
+  </div>  <div class="qris-frame">
+    <img src="qris.jpg" alt="QRIS pembayaran RANK VS BOT" id="qrisImage">
+  </div>  <div class="stack">
+    <a class="btn btn-secondary" href="qris.jpg" download="QRIS-RANK-VS-BOT.jpg">↓ DOWNLOAD GAMBAR QRIS</a>
+    <button class="btn btn-secondary" type="button" id="copyAmountBtn">SALIN NOMINAL PEMBAYARAN</button>
+  </div>  <h3 class="heading" style="margin-top:22px">TATA CARA <span>PEMBAYARAN</span></h3>
+  <ol class="steps">
+    <li>Scan QRIS menggunakan aplikasi pembayaran kamu.</li>
+    <li>Bayar sesuai nominal yang tertera.</li>
+    <li>Simpan bukti pembayaran.</li>
+    <li>Tekan tombol konfirmasi WhatsApp dan kirim bukti pembayaran kepada admin.</li>
+  </ol>
+  <p class="note">Pastikan nominal pembayaran sesuai. Pesanan akan diproses setelah admin memeriksa pembayaran.</p>  <div class="stack">
+    <button class="btn btn-whatsapp" id="confirmWhatsApp" type="button">KONFIRMASI PESANAN VIA WHATSAPP</button>
+    <button class="btn btn-secondary" id="editOrder" type="button">← KEMBALI EDIT PESANAN</button>
+  </div>
+</section><section class="panel">
+  <h2 class="heading">KEUNGGULAN <span>LAYANAN</span></h2>
+  <div class="features">
+    <div class="feature"><b>✓</b><span>LIMIT 5X SEHARI</span></div>
+    <div class="feature"><b>✓</b><span>HERO BEBAS + FREE SAVAGE</span></div>
+    <div class="feature"><b>✓</b><span>N 13 + KDA + MMR DERES</span></div>
+    <div class="feature"><b>✓</b><span>HOST IKUT MAIN</span></div>
+    <div class="feature"><b>✓</b><span>TB GANTI PER MATCH</span></div>
+    <div class="feature"><b>✓</b><span>BOT WARIOR ONLY JINAK</span></div>
+  </div>
+</section><section class="panel" id="liveOrderSection">
+  <h2 class="heading">LIVE <span>ORDER</span></h2>
+  <p class="desc">Pesanan terbaru yang tersimpan di sistem.</p>
+  <div id="live-orders" aria-live="polite">
+    <p class="live-muted">Menghubungkan ke server...</p>
+  </div>
+</section><section class="panel">
+  <h2 class="heading">HUBUNGI <span>KAMI</span></h2>
+  <div class="contact-grid">
+    <a class="contact-card" href="https://wa.me/6285725209623" target="_blank" rel="noopener">WHATSAPP ADMIN</a>
+    <a class="contact-card" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l" target="_blank" rel="noopener">CHANNEL WHATSAPP</a>
+  </div>
+</section><footer>
+  <div class="footer-title">RANK VS BOT</div>
+  Layanan joki rank Mobile Legends.<br>
+  Pastikan detail pesanan dan pembayaran benar sebelum konfirmasi.
+</footer>
+</main><div class="toast" id="toast" role="status"></div><script>
+"use strict";
+
 const API_BASE = "https://rifhskboy-github-io.rifhskstore.workers.dev";
+const ADMIN_WA = "6285725209623";
 
-async function loadLiveOrders() {
-  const container = document.getElementById("live-orders");
-  if (!container) return;
+let selectedService = "FLEXIBLE";
+let selectedPrice = 2500;
+let currentOrder = null;
+let toastTimer;
+
+const $ = id => document.getElementById(id);
+
+function rupiah(value) {
+  return "Rp" + Number(value).toLocaleString("id-ID");
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+}
+
+function updateClock() {
+  $("liveClock").textContent = new Intl.DateTimeFormat("id-ID", {
+    timeZone: "Asia/Jakarta",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  }).format(new Date()) + " WIB";
+}
+
+function updateTotal() {
+  const quantity = Number($("quantity").value);
+  const total = quantity * selectedPrice;
+  $("totalPrice").textContent = rupiah(total);
+  $("paymentTotal").textContent = rupiah(total);
+  return total;
+}
+
+document.querySelectorAll(".service-card").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".service-card").forEach(card => {
+      card.classList.remove("active");
+      card.setAttribute("aria-pressed", "false");
+    });
+
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+    selectedService = button.dataset.service;
+    selectedPrice = Number(button.dataset.price);
+    updateTotal();
+  });
+});
+
+document.querySelectorAll(".choice-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".choice-btn").forEach(item => {
+      item.classList.remove("active");
+      item.setAttribute("aria-pressed", "false");
+    });
+
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+    $("quantity").value = button.dataset.qty;
+    updateTotal();
+  });
+});
+
+document.querySelectorAll(".schedule-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".schedule-btn").forEach(item => {
+      item.classList.remove("active");
+      item.setAttribute("aria-pressed", "false");
+    });
+
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+    $("schedule").value = button.dataset.schedule;
+  });
+});
+
+$("orderForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const nickname = $("nickname").value.trim();
+  const gameId = $("gameId").value.trim();
+  const quantity = Number($("quantity").value);
+  const schedule = $("schedule").value;
+  const notes = $("notes").value.trim();
+  const total = updateTotal();
+
+  if (!nickname || !gameId) {
+    showToast("Isi nickname dan ID game terlebih dahulu.");
+    return;
+  }
+
+  currentOrder = {
+    nickname,
+    game_id: gameId,
+    service: selectedService,
+    quantity,
+    schedule,
+    notes,
+    total
+  };
+
+  const submitButton = $("continuePayment");
+  submitButton.disabled = true;
+  submitButton.textContent = "MENYIMPAN PESANAN...";
 
   try {
-    const response = await fetch(`${API_BASE}/api/orders/recent`);
+    const response = await fetch(`${API_BASE}/api/orders`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(currentOrder)
+    });
+
     const data = await response.json();
 
     if (!response.ok || !data.success) {
-      container.textContent = "Live Order belum tersedia.";
-      return;
+      throw new Error(data.error || data.message || "Pesanan belum tersimpan.");
+    }
+
+    currentOrder.order_id = data.order_id;
+    currentOrder.total = Number(data.total);
+    showToast("Pesanan tersimpan. Silakan lanjut pembayaran.");
+  } catch (error) {
+    console.error("Order API:", error);
+    showToast("Gagal menyimpan pesanan. Periksa koneksi Worker.");
+    submitButton.disabled = false;
+    submitButton.textContent = "LANJUT KE PEMBAYARAN →";
+    return;
+  }
+
+  $("paymentTotal").textContent = rupiah(currentOrder.total);
+  $("paymentSection").hidden = false;
+  $("paymentSection").scrollIntoView({behavior:"smooth", block:"start"});
+  submitButton.disabled = false;
+  submitButton.textContent = "LANJUT KE PEMBAYARAN →";
+  loadLiveOrders();
+});
+
+$("editOrder").addEventListener("click", () => {
+  $("paymentSection").hidden = true;
+  $("orderPanel").scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+$("copyAmountBtn").addEventListener("click", async () => {
+  const amount = String(currentOrder ? currentOrder.total : updateTotal());
+
+  try {
+    await navigator.clipboard.writeText(amount);
+    showToast("Nominal berhasil disalin.");
+  } catch {
+    showToast("Nominal pembayaran: " + rupiah(amount));
+  }
+});
+
+$("confirmWhatsApp").addEventListener("click", () => {
+  if (!currentOrder) {
+    showToast("Isi form pemesanan terlebih dahulu.");
+    return;
+  }
+
+  const o = currentOrder;
+  const message = [
+    "HALO ADMIN RIFHSK YANG PALING GANTENG!",
+    "",
+    "SAYA INGIN MELAKUKAN PEMESANAN:",
+    "NICKNAME: " + o.nickname,
+    "ID GAME: " + o.game_id,
+    "LAYANAN: " + o.service,
+    "JUMLAH: " + o.quantity + " match",
+    "JADWAL: " + o.schedule,
+    "CATATAN: " + (o.notes || "-"),
+    "TOTAL PEMBAYARAN: " + rupiah(o.total),
+    "ORDER ID: " + (o.order_id || "-"),
+    "",
+    "Saya sudah melakukan pembayaran. Mohon periksa bukti pembayaran saya.",
+    "TERIMA KASIH."
+  ].join("\n");
+
+  window.open(
+    "https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(message),
+    "_blank",
+    "noopener"
+  );
+});
+
+async function loadLiveOrders() {
+  const container = $("live-orders");
+
+  try {
+    const response = await fetch(`${API_BASE}/api/orders/recent`, {
+      cache: "no-store"
+    });
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || data.message || "API Live Order belum siap.");
     }
 
     container.replaceChildren();
 
-    if (!data.orders.length) {
-      container.textContent = "Belum ada pesanan.";
+    if (!Array.isArray(data.orders) || data.orders.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "live-muted";
+      empty.textContent = "Belum ada pesanan.";
+      container.appendChild(empty);
       return;
     }
 
     data.orders.forEach(order => {
-      const item = document.createElement("div");
+      const item = document.createElement("article");
       item.className = "live-order-item";
 
       const service = document.createElement("strong");
-      service.textContent = order.service;
+      service.textContent = order.service || "PESANAN";
 
       const detail = document.createElement("p");
       detail.textContent =
-        `${order.quantity} match · Rp${Number(order.total).toLocaleString("id-ID")}`;
+        `${Number(order.quantity)} match · ${rupiah(order.total)}`;
 
       const status = document.createElement("small");
-      status.textContent = order.status;
+      status.textContent = order.status || "MENUNGGU";
 
       item.append(service, detail, status);
       container.appendChild(item);
     });
   } catch (error) {
-    container.textContent = "Gagal menghubungi server.";
-    console.error(error);
+    console.error("Live Order:", error);
+    container.replaceChildren();
+
+    const message = document.createElement("p");
+    message.className = "live-muted";
+    message.textContent = "Live Order belum terhubung. Pesanan akan tampil setelah API dan database berhasil tersambung.";
+    container.appendChild(message);
   }
 }
 
+$("qrisImage").addEventListener("error", () => {
+  $("qrisImage").alt = "File qris.jpg tidak ditemukan. Periksa nama file QRIS di repository.";
+});
+
+updateClock();
+setInterval(updateClock, 1000);
+updateTotal();
 loadLiveOrders();
 setInterval(loadLiveOrders, 15000);
 </script>
