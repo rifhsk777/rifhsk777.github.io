@@ -88,7 +88,7 @@ document.addEventListener('keydown', function(e) {
     if(isAdmin) { $('admin-panel').classList.add('active'); renderAdmin(); }
     else { $('login-modal').classList.add('active'); setTimeout(() => $('admin-pass').focus(), 100); }
   }
-  if(e.key === 'Escape') { closeLogin(); closeCheck(); }
+  if(e.key === 'Escape') closeLogin();
 });
 
 let cc = 0, ct;
@@ -106,7 +106,6 @@ if(logoEl) {
   });
 }
 if($('admin-pass')) { $('admin-pass').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); }); }
-if($('check-id')) { $('check-id').addEventListener('keydown', e => { if(e.key === 'Enter') checkStatus(); }); }
 
 window.addEventListener('storage', e => {
   if(e.key === STORAGE_KEY) {
