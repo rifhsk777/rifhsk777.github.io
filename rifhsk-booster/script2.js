@@ -1,6 +1,7 @@
 function renderFeed() {
   const f = $('feed');
   if(!f) return;
+  // HANYA UNTUK TAMPILAN BERANDA: Ambil maksimal 7 terbaru
   const o = getOrders().slice(0, MAX_ORDERS);
   if(!o.length) { f.innerHTML = '<div class="empty-state">Belum ada order. Jadilah yang pertama! 🚀</div>'; return; }
   f.innerHTML = o.map(x => {
@@ -55,7 +56,7 @@ function logoutAdmin() { isAdmin = false; $('admin-panel').classList.remove('act
 
 function renderAdmin() {
   if(!isAdmin) return;
-  const orders = getOrders();
+  const orders = getOrders(); // Tampilkan SEMUA order di panel admin
   const st = {
     total: orders.length,
     pending: orders.filter(o => o.status === 'pending').length,
