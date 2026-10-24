@@ -1,110 +1,90 @@
-const ALLOWED_STATUSES = [
-  "MENUNGGU",
-  "SUDAH BAYAR",
-  "DIPROSES",
-  "SELESAI",
-  "DIBATALKAN",
-];
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
+const CORS = {
+  "Access-Control-Allow-Origin": "https://rifhskboy.github.io",
   "Access-Control-Allow-Methods": "GET, POST, PATCH, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Content-Type": "application/json; charset=utf-8",
 };
 
-function json(data, status = 200) {
+const ORDER_STATUSES = [
+  "menunggu_konfirmasi", "diproses", "selesai", "dibatalkan"
+];
+
+const PAYMENT_STATUSES = [
+  "belum_dibayar", "menunggu_verifikasi", "dibayar", "dikembalikan"
+];
+
+const PACKAGES = {
+  flex: {
+    name: "Flexible Match",
+    unit: 3000,
+    totals: { 1: 3000, 2: 6000, 3: 9000, 4: 12000, 5: 13000 },
+  },
+  noflex: {
+    name: "No Flexible",
+    unit: 5000,
+    totals: { 1: 5000, 2: 10000, 3: 15000, 4: 20000, 5: 23000 },
+  },
+};
+
+function response(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: CORS_HEADERS,
+    headers: CORS,
   });
 }
 
-function normalizeStatus(status) {
-  const value = String(status || "MENUNGGU")
-    .trim()
-    .toUpperCase();
-
-  const aliases = {
-    "MENUNGGU PEMBAYARAN": "MENUNGGU",
-    "SUDAH DIBAYAR": "SUDAH BAYAR",
-    "PAID": "SUDAH BAYAR",
-    "PROCESSING": "DIPROSES",
-    "COMPLETED": "SELESAI",
-    "CANCELLED": "DIBATALKAN",
-    "CANCELED": "DIBATALKAN",
-  };
-
-  const normalized = aliases[value] || value;
-
-  if (!ALLOWED_STATUSES.includes(normalized)) {
-    throw new Error("Status pesanan tidak valid.");
-  }
-
-  return normalized;
-}
-
-function normalizeOrder(row) {
-  return {
-    ...row,
-    order_id: row.order_id ?? row.id ?? "",
-    id: row.id ?? row.order_id ?? "",
-    game_id: row.game_id ?? row.gameId ?? "",
-    status: normalizeStatus(row.status),
-  };
-}
-
-async function getColumns(db) {
-  const result = await db.prepare("PRAGMA table_info(orders)").all();
-  return (result.results || []).map((column) => column.name);
-}
-
-async function ensureTable(db) {
+async function initialize(db) {
   await db.prepare(`
     CREATE TABLE IF NOT EXISTS orders (
-      id TEXT PRIMARY KEY,
-      nickname TEXT NOT NULL,
+      order_code TEXT PRIMARY KEY,
+      customer_name TEXT NOT NULL,
       game_id TEXT NOT NULL,
-      service TEXT NOT NULL,
-      quantity INTEGER NOT NULL,
-      schedule TEXT,
-      notes TEXT,
-      total INTEGER NOT NULL,
-      status TEXT NOT NULL DEFAULT 'MENUNGGU',
+      package_type TEXT NOT NULL,
+      match_count INTEGER NOT NULL,
+      schedule TEXT NOT NULL,
+      notes TEXT DEFAULT '',
+      unit_price INTEGER NOT NULL,
+      discount INTEGER NOT NULL DEFAULT 0,
+      total_price INTEGER NOT NULL,
+      order_status TEXT NOT NULL DEFAULT 'menunggu_konfirmasi',
+      payment_status TEXT NOT NULL DEFAULT 'belum_dibayar',
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
   `).run();
 
-  const columns = await getColumns(db);
+  const result = await db.prepare("PRAGMA table_info(orders)").all();
+  const columns = (result.results || []).map((c) => c.name);
 
   const required = [
-    "nickname",
-    "service",
-    "quantity",
-    "total",
+    "order_code", "customer_name", "game_id", "package_type",
+    "match_count", "schedule", "unit_price", "discount",
+    "total_price", "order_status", "payment_status", "created_at"
   ];
 
-  const missing = required.filter((name) => !columns.includes(name));
+  const missing = required.filter((c) => !columns.includes(c));
 
   if (missing.length) {
     throw new Error(
-      "Struktur tabel orders tidak cocok. Kolom yang belum tersedia: " +
+      "Skema tabel D1 lama tidak cocok. Kolom yang tidak ada: " +
       missing.join(", ") +
-      ". Periksa skema tabel D1."
+      ". Jangan hapus database; periksa struktur tabel orders."
     );
   }
-
-  return columns;
 }
 
-function getSecret(env) {
-  return env.ADMIN_SESSION_SECRET || "rahasia-rifhsk-super-aman";
-}
+async function authorized(request, env) {
+  const header = request.headers.get("Authorization") || "";
+  const token = header.replace(/^Bearer\s+/i, "");
 
-async function signToken(payload, secret) {
+  if (!token || !env.ADMIN_SESSION_SECRET) return false;
+
+  const parts = token.split(".");
+  if (parts.length !== 2 || !/^\d+$/.test(parts[0])) return false;
+  if (Number(parts[0]) < Date.now()) return false;
+
   const key = await crypto.subtle.importKey(
     "raw",
-    new TextEncoder().encode(secret),
+    new TextEncoder().encode(env.ADMIN_SESSION_SECRET),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -113,315 +93,287 @@ async function signToken(payload, secret) {
   const signature = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(payload)
+    new TextEncoder().encode(parts[0])
   );
 
-  const bytes = new Uint8Array(signature);
-  let binary = "";
+  const expected = btoa(
+    String.fromCharCode(...new Uint8Array(signature))
+  ).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
-  }
-
-  return btoa(binary)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
+  return token === `${parts[0]}.${expected}`;
 }
 
-async function createToken(env) {
-  const expires = Date.now() + 24 * 60 * 60 * 1000;
-  const payload = String(expires);
-  const signature = await signToken(payload, getSecret(env));
+async function makeToken(env) {
+  const expires = String(Date.now() + 24 * 60 * 60 * 1000);
 
-  return `${payload}.${signature}`;
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(env.ADMIN_SESSION_SECRET),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(expires)
+  );
+
+  const encoded = btoa(
+    String.fromCharCode(...new Uint8Array(signature))
+  ).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+
+  return `${expires}.${encoded}`;
 }
 
-async function verifyToken(request, env) {
-  const header = request.headers.get("Authorization") || "";
-  const token = header.replace(/^Bearer\s+/i, "");
-  const parts = token.split(".");
-
-  if (parts.length !== 2) return false;
-
-  const [payload, signature] = parts;
-
-  if (!/^\d+$/.test(payload)) return false;
-  if (Number(payload) < Date.now()) return false;
-
-  const expected = await signToken(payload, getSecret(env));
-
-  return signature === expected;
-}
-
-async function handleRequest(request, env) {
+async function handler(request, env) {
   if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: CORS_HEADERS,
-    });
+    return new Response(null, { status: 204, headers: CORS });
   }
 
   if (!env.DB) {
-    return json({
-      success: false,
-      error: "Binding D1 DB belum dikonfigurasi di Cloudflare Worker.",
-    }, 500);
+    return response({ error: "Binding D1 bernama DB belum diatur." }, 500);
   }
 
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, "") || "/";
 
-  // Login admin
-  if (path === "/api/admin/login" && request.method === "POST") {
+  if (path === "/api/health" && request.method === "GET") {
+    return response({ success: true, service: "RANK VS BOT API" });
+  }
+
+  if (path === "/api/login" && request.method === "POST") {
     let body;
 
     try {
       body = await request.json();
     } catch {
-      return json({ success: false, error: "Format JSON tidak valid." }, 400);
+      return response({ error: "JSON login tidak valid." }, 400);
     }
 
-    const password = env.ADMIN_PASSWORD || "rifhsk854";
-
-    if (body.password !== password) {
-      return json({
-        success: false,
-        error: "Password admin salah.",
-      }, 401);
+    if (!env.ADMIN_PASSWORD || !env.ADMIN_SESSION_SECRET) {
+      return response({
+        error: "Atur ADMIN_PASSWORD dan ADMIN_SESSION_SECRET di Cloudflare Worker Settings → Variables and Secrets."
+      }, 500);
     }
 
-    return json({
+    if (body.password !== env.ADMIN_PASSWORD) {
+      return response({ error: "Password admin salah." }, 401);
+    }
+
+    return response({
       success: true,
-      token: await createToken(env),
+      token: await makeToken(env),
     });
   }
 
-  // Seluruh endpoint admin selain login wajib menggunakan token
-  if (path.startsWith("/api/admin/")) {
-    const authenticated = await verifyToken(request, env);
-
-    if (!authenticated) {
-      return json({
-        success: false,
-        error: "Sesi admin tidak valid atau sudah kedaluwarsa. Silakan login kembali.",
-      }, 401);
+  if (path.startsWith("/api/") && path !== "/api/orders") {
+    if (!(await authorized(request, env))) {
+      return response({ error: "Login admin diperlukan." }, 401);
     }
   }
 
-  // Membuat pesanan baru
   if (path === "/api/orders" && request.method === "POST") {
     let body;
 
     try {
       body = await request.json();
     } catch {
-      return json({ success: false, error: "Format JSON tidak valid." }, 400);
+      return response({ error: "Format JSON pesanan tidak valid." }, 400);
     }
 
-    const nickname = String(body.nickname || "").trim();
-    const gameId = String(body.game_id ?? body.gameId ?? "").trim();
-    const service = String(body.service || "").trim().toUpperCase();
-    const quantity = Number(body.quantity);
-    const total = Number(body.total);
+    const customerName = String(body.customerName || "").trim();
+    const gameId = String(body.gameId || "").trim();
+    const packageType = String(body.packageType || "");
+    const matchCount = Number(body.matchCount);
     const schedule = String(body.schedule || "").trim();
     const notes = String(body.notes || "").trim();
 
-    if (!nickname || !gameId || !service) {
-      return json({
-        success: false,
-        error: "Nickname, ID game, dan layanan wajib diisi.",
+    if (!customerName || !gameId || !schedule) {
+      return response({
+        error: "Nama pelanggan, Game ID, dan jadwal wajib diisi."
       }, 400);
     }
 
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
-      return json({
-        success: false,
-        error: "Jumlah pertandingan harus antara 1 sampai 10.",
-      }, 400);
+    if (!PACKAGES[packageType]) {
+      return response({ error: "Paket tidak valid." }, 400);
     }
 
-    if (!Number.isSafeInteger(total) || total <= 0) {
-      return json({
-        success: false,
-        error: "Total pembayaran tidak valid.",
-      }, 400);
+    if (!Number.isInteger(matchCount) || matchCount < 1 || matchCount > 5) {
+      return response({ error: "Jumlah match harus 1 sampai 5." }, 400);
     }
 
-    const orderId = `RVB-${Date.now()}-${crypto.randomUUID().slice(0, 6)}`;
+    const pkg = PACKAGES[packageType];
+    const totalPrice = pkg.totals[matchCount];
+    const discount = pkg.unit * matchCount - totalPrice;
+    const orderCode = "RVB-" + Date.now().toString(36).toUpperCase();
 
     try {
-      const columns = await ensureTable(env.DB);
+      await initialize(env.DB);
 
-      const values = {
-        id: orderId,
-        order_id: orderId,
-        nickname,
-        game_id: gameId,
-        gameId,
-        service,
-        quantity,
-        schedule,
-        notes,
-        total,
-        status: "MENUNGGU",
-        created_at: new Date().toISOString(),
-      };
+      await env.DB.prepare(`
+        INSERT INTO orders (
+          order_code, customer_name, game_id, package_type,
+          match_count, schedule, notes, unit_price, discount,
+          total_price, order_status, payment_status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        orderCode, customerName, gameId, packageType,
+        matchCount, schedule, notes, pkg.unit, discount,
+        totalPrice, "menunggu_konfirmasi", "belum_dibayar"
+      ).run();
 
-      const insertColumns = Object.keys(values).filter((key) =>
-        columns.includes(key)
-      );
-
-      if (!insertColumns.some((key) => key === "id" || key === "order_id")) {
-        throw new Error(
-          "Tabel orders tidak memiliki kolom id atau order_id."
-        );
-      }
-
-      const placeholders = insertColumns.map(() => "?").join(", ");
-      const sql = `
-        INSERT INTO orders (${insertColumns.map((name) => `"${name}"`).join(", ")})
-        VALUES (${placeholders})
-      `;
-
-      await env.DB.prepare(sql)
-        .bind(...insertColumns.map((key) => values[key]))
-        .run();
-
-      return json({
+      return response({
         success: true,
-        message: "Pesanan berhasil disimpan.",
-        order_id: orderId,
+        order: {
+          orderCode,
+          customerName,
+          gameId,
+          packageType,
+          packageName: pkg.name,
+          matchCount,
+          schedule,
+          notes,
+          unitPrice: pkg.unit,
+          discount,
+          totalPrice,
+        }
       }, 201);
     } catch (error) {
-      console.error("D1 INSERT ERROR:", error);
-
-      return json({
-        success: false,
-        error: "Gagal menyimpan pesanan ke database D1.",
-        detail: String(error?.message || error),
+      console.error("CREATE ORDER ERROR:", error);
+      return response({
+        error: "Gagal menyimpan pesanan ke D1.",
+        detail: String(error.message || error)
       }, 500);
     }
   }
 
-  // Daftar pesanan admin
-  if (path === "/api/admin/orders" && request.method === "GET") {
-    try {
-      await ensureTable(env.DB);
+  if (path === "/api/orders" && request.method === "GET") {
+    if (!(await authorized(request, env))) {
+      return response({ error: "Login admin diperlukan." }, 401);
+    }
 
+    try {
+      await initialize(env.DB);
       const result = await env.DB.prepare(
         "SELECT * FROM orders ORDER BY created_at DESC"
       ).all();
 
-      const orders = (result.results || []).map(normalizeOrder);
-
-      return json({
-        success: true,
-        orders,
-      });
+      return response({ success: true, orders: result.results || [] });
     } catch (error) {
-      console.error("D1 SELECT ERROR:", error);
-
-      return json({
-        success: false,
-        error: "Gagal mengambil data pesanan.",
-        detail: String(error?.message || error),
+      return response({
+        error: "Gagal membaca pesanan.",
+        detail: String(error.message || error)
       }, 500);
     }
   }
 
-  // Update status: mendukung /:id dan /:id/status
-  const statusMatch = path.match(
-    /^\/api\/admin\/orders\/([^/]+)(?:\/status)?$/
-  );
+  if (path === "/api/stats" && request.method === "GET") {
+    if (!(await authorized(request, env))) {
+      return response({ error: "Login admin diperlukan." }, 401);
+    }
 
-  if (statusMatch && request.method === "PATCH") {
-    const orderId = decodeURIComponent(statusMatch[1]);
+    try {
+      await initialize(env.DB);
+
+      const result = await env.DB.prepare(`
+        SELECT
+          COUNT(*) AS total_orders,
+          COALESCE(SUM(match_count), 0) AS total_matches,
+          SUM(CASE WHEN order_status = 'menunggu_konfirmasi' THEN 1 ELSE 0 END) AS waiting_orders,
+          SUM(CASE WHEN order_status = 'diproses' THEN 1 ELSE 0 END) AS processing_orders,
+          SUM(CASE WHEN order_status = 'selesai' THEN 1 ELSE 0 END) AS completed_orders,
+          SUM(CASE WHEN order_status = 'dibatalkan' THEN 1 ELSE 0 END) AS cancelled_orders,
+          COALESCE(SUM(CASE WHEN payment_status = 'dibayar' THEN total_price ELSE 0 END), 0) AS revenue_paid,
+          COALESCE(SUM(CASE WHEN payment_status != 'dibayar' AND order_status != 'dibatalkan' THEN total_price ELSE 0 END), 0) AS revenue_pending
+        FROM orders
+      `).first();
+
+      return response({ success: true, stats: result || {} });
+    } catch (error) {
+      return response({
+        error: "Gagal membaca statistik.",
+        detail: String(error.message || error)
+      }, 500);
+    }
+  }
+
+  if (path === "/api/logout" && request.method === "POST") {
+    return response({ success: true });
+  }
+
+  if (path === "/api/orders" && request.method === "PATCH") {
+    return response({ error: "Endpoint tidak valid." }, 404);
+  }
+
+  if (path === "/api/orders" && request.method === "POST") {
+    return response({ error: "Endpoint tidak valid." }, 404);
+  }
+
+  if (path === "/api/orders" && request.method === "PATCH") {
+    return response({ error: "Gunakan endpoint pembaruan status yang benar." }, 404);
+  }
+
+  const updatePath = path.match(/^\/api\/orders\/([^/]+)$/);
+
+  if (updatePath && request.method === "PATCH") {
+    if (!(await authorized(request, env))) {
+      return response({ error: "Login admin diperlukan." }, 401);
+    }
 
     let body;
 
     try {
       body = await request.json();
     } catch {
-      return json({ success: false, error: "Format JSON tidak valid." }, 400);
+      return response({ error: "JSON pembaruan tidak valid." }, 400);
     }
 
-    let status;
+    const orderStatus = String(body.orderStatus || "");
+    const paymentStatus = String(body.paymentStatus || "");
+    const orderCode = decodeURIComponent(updatePath[1]);
 
-    try {
-      status = normalizeStatus(body.status);
-    } catch (error) {
-      return json({
-        success: false,
-        error: error.message,
-        allowed_statuses: ALLOWED_STATUSES,
-      }, 400);
+    if (!ORDER_STATUSES.includes(orderStatus) ||
+        !PAYMENT_STATUSES.includes(paymentStatus)) {
+      return response({ error: "Status pesanan atau pembayaran tidak valid." }, 400);
     }
 
     try {
-      const columns = await ensureTable(env.DB);
-      const idColumn = columns.includes("id")
-        ? "id"
-        : columns.includes("order_id")
-          ? "order_id"
-          : null;
+      await initialize(env.DB);
 
-      if (!idColumn) {
-        throw new Error("Kolom id/order_id tidak ditemukan di tabel orders.");
-      }
-
-      if (!columns.includes("status")) {
-        throw new Error("Kolom status tidak ditemukan di tabel orders.");
-      }
-
-      const result = await env.DB.prepare(
-        `UPDATE orders SET status = ? WHERE "${idColumn}" = ?`
-      ).bind(status, orderId).run();
+      const result = await env.DB.prepare(`
+        UPDATE orders
+        SET order_status = ?, payment_status = ?
+        WHERE order_code = ?
+      `).bind(orderStatus, paymentStatus, orderCode).run();
 
       if (!result.meta || result.meta.changes === 0) {
-        return json({
-          success: false,
-          error: "Pesanan tidak ditemukan.",
-        }, 404);
+        return response({ error: "Pesanan tidak ditemukan." }, 404);
       }
 
-      return json({
-        success: true,
-        message: "Status pesanan berhasil diperbarui.",
-        order_id: orderId,
-        status,
-      });
+      return response({ success: true });
     } catch (error) {
-      console.error("D1 UPDATE ERROR:", error);
-
-      return json({
-        success: false,
-        error: "Gagal memperbarui status pesanan.",
-        detail: String(error?.message || error),
+      return response({
+        error: "Gagal memperbarui pesanan.",
+        detail: String(error.message || error)
       }, 500);
     }
   }
 
-  return json({
-    success: false,
-    error: "Endpoint tidak ditemukan.",
-    path,
-    method: request.method,
-  }, 404);
+  return response({ error: "Endpoint tidak ditemukan.", path, method: request.method }, 404);
 }
 
 export default {
   async fetch(request, env) {
     try {
-      return await handleRequest(request, env);
+      return await handler(request, env);
     } catch (error) {
       console.error("WORKER ERROR:", error);
-
-      return json({
-        success: false,
-        error: "Terjadi kesalahan pada Worker.",
-        detail: String(error?.message || error),
+      return response({
+        error: "Kesalahan Worker.",
+        detail: String(error.message || error)
       }, 500);
     }
-  },
+  }
 };
