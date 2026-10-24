@@ -84,10 +84,12 @@ function showPayment(o) {
   $('copy-note').textContent = '';
   $('payment-modal').classList.add('active');
 }
+
 function closePayment() {
   $('payment-modal').classList.remove('active');
   if(currentOrder) $('fab-pay').classList.add('show');
 }
+
 function copyNominal() {
   if(!currentOrder) return;
   const t = String(currentOrder.total);
@@ -108,6 +110,7 @@ function copyNominal() {
     document.execCommand('copy'); ta.remove(); ok();
   }
 }
+
 function downloadQRIS() {
   const a = document.createElement('a');
   a.href = 'qris.jpg';
@@ -119,10 +122,24 @@ function downloadQRIS() {
   $('copy-note').textContent = '⬇ Mengunduh gambar QRIS...';
   setTimeout(() => { $('copy-note').textContent = ''; }, 2000);
 }
+
 function confirmToWA() {
   if(!currentOrder) { toast('Tidak ada order aktif', 'error'); return; }
   const o = currentOrder;
-  const msg = 'HALO ADMIN RIFHSK STORE! 🎮\nSaya sudah melakukan pembayaran via QRIS.\n\n*Order ID :* ' + o.id + '\n*Nickname :* ' + o.nickname + '\n*ID Server :* ' + o.server + '\n*Paket :* ' + PKG_LABEL[o.pkg] + '\n*Jumlah :* ' + o.matches + '\n*Jadwal :* ' + o.schedule + '\n*Total :* ' + fmtRp(o.total) + '\n*No. WA :* ' + o.wa + '\n\nMohon konfirmasi pembayaran saya. Terima kasih!';
+  
+  // FORMAT PESAN WA BARU
+  const msg = 'HALO ADMIN RIFHSK STORE! 🎮\n\n' +
+              'Saya sudah melakukan pembayaran via QRIS.\n\n' +
+              '*Order ID :* ' + o.id + '\n' +
+              '*Nickname :* ' + o.nickname + '\n' +
+              '*ID Server :* ' + o.server + '\n' +
+              '*Paket :* ' + PKG_LABEL[o.pkg] + '\n' +
+              '*Jumlah :* ' + o.matches + ' Match\n' +
+              '*Jadwal :* ' + o.schedule + '\n' +
+              '*Pembayaran :* ' + fmtRp(o.total) + '\n' +
+              '*WhatsApp :* ' + o.wa + '\n\n' +
+              'Mohon konfirmasi pembayaran saya. Terima kasih!';
+              
   window.open('https://wa.me/' + WA_ADMIN + '?text=' + encodeURIComponent(msg), '_blank');
   $('fab-pay').classList.remove('show');
   closePayment();
