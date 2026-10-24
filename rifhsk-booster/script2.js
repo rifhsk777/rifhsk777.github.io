@@ -1,8 +1,30 @@
+let allOrders = []; // Penampung data dari Firebase
+const MAX_ORDERS = 7;
+
+// Dengarkan data dari Firebase secara REALTIME
+db.ref('orders').on('value', (snapshot) => {
+  allOrders = [];
+  const data = snapshot.val();
+  if(data) {
+    Object.keys(data).forEach(key => {
+      allOrders.push(data[key]);
+    });
+    allOrders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+  
+  renderFeed();
+  renderStats();
+  if($('admin-panel').classList.contains('active')) renderAdmin();
+});
+
 function renderFeed() {
   const f = $('feed');
   if(!f) return;
-  // HANYA UNTUK TAMPILAN BERANDA: Ambil maksimal 7 terbaru
-  const o = getOrders().slice(0, MAX_ORDERS);
+  
+  const now = Date.now();
+  const validOrders = allOrders.filter(o => (now - new Date(o.createdAt).getTime()) < WEEK_MS);
+  const o = validOrders.slice(0, MAX_ORDERS); // Max 7 di beranda
+  
   if(!o.length) { f.innerHTML = '<div class="empty-state">Belum ada order. Jadilah yang pertama! 🚀</div>'; return; }
   f.innerHTML = o.map(x => {
     const masked = maskName(x.nickname);
@@ -11,30 +33,30 @@ function renderFeed() {
 }
 
 function renderStats() {
-  const o = getOrders();
-  if($('s-total')) $('s-total').textContent = o.length;
-  if($('s-match')) $('s-match').textContent = o.filter(x => x.status === 'confirmed' || x.status === 'done').reduce((a,x) => a + x.matches, 0);
-  if($('s-done')) $('s-done').textContent = o.filter(x => x.status === 'done').length;
-  if($('s-customers')) $('s-customers').textContent = new Set(o.map(x => x.nickname)).size;
+  const now = Date.now();
+  const validOrders = allOrders.filter(o => (now - new Date(o.createdAt).getTime()) < WEEK_MS);
+  
+  if($('s-total')) $('s-total').textContent = validOrders.length;
+  if($('s-match')) $('s-match').textContent = validOrders.filter(x => x.status === 'confirmed' || x.status === 'done').reduce((a,x) => a + x.matches, 0);
+  if($('s-done')) $('s-done').textContent = validOrders.filter(x => x.status === 'done').length;
+  if($('s-customers')) $('s-customers').textContent = new Set(validOrders.map(x => x.nickname)).size;
 }
 
 let isAdmin = false;
 
 function setStatus(id, st) {
-  const l = getOrders();
-  const i = l.findIndex(o => o.id === id);
-  if(i < 0) return;
-  l[i].status = st;
-  saveOrders(l);
-  renderAdmin(); renderFeed(); renderStats();
-  toast('Order ' + id + ' → ' + statusLabel(st), 'success');
+  db.ref('orders/' + id).update({ status: st }).then(() => {
+    toast('Order ' + id + ' → ' + statusLabel(st), 'success');
+  });
 }
+
 function deleteOrder(id) {
   if(!confirm('Hapus order ' + id + '?')) return;
-  saveOrders(getOrders().filter(o => o.id !== id));
-  renderAdmin(); renderFeed(); renderStats();
-  toast('Order ' + id + ' dihapus');
+  db.ref('orders/' + id).remove().then(() => {
+    toast('Order ' + id + ' dihapus');
+  });
 }
+
 function doLogin() {
   const v = $('admin-pass').value, e = $('login-err');
   if(v === ADMIN_PASSWORD) {
@@ -56,7 +78,10 @@ function logoutAdmin() { isAdmin = false; $('admin-panel').classList.remove('act
 
 function renderAdmin() {
   if(!isAdmin) return;
-  const orders = getOrders(); // Tampilkan SEMUA order di panel admin
+  
+  const now = Date.now();
+  const orders = allOrders.filter(o => (now - new Date(o.createdAt).getTime()) < WEEK_MS);
+  
   const st = {
     total: orders.length,
     pending: orders.filter(o => o.status === 'pending').length,
@@ -64,7 +89,9 @@ function renderAdmin() {
     done: orders.filter(o => o.status === 'done').length,
     revenue: orders.filter(o => o.status === 'done').reduce((a,o) => a + o.total, 0)
   };
+  
   $('admin-stats').innerHTML = '<div class="stat-box"><div class="num">' + st.total + '</div><div class="lbl">Total Order</div></div><div class="stat-box"><div class="num" style="color:var(--yellow)">' + st.pending + '</div><div class="lbl">Pending</div></div><div class="stat-box"><div class="num" style="color:var(--primary)">' + st.confirmed + '</div><div class="lbl">Diproses</div></div><div class="stat-box"><div class="num" style="color:var(--green)">' + st.done + '</div><div class="lbl">Selesai</div></div><div class="stat-box"><div class="num" style="color:var(--green)">' + fmtRp(st.revenue) + '</div><div class="lbl">Pendapatan</div></div>';
+  
   const tb = $('admin-tbody');
   if(!orders.length) { tb.innerHTML = '<tr><td colspan="10"><div class="admin-empty">Belum ada order masuk.</div></td></tr>'; return; }
   tb.innerHTML = orders.map(o => {
@@ -107,13 +134,6 @@ if(logoEl) {
   });
 }
 if($('admin-pass')) { $('admin-pass').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); }); }
-
-window.addEventListener('storage', e => {
-  if(e.key === STORAGE_KEY) {
-    renderFeed(); renderStats();
-    if($('admin-panel').classList.contains('active')) renderAdmin();
-  }
-});
 
 (function() {
   const els = document.querySelectorAll('.reveal');
@@ -186,7 +206,4 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (function init() {
   if($('year')) $('year').textContent = new Date().getFullYear();
   updT();
-  renderFeed();
-  renderStats();
-  saveOrders(getOrders());
 })();
