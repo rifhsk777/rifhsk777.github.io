@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIFHSK BOOSTER · Jasa Gendong VS Bot No #1 Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style1.css">
+<link rel="stylesheet" href="style2.css">
+<link rel="stylesheet" href="style3.css">
+</head>
+<body>
+
+<canvas id="snow-canvas"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span>RIFHSK<span>BOOSTER</span></div>
+    <div class="nav-links">
+      <a href="#layanan">Layanan</a>
+      <a href="#pricing">Harga</a>
+      <a href="#order">Order</a>
+      <a href="#realtime">Realtime</a>
+      <a href="#support">Support</a>
+    </div>
+    <div class="clock-widget">
+      <div class="clock-time" id="clock-time">00:00:00</div>
+      <div class="clock-label">⏰ LIFETIME</div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero container">
+  <div class="brand-title">🏆 RIFHSK BOOSTER NO #1 INDONESIA</div>
+  <div class="hero-badge"><span class="logo-dot"></span>LIVE · Jasa Gendong VS Bot Terpercaya</div>
+  <h1>Gendong Rank <span class="grad">VS Bot</span><br>Cepat, Aman & Profesional</h1>
+  <p>Layanan gendong VS Bot (bukan joki akun) dengan proses realtime, pengerjaan cepat, dan harga terjangkau.</p>
+  <div class="hero-cta">
+    <a href="#order" class="btn btn-primary">🚀 Mulai Order</a>
+    <a href="#pricing" class="btn btn-ghost">Lihat Harga</a>
+    <button class="btn btn-ghost" onclick="openCheck()">🔍 Cek Status</button>
+  </div>
+</header>
+
+<section class="trust-section reveal">
+  <div class="container">
+    <div class="section-title" style="margin-bottom:26px">
+      <div class="tag">// Kenapa Pilih Kami</div>
+      <h2>Platform Terpercaya</h2>
+      <p>RIFHSK BOOSTER — NO #1 INDONESIA · Jasa Gendong VS Bot Paling Aman & Cepat</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card c1"><div class="trust-icon">🛡️</div><h4>Terpercaya</h4><p>Sudah melayani ratusan pelanggan dengan rating tinggi & testimoni positif.</p></div>
+      <div class="trust-card c2"><div class="trust-icon">🤝</div><h4>Amanah</h4><p>Data akun 100% aman, tidak disalahgunakan. Privasi pelanggan dijaga ketat.</p></div>
+      <div class="trust-card c3"><div class="trust-icon">⚡</div><h4>Cepat</h4><p>Proses gendong realtime, pengerjaan cepat tanpa drama. Hasil memuaskan.</p></div>
+      <div class="trust-card c4"><div class="trust-icon">🎧</div><h4>Support 24/7</h4><p>Admin aktif setiap saat. Chat kapan pun, respon cepat tanpa lama menunggu.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="layanan" class="reveal">
+  <div class="container">
+    <div class="section-title"><div class="tag">// Fitur Layanan</div><h2>Layanan Kami</h2><p>Fitur lengkap yang kamu dapatkan di setiap order</p></div>
+    <div class="layanan-grid">
+      <div class="layanan-item"><span class="ico">⎋</span> MAX LIMIT 5X SEHARI</div>
+      <div class="layanan-item"><span class="ico">⎋</span> HERO BEBAS + FREE SAVAGE</div>
+      <div class="layanan-item"><span class="ico">⎋</span> N 13 + KDA + MMR DERES</div>
+      <div class="layanan-item"><span class="ico">⎋</span> HOST IKUT MAIN</div>
+      <div class="layanan-item"><span class="ico">⎋</span> TB GANTI PER MATCH</div>
+      <div class="layanan-item"><span class="ico">⎋</span> BOT WARIOR ONLY JINAK</div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="reveal">
+  <div class="container">
+    <div class="section-title"><div class="tag">// Pricelist</div><h2>Pilih Paket Kamu</h2><p>Harga dihitung per match · Transparan tanpa biaya tersembunyi</p></div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Flexible</div>
+        <div class="price-value">Rp 2.000<small> /match</small></div>
+        <p class="price-desc">Bebas pilih hero & role. Cocok untuk kamu yang ingin fleksibel.</p>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Bebas hero & role</li>
+          <li><span class="check">✓</span> Jadwal bisa disesuaikan</li>
+          <li><span class="check">✓</span> Proses realtime</li>
+          <li><span class="check">✓</span> Laporan setiap match</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="selectPackage('flexible')">Pilih Flexible</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">POPULER</div>
+        <div class="price-name">No Flexible</div>
+        <div class="price-value">Rp 3.000<small> /match</small></div>
+        <p class="price-desc">Hero & role ditentukan (request). Prioritas pengerjaan lebih cepat.</p>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Hero/role sesuai request</li>
+          <li><span class="check">✓</span> Prioritas pengerjaan</li>
+          <li><span class="check">✓</span> Proses realtime</li>
+          <li><span class="check">✓</span> Laporan setiap match</li>
+        </ul>
+        <button class="btn btn-primary" onclick="selectPackage('noflexible')">Pilih No Flexible</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="order" class="reveal">
+  <div class="container">
+    <div class="section-title"><div class="tag">// Order Form</div><h2>Formulir Order</h2><p>Isi data dengan benar. Pesanan langsung masuk ke sistem realtime.</p></div>
+    <form class="form-wrap" id="order-form" autocomplete="off">
+      <div class="stats-bar">
+        <div class="st"><div class="v" id="s-total">0</div><div class="l">Order Masuk</div></div>
+        <div class="st"><div class="v" id="s-match">0</div><div class="l">Match Selesai</div></div>
+        <div class="st"><div class="v" id="s-done">0</div><div class="l">Order Selesai</div></div>
+        <div class="st"><div class="v" id="s-customers">0</div><div class="l">Pelanggan</div></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nickname <span class="req">*</span></label><input type="text" id="f-nickname" placeholder="contoh: ProGamer99" required></div>
+        <div class="form-group"><label>ID Server <span class="req">*</span></label><input type="text" id="f-server" placeholder="contoh: 12345678 (1234)" required></div>
+        <div class="form-group"><label>Jumlah Match (max 5) <span class="req">*</span></label><input type="number" id="f-matches" placeholder="contoh: 5" min="1" max="5" value="5" required></div>
+        <div class="form-group"><label>Jadwal Main <span class="req">*</span></label><select id="f-schedule" required><option value="Sekarang">Sekarang</option><option value="Siang">Siang</option><option value="Sore">Sore</option><option value="Malam">Malam</option></select></div>
+        <div class="form-group full"><label>No. WhatsApp <span class="req">*</span></label><input type="tel" id="f-wa" placeholder="contoh: 081234567890" required></div>
+        <div class="form-group full">
+          <label>Pilih Paket <span class="req">*</span></label>
+          <div class="pkg-select">
+            <label class="pkg-opt"><input type="radio" name="pkg" value="flexible" checked><div class="pkg-box"><div class="pkg-title">FLEXIBLE</div><div class="pkg-price">Rp 2.000 / match</div></div></label>
+            <label class="pkg-opt"><input type="radio" name="pkg" value="noflexible"><div class="pkg-box"><div class="pkg-title">NO FLEXIBLE</div><div class="pkg-price">Rp 3.000 / match</div></div></label>
+          </div>
+        </div>
+        <div class="total-box"><span class="lbl">Estimasi Total</span><span class="val" id="total-display">Rp 10.000</span></div>
+      </div>
+      <div class="form-info">💡 Harga otomatis menyesuaikan paket & jumlah match yang kamu pilih (max 5 match/order).</div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;padding:15px">📩 Kirim Order Sekarang</button>
+    </form>
+  </div>
+</section>
+
+<section id="realtime" class="reveal">
+  <div class="container">
+    <div class="section-title"><div class="tag">// Live Feed</div><h2>Order Realtime</h2><p>Pantau aktivitas order terbaru secara langsung (max 7 order)</p></div>
+    <div class="section-box"><div class="feed" id="feed"></div></div>
+  </div>
+</section>
+
+<section id="support" class="reveal">
+  <div class="container">
+    <div class="section-title"><div class="tag">// Support</div><h2>Butuh Bantuan?</h2><p>Hubungi kami lewat channel di bawah ini</p></div>
+    <div class="section-box">
+      <div class="support-grid">
+        <a class="support-card" href="https://wa.me/6285725209623" target="_blank" rel="noopener">
+          <div class="support-icon wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+          <h4>WhatsApp Admin</h4><p>+62 857-2520-9623</p>
+        </a>
+        <a class="support-card" href="https://whatsapp.com/channel/0029VbDxAA66hENnCu9hsB0l" target="_blank" rel="noopener">
+          <div class="support-icon ch"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg></div>
+          <h4>Channel WhatsApp</h4><p>Ikuti update & promo terbaru</p>
+        </a>
+        <a class="support-card" onclick="openCheck()">
+          <div class="support-icon check"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+          <h4>Cek Status Order</h4><p>Lacak pesanan kamu</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><span class="brand">RIFHSK BOOSTER</span> · Jasa Gendong VS Bot Profesional · NO #1 INDONESIA<br>© <span id="year"></span> All rights reserved · <span id="admin-trigger">v3.3</span></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div id="check-modal">
+  <div class="check-box">
+    <button class="close-x" onclick="closeCheck()">×</button>
+    <h3>🔍 CEK STATUS ORDER</h3>
+    <p class="sub">Masukkan Order ID untuk melihat status pesanan</p>
+    <input type="text" id="check-id" placeholder="Contoh: RBABC123" autocomplete="off">
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="checkStatus()">Cek Sekarang</button>
+    <div id="check-result" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<div id="payment-modal">
+  <div class="pay-box">
+    <button class="close-x" onclick="closePayment()">×</button>
+    <h3>💳 PEMBAYARAN QRIS</h3>
+    <p class="sub">Scan QRIS & bayar sesuai nominal di bawah</p>
+    <div class="order-info">
+      <div class="row"><span class="k">Order ID</span><span class="v" id="pm-id">-</span></div>
+      <div class="row"><span class="k">Nickname</span><span class="v" id="pm-nick">-</span></div>
+      <div class="row"><span class="k">Jumlah Match</span><span class="v" id="pm-match">-</span></div>
+    </div>
+    <div class="total-big" id="pm-total">Rp 0</div>
+    <div class="qr-wrap"><img src="qris.jpg" alt="QRIS Payment"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyNominal()">📋 Salin Nominal</button>
+      <button class="btn btn-ghost" onclick="downloadQRIS()">⬇ Unduh QRIS</button>
+    </div>
+    <div class="copy-note" id="copy-note"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;margin-top:8px" onclick="confirmToWA()">✅ Konfirmasi ke WhatsApp</button>
+  </div>
+</div>
+<button id="fab-pay" onclick="showPayment(currentOrder)">💳 Bayar</button>
+
+<div id="login-modal">
+  <div class="login-box">
+    <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+    <h3>ADMIN ACCESS</h3>
+    <p>Masukkan kode akses panel admin</p>
+    <input type="password" id="admin-pass" placeholder="••••••••" autocomplete="off">
+    <div class="err" id="login-err"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="doLogin()">Masuk Panel</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px" onclick="closeLogin()">Batal</button>
+  </div>
+</div>
+
+<div id="admin-panel">
+  <div class="admin-container">
+    <div class="admin-header">
+      <h2><span class="dot"></span> ADMIN CONTROL PANEL</h2>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" style="padding:9px 16px;font-size:14px" onclick="renderAdmin()">↻ Refresh</button>
+        <button class="btn btn-primary" style="padding:9px 16px;font-size:14px" onclick="logoutAdmin()">Keluar</button>
+      </div>
+    </div>
+    <div class="admin-stats" id="admin-stats"></div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Order ID</th><th>Nickname</th><th>Server</th><th>Paket</th><th>Match</th><th>Total</th><th>Jadwal</th><th>WA</th><th>Status</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="admin-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="script1.js"></script>
+<script src="script2.js"></script>
+</body>
+          </html>
