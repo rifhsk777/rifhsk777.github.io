@@ -139,7 +139,7 @@ function downloadQRIS() {
 function confirmToWA() {
   if(!currentOrder) { toast('Tidak ada order aktif', 'error'); return; }
   const o = currentOrder;
-  const msg = 'Halo Admin RIFHSK BOOSTER! 🎮\nSaya sudah melakukan pembayaran via QRIS.\n\n*Order ID:* ' + o.id + '\n*Nickname:* ' + o.nickname + '\n*ID Server:* ' + o.server + '\n*Paket:* ' + PKG_LABEL[o.pkg] + '\n*Jumlah Match:* ' + o.matches + '\n*Jadwal Main:* ' + o.schedule + '\n*Total:* ' + fmtRp(o.total) + '\n*No. WA:* ' + o.wa + '\n\nMohon konfirmasi pembayaran saya. Terima kasih!';
+  const msg = 'HALO ADMIN RIFHSK GANTENG! 🎮\nSaya sudah melakukan pembayaran via QRIS.\n\n*Order ID :* ' + o.id + '\n*Nickname :* ' + o.nickname + '\n*ID Server :* ' + o.server + '\n*Paket :* ' + PKG_LABEL[o.pkg] + '\n*Jumlah :* ' + o.matches + '\n*Jadwal :* ' + o.schedule + '\n*Total :* ' + fmtRp(o.total) + '\n*No. WA :* ' + o.wa + '\n\nMohon konfirmasi pembayaran saya. Terima kasih!';
   window.open('https://wa.me/' + WA_ADMIN + '?text=' + encodeURIComponent(msg), '_blank');
   $('fab-pay').classList.remove('show');
   closePayment();
