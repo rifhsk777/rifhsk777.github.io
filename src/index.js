@@ -23,8 +23,7 @@ async function readBody(request) {
   }
 }
 
-async function createToken(secret) {
-  const timestamp = Date.now().toString();
+async function sign(value, secret) {
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret),
@@ -36,17 +35,18 @@ async function createToken(secret) {
   const signature = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(timestamp)
+    new TextEncoder().encode(value)
   );
 
-  const encoded = btoa(
-    String.fromCharCode(...new Uint8Array(signature))
-  )
+  return btoa(String.fromCharCode(...new Uint8Array(signature)))
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/g, "");
+}
 
-  return `${timestamp}.${encoded}`;
+async function createToken(secret) {
+  const timestamp = Date.now().toString();
+  return `${timestamp}.${await sign(timestamp, secret)}`;
 }
 
 async function verifyToken(token, secret) {
@@ -56,45 +56,22 @@ async function verifyToken(token, secret) {
   if (parts.length !== 2) return false;
 
   const timestamp = Number(parts[0]);
+
   if (!Number.isFinite(timestamp)) return false;
-
-  // Token berlaku selama 12 jam.
   if (Date.now() - timestamp > 12 * 60 * 60 * 1000) return false;
-  if (timestamp > Date.now() + 60_000) return false;
+  if (timestamp > Date.now() + 60000) return false;
 
-  const expected = await createTokenForTimestamp(
-    parts[0],
-    secret
-  );
-
-  return expected === parts[1];
-}
-
-async function createTokenForTimestamp(timestamp, secret) {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-
-  const signature = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(timestamp)
-  );
-
-  return btoa(String.fromCharCode(...new Uint8Array(signature)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
+  return (await sign(parts[0], secret)) === parts[1];
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
+
+    // Gunakan nama secret yang kamu punya.
+    const ADMIN_PASSWORD = env.rifhsk854;
+    const ADMIN_TOKEN_SECRET = env.rifhsk862;
 
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders });
@@ -109,44 +86,39 @@ export default {
     }
 
     if (path === "/api/health") {
-      return response({
-        ok: true,
-        service: "rank-vs-bot-api",
-      });
+      return response({ ok: true, service: "rank-vs-bot-api" });
     }
 
-    // Diagnosis: hanya menampilkan keberadaan binding,
-    // tidak pernah menampilkan nilai secret.
-    if (path === "/api/debug-secrets" && request.method === "GET") {
+    if (path === "/api/debug-secrets") {
       return response({
-        marker: "RANK-VS-BOT-CHECK-7291",
-        passwordExists: Boolean(env.ADMIN_PASSWORD),
-        tokenSecretExists: Boolean(env.ADMIN_TOKEN_SECRET),
+        marker: "RANK-VS-BOT-854862",
+        passwordExists: Boolean(ADMIN_PASSWORD),
+        tokenSecretExists: Boolean(ADMIN_TOKEN_SECRET),
         databaseExists: Boolean(env.DB),
       });
     }
 
     if (path === "/api/admin/login" && request.method === "POST") {
-      if (!env.ADMIN_PASSWORD || !env.ADMIN_TOKEN_SECRET) {
+      if (!ADMIN_PASSWORD || !ADMIN_TOKEN_SECRET) {
         return response({
           success: false,
-          error: "Secret belum tersedia pada runtime Worker yang aktif.",
-          passwordExists: Boolean(env.ADMIN_PASSWORD),
-          tokenSecretExists: Boolean(env.ADMIN_TOKEN_SECRET),
+          error: "Secret rifhsk854 atau rifhsk862 belum terbaca.",
+          passwordExists: Boolean(ADMIN_PASSWORD),
+          tokenSecretExists: Boolean(ADMIN_TOKEN_SECRET),
         }, 500);
       }
 
       const body = await readBody(request);
       const password = String(body.password || "");
 
-      if (!password || password !== env.ADMIN_PASSWORD) {
+      if (password !== ADMIN_PASSWORD) {
         return response({
           success: false,
           error: "Password admin salah.",
         }, 401);
       }
 
-      const token = await createToken(env.ADMIN_TOKEN_SECRET);
+      const token = await createToken(ADMIN_TOKEN_SECRET);
 
       return response({
         success: true,
@@ -159,24 +131,21 @@ export default {
       const authorization = request.headers.get("Authorization") || "";
       const token = authorization.replace(/^Bearer\s+/i, "");
 
-      const valid = await verifyToken(token, env.ADMIN_TOKEN_SECRET);
-
-      if (!valid) {
+      if (!(await verifyToken(token, ADMIN_TOKEN_SECRET))) {
         return response({
           success: false,
-          error: "Sesi admin tidak valid atau sudah kedaluwarsa.",
+          error: "Sesi admin tidak valid atau kedaluwarsa.",
         }, 401);
       }
 
       return response({ success: true });
     }
 
-    // API order memerlukan database D1.
     if (path === "/api/orders" && request.method === "POST") {
       if (!env.DB) {
         return response({
           success: false,
-          error: "Binding database DB belum tersedia.",
+          error: "Database D1 belum terhubung.",
         }, 500);
       }
 
@@ -202,21 +171,16 @@ export default {
         }, 400);
       }
 
-      const maxQuantity = service === "NO FLEXIBLE" ? 10 : 5;
+      const max = service === "NO FLEXIBLE" ? 10 : 5;
 
-      if (
-        !Number.isInteger(quantity) ||
-        quantity < 1 ||
-        quantity > maxQuantity
-      ) {
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > max) {
         return response({
           success: false,
-          error: `Jumlah match harus 1 sampai ${maxQuantity}.`,
+          error: `Jumlah match harus 1 sampai ${max}.`,
         }, 400);
       }
 
-      const pricePerMatch = service === "FLEXIBLE" ? 2500 : 3500;
-      const total = pricePerMatch * quantity;
+      const total = quantity * (service === "FLEXIBLE" ? 2500 : 3500);
       const orderId = `RVB-${Date.now()}`;
 
       try {
@@ -267,7 +231,7 @@ export default {
       } catch {
         return response({
           success: false,
-          error: "Gagal menyimpan pesanan. Periksa binding dan database D1.",
+          error: "Gagal menyimpan pesanan ke database.",
         }, 500);
       }
     }
@@ -276,7 +240,7 @@ export default {
       const authorization = request.headers.get("Authorization") || "";
       const token = authorization.replace(/^Bearer\s+/i, "");
 
-      if (!(await verifyToken(token, env.ADMIN_TOKEN_SECRET))) {
+      if (!(await verifyToken(token, ADMIN_TOKEN_SECRET))) {
         return response({
           success: false,
           error: "Akses admin ditolak.",
@@ -286,7 +250,7 @@ export default {
       if (!env.DB) {
         return response({
           success: false,
-          error: "Binding database DB belum tersedia.",
+          error: "Database D1 belum terhubung.",
         }, 500);
       }
 
