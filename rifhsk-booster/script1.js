@@ -1,9 +1,7 @@
 const ADMIN_PASSWORD = 'rifhskgantengbanget22';
 const WA_ADMIN = '6285725209623';
-const STORAGE_KEY = 'rankbooster_orders_v1';
 const PRICES = { flexible: 2000, noflexible: 3000 };
 const PKG_LABEL = { flexible: 'Flexible', noflexible: 'No Flexible' };
-const MAX_ORDERS = 7;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const MAX_MATCH = 5;
 
@@ -28,23 +26,6 @@ function maskName(name) {
   return n.charAt(0).toUpperCase() + '***';
 }
 
-function getOrders() {
-  try {
-    let list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const now = Date.now();
-    // Hanya filter berdasarkan umur (7 hari), TIDAK memotong list jadi max 7
-    list = list.filter(o => (now - new Date(o.createdAt).getTime()) < WEEK_MS);
-    list.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return list;
-  } catch(e) { return []; }
-}
-
-function saveOrders(list) {
-  list.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-  // Simpan semua list tanpa memotong
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-}
-
 function statusLabel(s) {
   return { pending:'Pending', confirmed:'Diproses', done:'Selesai', rejected:'Ditolak' }[s] || s;
 }
@@ -58,6 +39,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// Efek Salju
 (function() {
   const c = $('snow-canvas');
   if(!c) return;
@@ -90,6 +72,7 @@ updateClock();
   addEventListener('resize', () => { resize(); F = Array.from({length: COUNT()}, mk); });
 })();
 
+// Pembayaran
 let currentOrder = null;
 function showPayment(o) {
   if(!o) { toast('Belum ada order aktif.', 'error'); return; }
@@ -139,13 +122,14 @@ function downloadQRIS() {
 function confirmToWA() {
   if(!currentOrder) { toast('Tidak ada order aktif', 'error'); return; }
   const o = currentOrder;
-  const msg = 'HALO ADMIN RIFHSK GANTENG! 🎮\nSaya sudah melakukan pembayaran via QRIS.\n\n*Order ID :* ' + o.id + '\n*Nickname :* ' + o.nickname + '\n*ID Server :* ' + o.server + '\n*Paket :* ' + PKG_LABEL[o.pkg] + '\n*Jumlah :* ' + o.matches + '\n*Jadwal :* ' + o.schedule + '\n*Total :* ' + fmtRp(o.total) + '\n*No. WA :* ' + o.wa + '\n\nMohon konfirmasi pembayaran saya. Terima kasih!';
+  const msg = 'Halo Admin RIFHSK BOOSTER! 🎮\nSaya sudah melakukan pembayaran via QRIS.\n\n*Order ID:* ' + o.id + '\n*Nickname:* ' + o.nickname + '\n*ID Server:* ' + o.server + '\n*Paket:* ' + PKG_LABEL[o.pkg] + '\n*Jumlah Match:* ' + o.matches + '\n*Jadwal Main:* ' + o.schedule + '\n*Total:* ' + fmtRp(o.total) + '\n*No. WA:* ' + o.wa + '\n\nMohon konfirmasi pembayaran saya. Terima kasih!';
   window.open('https://wa.me/' + WA_ADMIN + '?text=' + encodeURIComponent(msg), '_blank');
   $('fab-pay').classList.remove('show');
   closePayment();
   toast('Mengarahkan ke WhatsApp admin...', 'success');
 }
 
+// Form Order
 const form = $('order-form');
 const mi = $('f-matches');
 const td = $('total-display');
@@ -169,9 +153,11 @@ if(form) {
     const sc = $('f-schedule').value;
     const w = $('f-wa').value.trim();
     const p = curPkg();
+    
     if(!n || !s || !m || !sc || !w) { toast('Lengkapi semua data!', 'error'); return; }
     if(m < 1) { toast('Minimal 1 match', 'error'); return; }
     if(m > MAX_MATCH) { toast('Maksimal ' + MAX_MATCH + ' match per order!', 'error'); return; }
+    
     const tot = m * PRICES[p];
     const o = {
       id: 'RB' + Date.now().toString(36).toUpperCase().slice(-6),
@@ -179,16 +165,17 @@ if(form) {
       pkg: p, total: tot, status: 'pending',
       createdAt: new Date().toISOString()
     };
-    const l = getOrders();
-    l.unshift(o);
-    saveOrders(l);
-    renderFeed();
-    renderStats();
-    if($('admin-panel').classList.contains('active')) renderAdmin();
-    form.reset();
-    mi.value = 5;
-    updT();
-    toast('Order dibuat! Lanjut ke pembayaran...', 'success');
-    showPayment(o);
+    
+    // SIMPAN KE FIREBASE
+    db.ref('orders/' + o.id).set(o).then(() => {
+      form.reset();
+      mi.value = 5;
+      updT();
+      toast('Order dibuat! Lanjut ke pembayaran...', 'success');
+      showPayment(o);
+    }).catch(err => {
+      toast('Gagal membuat order. Cek koneksi internet.', 'error');
+      console.error(err);
+    });
   });
 }
